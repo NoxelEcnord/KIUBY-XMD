@@ -1,0 +1,103 @@
+[2026-02-16T21:15:55.143Z] [ERROR] Failed to load campaign_templates.js:
+ReferenceError: bwmxmd is not defined
+    at Object.<anonymous> (/home/bard/Desktop/BWM-XMD-GO/plugins/campaign_templates.js:2:1)
+    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+    at Object..js (node:internal/modules/cjs/loader:1839:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at Module.require (node:internal/modules/cjs/loader:1463:12)
+    at require (node:internal/modules/helpers:147:16)
+    at /home/bard/Desktop/BWM-XMD-GO/index.js:1183:25
+[2026-02-16T21:16:07.664Z] [ERROR] Failed to load campaign_templates.js:
+ReferenceError: bwmxmd is not defined
+    at Object.<anonymous> (/home/bard/Desktop/BWM-XMD-GO/plugins/campaign_templates.js:2:1)
+    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+    at Object..js (node:internal/modules/cjs/loader:1839:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at Module.require (node:internal/modules/cjs/loader:1463:12)
+    at require (node:internal/modules/helpers:147:16)
+    at /home/bard/Desktop/BWM-XMD-GO/index.js:1183:25
+[2026-02-16T21:16:21.614Z] [ERROR] Failed to load campaign_templates.js:
+ReferenceError: bwmxmd is not defined
+    at Object.<anonymous> (/home/bard/Desktop/BWM-XMD-GO/plugins/campaign_templates.js:2:1)
+    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+    at Object..js (node:internal/modules/cjs/loader:1839:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at Module.require (node:internal/modules/cjs/loader:1463:12)
+    at require (node:internal/modules/helpers:147:16)
+    at /home/bard/Desktop/BWM-XMD-GO/index.js:1183:25
+[2026-02-16T21:16:35.947Z] [ERROR] Failed to load campaign_templates.js:
+ReferenceError: getCampaignSticker is not defined
+    at Object.<anonymous> (/home/bard/Desktop/BWM-XMD-GO/plugins/campaign_templates.js:100:5)
+    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+    at Object..js (node:internal/modules/cjs/loader:1839:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at Module.require (node:internal/modules/cjs/loader:1463:12)
+    at require (node:internal/modules/helpers:147:16)
+    at /home/bard/Desktop/BWM-XMD-GO/index.js:1183:25
+[2026-02-16T21:16:48.932Z] [ERROR] Failed to load campaign_templates.js:
+ReferenceError: getCampaignSticker is not defined
+    at Object.<anonymous> (/home/bard/Desktop/BWM-XMD-GO/plugins/campaign_templates.js:100:5)
+    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+    at Object..js (node:internal/modules/cjs/loader:1839:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at Module.require (node:internal/modules/cjs/loader:1463:12)
+    at require (node:internal/modules/helpers:147:16)
+    at /home/bard/Desktop/BWM-XMD-GO/index.js:1183:25
+[2026-02-16T21:23:50.340Z] [ERROR] Failed to load campaign_templates.js:
+ReferenceError: getCampaignSticker is not defined
+    at Object.<anonymous> (/home/bard/Desktop/BWM-XMD-GO/plugins/campaign_templates.js:100:5)
+    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+    at Object..js (node:internal/modules/cjs/loader:1839:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32)
+    at Function._load (node:internal/modules/cjs/loader:1263:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+    at Module.require (node:internal/modules/cjs/loader:1463:12)
+    at require (node:internal/modules/helpers:147:16)
+    at /home/bard/Desktop/BWM-XMD-GO/index.js:1183:25
+[2026-02-16T21:41:59.372Z] [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-02-16T21:47:14.160Z] [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-02-16T22:02:54.731Z] [ERROR] Error in downloadAndSaveMediaMessage:
+Error: Cannot derive from empty media key
+    at getMediaKeys (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Utils/messages-media.js:127:15)
+    at downloadContentFromMessage (/home/bard/Desktop/BWM-XMD-GO/node_modules/@whiskeysockets/baileys/lib/Utils/messages-media.js:454:24)
+    at client.downloadAndSaveMediaMessage (/home/bard/Desktop/BWM-XMD-GO/index.js:2560:54)
+    at Object.function (/home/bard/Desktop/BWM-XMD-GO/plugins/owner.js:398:37)
+    at EventEmitter.<anonymous> (/home/bard/Desktop/BWM-XMD-GO/index.js:2669:46)

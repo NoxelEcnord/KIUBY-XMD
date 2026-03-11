@@ -1,7 +1,7 @@
 {
-  "name": "BWM-XMD",
+  "name": "KIUBY-XMD",
   "version": "2.0.0",
-  "description": "",
+  "description": "KIUBY-XMD: A premium, ultra-fast, and feature-rich WhatsApp Business Automation Bot. Built for power and reliability with advanced AI integration.",
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
@@ -20,9 +20,9 @@
     "jimp": "0.16.13"
   },
   "keywords": [
+    "KIUBY-XMD",
     "bot",
     "Baileys",
-    "BWM-XMD",
     "whatsapp",
     "whatsapp-bot",
     "Ibrahimadams"

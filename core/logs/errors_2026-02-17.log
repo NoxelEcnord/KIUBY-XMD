@@ -1,0 +1,212 @@
+[2026-02-17T00:37:07.633Z] [ERROR] Command error [ping]:
+TypeError [ERR_INVALID_ARG_TYPE]: The "string" argument must be of type string or an instance of Buffer or ArrayBuffer. Received an instance of Object
+    at Function.byteLength (node:buffer:777:11)
+    at BufferWriter.write_string_buffer [as string] (/home/bard/Desktop/ISCE/node_modules/protobufjs/src/writer_buffer.js:70:27)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:35879:62)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:33032:61)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:62321:45)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:57757:50)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:69011:41)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:57793:55)
+    at encodeWAMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/generics.js:82:95)
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:237:55
+[2026-02-17T00:58:23.750Z] [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-02-17T00:59:41.198Z] [ERROR] Post-connection setup error:
+Error: Timed Out
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/generics.js:152:32
+[2026-02-17T00:59:50.705Z] [ERROR] Command error [ping]:
+TypeError [ERR_INVALID_ARG_TYPE]: The "string" argument must be of type string or an instance of Buffer or ArrayBuffer. Received an instance of Object
+    at Function.byteLength (node:buffer:777:11)
+    at BufferWriter.write_string_buffer [as string] (/home/bard/Desktop/ISCE/node_modules/protobufjs/src/writer_buffer.js:70:27)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:35879:62)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:33032:61)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:62321:45)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:57757:50)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:69011:41)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:57793:55)
+    at encodeWAMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/generics.js:82:95)
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:237:55
+[2026-02-17T01:00:43.089Z] [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-02-17T01:00:50.710Z] [ERROR] Error handling command failure:
+Error: Timed Out
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/generics.js:152:32
+[2026-02-17T01:01:17.737Z] [ERROR] Post-connection setup error:
+undefined
+[2026-02-17T01:01:49.722Z] [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-02-17T01:02:15.788Z] [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-02-17T01:02:33.615Z] [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-02-17T01:02:52.200Z] [ERROR] Post-connection setup error:
+undefined
+[2026-02-17T01:02:56.643Z] [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-02-17T01:03:06.600Z] [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-02-17T01:03:44.897Z] [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at async client.sendMessage (/home/bard/Desktop/ISCE/core/lib/antiBan.js:215:24)
+[2026-02-17T01:03:51.294Z] [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-02-17T01:04:15.549Z] [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-02-17T01:04:29.480Z] [ERROR] Post-connection setup error:
+undefined
+[2026-02-17T01:04:50.661Z] [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-02-17T01:04:59.421Z] [ERROR] Post-connection setup error:
+undefined
+[2026-02-17T01:05:06.735Z] [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-02-17T01:05:13.550Z] [ERROR] Post-connection setup error:
+undefined
+[2026-02-17T01:05:29.969Z] [ERROR] Post-connection setup error:
+undefined
+[2026-02-17T01:05:35.358Z] [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-02-17T01:05:38.812Z] [ERROR] Post-connection setup error:
+undefined
+[2026-02-17T01:09:12.480Z] [ERROR] Command error [ping]:
+TypeError [ERR_INVALID_ARG_TYPE]: The "string" argument must be of type string or an instance of Buffer or ArrayBuffer. Received an instance of Object
+    at Function.byteLength (node:buffer:777:11)
+    at BufferWriter.write_string_buffer [as string] (/home/bard/Desktop/ISCE/node_modules/protobufjs/src/writer_buffer.js:70:27)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:35879:62)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:33032:61)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:62321:45)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:57757:50)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:69011:41)
+    at Function.encode (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/WAProto/index.js:57793:55)
+    at encodeWAMessage (/home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Utils/generics.js:82:95)
+    at /home/bard/Desktop/ISCE/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:237:55

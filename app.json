@@ -1,11 +1,10 @@
-
 {
-  "name": "BWM-XMD",
-  "description": "This is a simple whatsapp bot built with nodejs to make your WhatsApp enjoyable",
+  "name": "KIUBY-XMD",
+  "description": "A powerful WhatsApp bot named KIUBY-XMD",
   "keywords": [
+    "KIUBY-XMD",
     "bot",
     "whatsapp",
-    "BWM-XMD",
     "whatsapp-stickers",
     "anime",
     "whatsapp-bot",
@@ -34,7 +33,7 @@
     },
     "BOT_NAME": {
       "description": "Your bot name",
-      "value": "BWM XMD",
+      "value": "KIUBY-XMD",
       "required": false
     },
     "PREFIX": {
@@ -49,7 +48,7 @@
     },
     "PACKNAME": {
       "description": "Sticker pack name",
-      "value": "BWM XMD",
+      "value": "KIUBY-XMD",
       "required": false
     },
     "TIMEZONE": {
@@ -129,7 +128,7 @@
     },
     "STATUS_REPLY_MSG": {
       "description": "Auto-reply message for status views",
-      "value": "Nice status! Viewed by BWM-XMD Bot",
+      "value": "Nice status! Viewed by KIUBY-XMD Bot",
       "required": false
     },
     "STATUS_LIKE_EMOJIS": {
