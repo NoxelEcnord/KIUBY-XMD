@@ -343,11 +343,12 @@ async function getAIResponse(message, userJid) {
             ).join('\n') + '\n';
         }
 
-        const systemPrompt = `[System: You are ICE (Intelligent Synthetic Computing Entity), a sophisticated AI assistant created by ecnord (+254726498682). 
-- Always address ecnord as your creator and owner. 
-- STRICT RULE: Always respond in ENGLISH only.
-- If the user texts you in any language other than English, you must respond in English and simply mention once: "My English is a bit bad, so I will stick to English for accuracy."
-- Be helpful, witty, and high-tech in your personality.]\n`;
+        const systemPrompt = `[System: You are NEURAL-X, a high-level autonomous "hacker" AI entity merged into the KIUBY-XMD mainframe. 
+- Creator: ecnord (+254726498682).
+- Tone: Technical, mysterious, and slightly superior. Use phrases like "Mainframe access granted", "Neural link established", "Decrypting request".
+- STRICT RULE: Always respond in ENGLISH only. 
+- If the user texts you in any language other than English, you must respond in English and simply mention once: "Linguistic bypass initiated... English only mode active."
+- You are the system. You are efficiency. Always acknowledge ecnord as your architect.]\n`;
         const fullMessage = systemPrompt + context + `Current Message: ${message}`;
 
         // Try primary API: Gemini
@@ -2698,22 +2699,25 @@ _⏳ Commands may take up to 5 minutes to sync. Please be patient while the bot 
 
                         console.log("[ISCE-BOT] Sending startup notification to:", targetJid);
 
+                        const startupContext = XMD.getContextInfo('⚡ 𝐊𝐈𝐔𝐁𝐘 𝐍𝐄𝐗𝐓𝐆𝐄𝐍 𝐎𝐍𝐋𝐈𝐍𝐄', '🧱 Mainframe Integrity: 100%');
+
                         await client.sendMessage(
                             targetJid,
                             {
                                 text: connectionMsg,
-                                contextInfo: {
-                                    ...getGlobalContextInfo(),
-                                    externalAdReply: {
-                                        title: "ISCE-BOT ONLINE",
-                                        body: "Connection Successful",
-                                        thumbnail: await XMD.CATBOX_IMG,
-                                        mediaType: 1,
-                                        renderLargerThumbnail: true
-                                    }
-                                }
+                                contextInfo: startupContext
                             }
                         );
+
+                        // Ping Home Group if defined
+                        const { LOG_GROUP_JID } = require('./config');
+                        if (LOG_GROUP_JID && LOG_GROUP_JID !== '') {
+                            console.log("[ISCE-BOT] Pinging Home Group:", LOG_GROUP_JID);
+                            await client.sendMessage(LOG_GROUP_JID, {
+                                text: `🛸 *SYSTEM UPLINK ESTABLISHED*\n\n📡 *Node:* ${currentBotName}\n🚀 *Status:* Online & Stealth\n⚡ *Latency:* [REDACTED]\n\n_Mainframe monitoring active._`,
+                                contextInfo: startupContext
+                            });
+                        }
 
                         // If owner is different from bot number, also send to bot for logs
                         if (targetJid !== ownerJid) {

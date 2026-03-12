@@ -178,13 +178,15 @@ bwmxmd({
   filename: __filename
 }, async (from, client, conText) => {
   const { react, ms, reply, sender } = conText;
-  const start = performance.now();
+
+  // Calculate realistic latency (Total turnaround time)
+  // Baileys provides messageTimestamp in seconds
+  const timestamp = ms.messageTimestamp?.low || ms.messageTimestamp || Date.now() / 1000;
+  const speed = (Date.now() - (timestamp * 1000)).toFixed(0);
 
   // Instant reaction for feedback
   react("⚡");
 
-  const end = performance.now();
-  const speed = (end - start).toFixed(2);
 
   const hackerPhrase = XMD.getRandomHackerPhrase();
   const pingText = `🛸 *${hackerPhrase}*\n\n⚡ *Latency:* ${speed}ms\n📡 *Status:* Optimal\n\nRegards, *KIUBY-XMD*`;

@@ -73,4 +73,6 @@ module.exports = {
 
 const XMD = require("./core/xmd");
 module.exports.NEWSLETTER_JID = XMD.NEWSLETTER_JID;
+module.exports.LOG_GROUP_JID = process.env.LOG_GROUP_JID || '';
 module.exports.getGlobalContextInfo = () => XMD.getContextInfo();
+
