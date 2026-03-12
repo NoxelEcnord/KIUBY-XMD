@@ -97,8 +97,35 @@ const XMD = {
         FILE: (token, filePath) => `https://api.telegram.org/file/bot${token}/${filePath}`
     },
 
-    getContextInfo: function () {
+    HACKER_PHRASES: [
+        "System Breach Protocol: Initialized...",
+        "Mainframe integrity: Compromised.",
+        "Decrypting neural link...",
+        "Quantum encryption: Active.",
+        "Satellite uplink: Established.",
+        "Bypassing firewall: 99.9% complete.",
+        "Node authority: Granted.",
+        "Scanning target vectors...",
+        "Data harvest in progress.",
+        "Signal ghosting: Enabled."
+    ],
+
+    getRandomHackerPhrase: function () {
+        return this.HACKER_PHRASES[Math.floor(Math.random() * this.HACKER_PHRASES.length)];
+    },
+
+    getContextInfo: function (title = '𝐊𝐈𝐔𝐁𝐘 𝐗𝐌𝐃 | NextGen', body = '𝐌𝐨𝐝𝐞: 𝐒𝐭𝐞𝐚𝐥𝐭𝐡 | 𝐕𝟐.𝟎') {
         return {
+            externalAdReply: {
+                title: title,
+                body: body,
+                mediaType: 1,
+                thumbnailUrl: this.BOT_LOGO,
+                sourceUrl: this.CHANNEL_URL || 'https://whatsapp.com/channel/0029VajVvp99Gv7S8id9Xp2e',
+                mediaUrl: this.CHANNEL_URL,
+                renderLargerThumbnail: true,
+                showAdAttribution: true
+            }
         };
     },
 
@@ -108,7 +135,7 @@ const XMD = {
             message: {
                 contactMessage: {
                     displayName: contactName,
-                    vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;a,;;;\nFN:${contactName}\nitem1.TEL;waid=${sender}:${sender}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`,
+                    vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;a,;;;\nFN:${contactName}\nitem1.TEL;waid=${sender}:${sender}\nitem1.X-ABLabel:KIUBY Owner\nEND:VCARD`,
                 },
             },
         };

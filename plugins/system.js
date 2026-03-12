@@ -177,43 +177,42 @@ bwmxmd({
   category: "System",
   filename: __filename
 }, async (from, client, conText) => {
-  const { react, quoted, ms, reply } = conText;
+  const { react, ms, reply, sender } = conText;
   const start = performance.now();
 
-  // Calculate speed first
+  // Instant reaction for feedback
+  react("⚡");
+
   const end = performance.now();
   const speed = (end - start).toFixed(2);
 
-  // React instead of text
-  react("🏓");
+  const hackerPhrase = XMD.getRandomHackerPhrase();
+  const pingText = `🛸 *${hackerPhrase}*\n\n⚡ *Latency:* ${speed}ms\n📡 *Status:* Optimal\n\nRegards, *KIUBY-XMD*`;
 
+  // Send primary text response IMMEDIATELY
+  const sentMsg = await client.sendMessage(from, {
+    text: pingText,
+    contextInfo: XMD.getContextInfo(`⚡ 𝐒𝐏𝐄𝐄𝐃: ${speed}𝐦𝐬`, `𝐏𝐢𝐧𝐠𝐢𝐧𝐠 𝐌𝐚𝐢𝐧frame...`)
+  }, { quoted: ms });
+
+  // Secondary audio fetching (non-blocking for the user experience)
   try {
-    // Send Corazon song as PTT
-    const audioUrl = await fetchCorazonSong();
-
-    if (audioUrl) {
-      await client.sendMessage(from, {
-        audio: { url: audioUrl },
-        mimetype: 'audio/mpeg',
-        ptt: true,
-        contextInfo: {
-          externalAdReply: {
-            title: `⚡ 𝐈𝐒𝐂𝐄 𝐒𝐩𝐞𝐞𝐝: ${speed}𝐦𝐬`,
-            body: "𝐌𝐨𝐝𝐞: 𝐂𝐡𝐢𝐥𝐮𝐱 | 𝐏𝐫𝐞𝐦𝐢𝐮𝐦 🦅",
-            mediaType: 2,
-            thumbnailUrl: XMD.LOGO,
-            sourceUrl: XMD.REPO,
-            mediaUrl: XMD.REPO
+    fetchCorazonSong().then(async (audioUrl) => {
+      if (audioUrl) {
+        await client.sendMessage(from, {
+          audio: { url: audioUrl },
+          mimetype: 'audio/mpeg',
+          ptt: true,
+          contextInfo: {
+            ...XMD.getContextInfo().externalAdReply,
+            title: `🔊 Playing: Corazon`,
+            body: `🛸 Bypass Latency: ${speed}ms`
           }
-        }
-      }, { quoted: ms });
-    } else {
-      // Fallback if audio fails
-      reply(`⚡ *Speed:* ${speed}ms`);
-    }
+        }, { quoted: sentMsg });
+      }
+    }).catch(e => console.error("Async audio fetch failed:", e.message));
   } catch (e) {
-    console.error("Ping audio error:", e);
-    reply(`⚡ *Speed:* ${speed}ms`);
+    console.error("Ping logic error:", e);
   }
 });
 

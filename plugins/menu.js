@@ -140,7 +140,7 @@ bwmxmd(
     {
         pattern: "menu",
         category: "general",
-        description: "Interactive category-based menu",
+        description: "NextGen Interactive Menu",
     },
     async (from, client, conText) => {
         const { mek, pushName, reply, sender, deviceMode } = conText;
@@ -151,7 +151,7 @@ bwmxmd(
             moment.tz.setDefault(s.TZ || "Africa/Nairobi");
             const date = moment().format("DD/MM/YYYY");
             const time = moment().format("HH:mm:ss");
-            const contactName = pushName || "User";
+            const contactName = pushName || "KIUBY User";
 
             let contactMessage;
             try {
@@ -160,129 +160,79 @@ bwmxmd(
                 contactMessage = mek;
             }
 
-            let githubStats = 500;
-            try {
-                githubStats = await fetchGitHubStats();
-            } catch (e) {
-                console.log("GitHub stats fetch failed, using default");
-            }
+            const githubStats = await fetchGitHubStats().catch(() => 1337);
 
             const hour = moment().hour();
-            let greeting = "🌙 Good Night 😴";
-            if (hour >= 5 && hour < 12) greeting = "🌅 Good Morning 🤗";
-            else if (hour >= 12 && hour < 18) greeting = "☀️ Good Afternoon 😊";
-            else if (hour >= 18 && hour < 22) greeting = "🌆 Good Evening 🤠";
+            let greeting = "🌙 Midnight Ops";
+            if (hour >= 5 && hour < 12) greeting = "🌅 Dawn Breach";
+            else if (hour >= 12 && hour < 18) greeting = "☀️ Core Access";
+            else if (hour >= 18 && hour < 22) greeting = "🌆 Dusk Uplink";
 
-            const menuOptions = `╭───『 🌟 𝐈𝐒𝐂𝐄 𝐌𝐄𝐍𝐔 』───╮
+            const menuOptions = `╭───『 ⚡ 𝐊𝐈𝐔𝐁𝐘 𝐍𝐄𝐗𝐓𝐆𝐄𝐍 』───╮
 │
-│ 𝟏. 🌐 ᴏᴜʀ ᴡᴇʙ ᴀᴘᴘ
-│ 𝟐. 🎵 ʀᴀɴᴅᴏᴍ sᴏɴɢ
-│ 𝟑. 📢 ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ
-│ 𝟒. 🤖 ᴀɪ ᴛᴏᴏʟs
-│ 𝟓. 🎨 ᴇᴘʜᴏᴛᴏ ᴍᴀɢɪᴄ
-│ 𝟔. 📥 ᴅᴏᴡɴʟᴏᴀᴅᴇʀ
-│ 𝟕. 👨‍👨‍👦‍👦 ɢʀᴏᴜᴘ ᴍᴀɴᴀɢᴇʀ
-│ 𝟖. ⚙️ ʙᴏᴛ sᴇᴛᴛɪɴɢs
-│ 𝟗. 😂 ғᴜɴ & ɢᴀᴍᴇs
-│ 𝟏𝟎. 🌍 ɢᴇɴᴇʀᴀʟ ᴜᴛɪʟ
-│ 𝟏𝟏. ⚽ sᴘᴏʀᴛ sᴛᴀᴛs
-│ 𝟏𝟐. 🔍 sᴛᴀʟᴋᴇʀ ᴛᴏᴏʟs
-│ 𝟏𝟑. 🖼️ sᴛɪᴄᴋᴇʀ ʜᴜʙ
-│ 𝟏𝟒. 🔧 sʏsᴛᴇᴍ ᴛᴏᴏʟs
-│ 𝟏𝟓. 📚 ᴇᴅᴜᴄᴀᴛɪᴏɴ
-│ 𝟏𝟔. 🔗 ᴜʀʟ sʜᴏʀᴛᴇɴᴇʀ
+│ 𝟏. 🌐 ᴡᴇʙ ᴘᴏʀᴛᴀʟ
+│ 𝟐. 🎵 ᴄᴏʀᴀᴢᴏɴ ᴜᴘʟɪɴᴋ
+│ 𝟑. 📢 ᴄʜᴀɴɴᴇʟ ᴀᴜᴛʜ
+│ 𝟒. 🤖 ᴀɪ ɴᴇᴜʀᴀʟs
+│ 𝟓. 🎨 ᴇᴘʜᴏᴛᴏ ʟᴀʙ
+│ 𝟔. 📥 ᴅᴀᴛᴀ sɪᴘʜᴏɴ
+│ 𝟕. 👨‍👨‍👦‍👦 ɢʀᴏᴜᴘ ʜᴜʙ
+│ 𝟖. ⚙️ sʏs ᴄᴏɴғɪɢ
+│ 𝟗. 😂 ғᴜɴ ᴍᴏᴅᴜʟᴇs
+│ 𝟏𝟎. 🌍 ɢʟᴏʙᴀʟ ᴜᴛɪʟ
+│ 𝟏𝟏. ⚽ sᴘᴏʀᴛ ʟɪᴠᴇ
+│ 𝟏𝟐. 🔍 sᴛᴀʟᴋᴇʀ ᴠɪᴇᴡ
+│ 𝟏𝟑. 🖼️ sᴛɪᴄᴋᴇʀ ғᴏʀɢᴇ
+│ 𝟏𝟒. 🔧 sʏs ᴍᴀɪɴᴛ
+│ 𝟏𝟓. 📚 ᴇᴅᴜ ᴀʀᴄʜɪᴠᴇ
+│ 𝟏𝟔. 🔗 ᴜʀʟ sʜʀᴇᴅᴅᴇʀ
 │
 ╰─────────────────────╯
 💡 𝐑𝐞𝐩𝐥𝐲 𝐰𝐢𝐭𝐡 𝐚 𝐧𝐮𝐦𝐛𝐞𝐫 (𝟏-𝟏𝟔)`;
 
             const menuHeader = `╭───────────────╮
-│ 🤖 𝐁𝐨𝐭: 𝐈𝐒𝐂𝐄 𝐕𝟐
+│ 🤖 𝐄𝐧𝐭𝐢𝐭𝐲: 𝐊𝐈𝐔𝐁𝐘 𝐕𝟐
 │ 👤 𝐎𝐰𝐧𝐞𝐫: 𝐄𝐂𝐍𝐎𝐑𝐃
 │ 📅 𝐃𝐚𝐭𝐞: ${date}
-│ ⌚ 𝐓𝐢𝐦𝐞: ${time} (${s.TZ})
-│ 📊 𝐔𝐬𝐞𝐫𝐬: ${githubStats.users || 1000}
-│ 🚀 𝐌𝐨𝐝𝐞: ${deviceMode === 'iPhone' ? '🍎 iOS' : '🤖 Android'}
+│ ⌚ 𝐓𝐢𝐦𝐞: ${time}
+│ 🚀 𝐒𝐭𝐚𝐭𝐮𝐬: ${XMD.getRandomHackerPhrase()}
 ╰───────────────╯
-${greeting}, *${pushName}*! 👋`;
+${greeting}, *${pushName}*! 🌐 Welcome to the Mainframe.`;
 
             const fullMenuText = `${menuHeader}\n\n${readMore}\n${menuOptions}`;
 
             const selectedMedia = randomMedia();
+
+            // Unified Message Sending with Channel Ad Reply
+            const contextInfo = XMD.getContextInfo(`🛸 𝐊𝐈𝐔𝐁𝐘 𝐍𝐄𝐗𝐓𝐆𝐄𝐍 𝐌𝐄𝐍𝐔`, `𝐔𝐬𝐞𝐫: ${contactName} | 𝐀𝐜𝐜𝐞𝐬𝐬: 𝐆𝐫𝐚𝐧𝐭𝐞𝐝`);
+
             let mainMenuMsg;
-
-            if (deviceMode === 'iPhone') {
-                // iPhone mode: Send image with caption (NO contextInfo at all)
-                if (selectedMedia) {
-                    try {
-                        if (selectedMedia.match(/\.(mp4|gif)$/i)) {
-                            mainMenuMsg = await client.sendMessage(
-                                from,
-                                {
-                                    video: { url: selectedMedia },
-                                    gifPlayback: true,
-                                    caption: fullMenuText,
-                                },
-                                { quoted: mek },
-                            );
-                        } else {
-                            mainMenuMsg = await client.sendMessage(
-                                from,
-                                {
-                                    image: { url: selectedMedia },
-                                    caption: fullMenuText,
-                                },
-                                { quoted: mek },
-                            );
-                        }
-                    } catch (mediaErr) {
-                        console.error("iPhone menu media error:", mediaErr.message);
-                        mainMenuMsg = await client.sendMessage(from, { text: fullMenuText }, { quoted: mek });
-                    }
-                } else {
-                    mainMenuMsg = await client.sendMessage(from, { text: fullMenuText }, { quoted: mek });
-                }
-            } else if (selectedMedia) {
+            if (selectedMedia) {
+                const isVideo = selectedMedia.match(/\.(mp4|gif)$/i);
                 try {
-                    const mediaContent = selectedMedia.startsWith("http") ? { url: selectedMedia } : fs.readFileSync(selectedMedia);
-
-                    if (selectedMedia.match(/\.(mp4|gif)$/i)) {
-                        mainMenuMsg = await client.sendMessage(
-                            from,
-                            {
-                                video: mediaContent,
-                                gifPlayback: true,
-                                caption: fullMenuText,
-                                contextInfo: getGlobalContextInfo(),
-                            },
-                            { quoted: contactMessage },
-                        );
-                    } else {
-                        mainMenuMsg = await client.sendMessage(
-                            from,
-                            {
-                                image: mediaContent,
-                                caption: fullMenuText,
-                                contextInfo: getGlobalContextInfo(),
-                            },
-                            { quoted: contactMessage },
-                        );
-                    }
+                    mainMenuMsg = await client.sendMessage(
+                        from,
+                        {
+                            [isVideo ? 'video' : 'image']: selectedMedia.startsWith("http") ? { url: selectedMedia } : fs.readFileSync(selectedMedia),
+                            gifPlayback: isVideo,
+                            caption: fullMenuText,
+                            contextInfo: contextInfo
+                        },
+                        { quoted: contactMessage }
+                    );
                 } catch (mediaErr) {
                     console.error("Menu media error:", mediaErr.message);
                     mainMenuMsg = await client.sendMessage(
                         from,
-                        {
-                            text: fullMenuText,
-                            contextInfo: getGlobalContextInfo(),
-                        },
-                        { quoted: contactMessage },
+                        { text: fullMenuText, contextInfo: contextInfo },
+                        { quoted: contactMessage }
                     );
                 }
             } else {
                 mainMenuMsg = await client.sendMessage(
                     from,
-                    { text: fullMenuText, contextInfo: getGlobalContextInfo() },
-                    { quoted: contactMessage },
+                    { text: fullMenuText, contextInfo: contextInfo },
+                    { quoted: contactMessage }
                 );
             }
 
