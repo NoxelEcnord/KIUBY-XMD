@@ -97,7 +97,7 @@ const convertToOpus = (inputPath, outputPath) => {
 
 const getWelcomeAudio = async (text) => {
     try {
-        const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=en&client=tw-ob`;
+        const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=en-gb&client=tw-ob`;
         const response = await axios({
             method: "GET",
             url: url,
@@ -325,20 +325,29 @@ ${greeting}, *${pushName}*! 👋`;
 
             // Send Theme Song (Corazon)
             try {
-                const songUrl = await axios.get(XMD.API.DOWNLOAD.AUDIO(XMD.THEME_SONG_URL), { timeout: 30000 })
-                    .then(res => res.data?.result)
-                    .catch(() => null);
+                // Try local branding audio first, then fallback to URL
+                let audioContent;
+                const localBranding = path.join(__dirname, "../core/public/audio/branding.mp3");
 
-                if (songUrl) {
+                if (fs.existsSync(localBranding)) {
+                    audioContent = { url: localBranding };
+                } else {
+                    const songUrl = await axios.get(XMD.API.DOWNLOAD.AUDIO(XMD.THEME_SONG_URL), { timeout: 30000 })
+                        .then(res => res.data?.result)
+                        .catch(() => null);
+                    if (songUrl) audioContent = { url: songUrl };
+                }
+
+                if (audioContent) {
                     await client.sendMessage(from, {
-                        audio: { url: songUrl },
+                        audio: audioContent,
                         mimetype: 'audio/mpeg',
                         ptt: true,
                         contextInfo: getGlobalContextInfo()
                     }, { quoted: mainMenuMsg || contactMessage });
                 }
             } catch (e) {
-                console.error("Theme song send failed:", e.message);
+                console.error("Branded audio send failed:", e.message);
             }
 
             const cleanup = () => {

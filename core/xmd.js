@@ -100,8 +100,8 @@ Thank you 🤝
         "For a better CHS, Vote Corazone Chepkoech! 💯 #MUSODelegate"
     ],
 
-    THEME_SONG_URL: 'https://www.youtube.com/watch?v=VjMZJZdNnBE', // GIMS - Corazon ft. Lil Wayne & French Montana
-    THEME_SONG_TITLE: '🎵 GIMS - Corazon ft. Lil Wayne & French Montana',
+    THEME_SONG_URL: 'https://github.com/NoxelEcnord/KIUBY-XMD/raw/main/core/public/audio/branding.mp3',
+    THEME_SONG_TITLE: '🎵 KIUBY-XMD OFFICIAL THEME',
 
     CAMPAIGN_GROUP_KEYWORDS: ['moi', 'first year', 'chs', 'mu', 'delegate'],
 
@@ -215,7 +215,7 @@ Thank you 🤝
         AI: {
             CHAT: (q) => `https://apiskeith.top/keithai?q=${encodeURIComponent(q)}`,
             GPT: (q) => `https://apiskeith.top/ai/gpt?q=${encodeURIComponent(q)}`,
-            TEXT2SPEECH: (q, voice = 'en-US-Standard-C') => `https://apiskeith.top/ai/text2speech?q=${encodeURIComponent(q)}&voice=${voice}`,
+            TEXT2SPEECH: (q, voice = 'en-GB-Standard-B') => `https://apiskeith.top/ai/text2speech?q=${encodeURIComponent(q)}&voice=${voice}`,
             TEXT2VIDEO: (q) => `https://apiskeith.top/text2video?q=${encodeURIComponent(q)}`,
             FLUX: (q) => `https://apiskeith.top/ai/flux?q=${encodeURIComponent(q)}`,
             GEMINI_VISION: (image, q) => `https://apiskeith.top/ai/gemini-vision?image=${encodeURIComponent(image)}&q=${encodeURIComponent(q)}`,
