@@ -97,17 +97,6 @@ const {
 } = require("./core/lib/antiBan");
 
 const { getSudoNumbers, setSudo, delSudo, isSudo } = require("./core/database/sudo");
-const {
-    initCampaignDB,
-    getCampaignGroups,
-    getCampaignState,
-    getParticipant,
-    updateActivity
-} = require('./core/database/campaign');
-const { getCampaignSticker } = require('./plugins/campaign');
-const { handleDemolisherBanter } = require("./plugins/banter");
-const { startFlooding, startPromoLoop } = require("./plugins/campaign");
-
 const { session, dev, BOT } = require("./config");
 const XMD = require("./core/xmd");
 
@@ -2326,345 +2315,290 @@ async function startBwmxmd() {
             await detectAndHandleStatusMention(client, ms, isBotAdmin, isAdmin, isSuperAdmin, isSuperUser);
             if (!isCommandMessage && !ms.key.fromMe && !isNewsletter && from !== 'status@broadcast') {
                 await handleChatbot(client, ms.message, from, sender, isGroup, isSuperUser, ms);
+            }
+            if (isCommandMessage && cmd) {
 
-                // Campaign Features (Banter & Counter)
-                if (isGroup) {
-                    const campaignGroups = await getCampaignGroups();
-                    if (campaignGroups.includes(from)) {
-                        // Track activity for smart flooding
-                        // If sender is SuperUser (Owner/Ecnord), treat as "Bot" to stop flooding (is_bot_last = true)
-                        await updateActivity(from, sender, isSuperUser);
 
-                        const state = await getCampaignState();
-                        const participant = await getParticipant(sender);
-                        const isFoe = participant?.type === 'foe';
+                const bwmCmd = Array.isArray(evt.commands)
+                    ? evt.commands.find((c) => (
+                        c?.pattern === cmd ||
+                        (Array.isArray(c?.aliases) && c.aliases.includes(cmd))
+                    ))
+                    : null;
+                if (bwmCmd) {
+                    console.log(`\x1b[32m📨 New message\x1b[0m ${cmd.toUpperCase()} ← ${pushName || sender.split('@')[0]}`);
 
-                        // Counter Mode Features
-                        if (state.counter_mode && isFoe) {
-                            const isMedia = !!(ms.message?.imageMessage || ms.message?.videoMessage || ms.message?.stickerMessage);
-                            const isReaction = !!(ms.message?.reactionMessage);
-                            const isText = !!(text && !isMedia && !isReaction);
+                    const currentMode = botSettings.mode || 'public';
+                    if (currentMode?.toLowerCase() === "private" && !isSuperUser) {
+                        BwmLogger.warning(`Command ${cmd} blocked - Private mode and user not super user`);
+                        return;
+                    }
 
-                            // 1. Media Counter (2:1 ratio)
-                            if (isMedia) {
-                                console.log(`[COUNTER] Foe ${sender} sent media. Countering...`);
-                                const isFoeSticker = !!ms.message?.stickerMessage;
+                    try {
+                        if (isOwnerMessage) {
+                            BwmLogger.info(`[OWNER] Executing: ${cmd}`);
+                        } else {
+                            BwmLogger.info(`Executing: ${cmd} from ${pushName}`)
+                        }
 
-                                // Load local assets
-                                const stickerDir = path.join(__dirname, 'assets/campaign/stickers');
-                                const imageDir = path.join(__dirname, 'assets/campaign/images');
+                        const reply = async (teks, options = {}) => {
+                            const isNewsletter = from.endsWith('@newsletter');
+                            const msgContent = { text: teks };
+                            if (options.mentions) {
+                                msgContent.mentions = options.mentions;
+                            }
+                            if (isNewsletter) {
+                                await client.sendMessage(from, msgContent);
+                            } else if (botSettings?.deviceMode === 'iPhone') {
+                                client.sendMessage(from, msgContent);
+                            } else {
+                                const ctx = { ...getGlobalContextInfo() };
+                                if (options.mentions) {
+                                    ctx.mentionedJid = options.mentions;
+                                }
+                                client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: ms });
+                            }
+                        };
 
-                                let stickerFiles = [], imageFiles = [];
-                                try { stickerFiles = fs.readdirSync(stickerDir); } catch (e) { }
-                                try { imageFiles = fs.readdirSync(imageDir); } catch (e) { }
-
-                                // Helper to check file
-                                const isValidFile = (f) => !f.startsWith('.');
-
-                                stickerFiles = stickerFiles.filter(isValidFile);
-                                imageFiles = imageFiles.filter(isValidFile);
-
-                                for (let i = 0; i < 2; i++) {
-                                    let sent = false;
-
-                                    if (isFoeSticker) {
-                                        // Try local stickers first
-                                        if (stickerFiles.length > 0) {
-                                            const randomSticker = stickerFiles[Math.floor(Math.random() * stickerFiles.length)];
-                                            const stickerPath = path.join(stickerDir, randomSticker);
-                                            await handleChatbot(client, ms.message, from, sender, isGroup, isSuperUser, ms);
-                                        }
+                        const react = async (emoji) => {
+                            if (typeof emoji !== 'string') return;
+                            try {
+                                const isNewsletter = from.endsWith('@newsletter');
+                                if (isNewsletter) {
+                                    // Newsletter server_id is in ms.key.server_id
+                                    const serverId = ms.key?.server_id || ms.newsletterServerId;
+                                    if (serverId) {
+                                        await client.newsletterReactMessage(from, serverId.toString(), emoji);
+                                        console.log(`[Newsletter] Reacted with ${emoji} to server_id: ${serverId}`);
+                                    } else {
+                                        console.log(`[Newsletter] No server_id found, cannot react`);
                                     }
-                                    //await detectAndHandleSpam(client, ms, isBotAdmin, isAdmin, isSuperAdmin, isSuperUser);  //========================================================================================================================//========================================================================================================================
-
-
-
-
-
-
-                                    if (isCommandMessage && cmd) {
-
-
-                                        const bwmCmd = Array.isArray(evt.commands)
-                                            ? evt.commands.find((c) => (
-                                                c?.pattern === cmd ||
-                                                (Array.isArray(c?.aliases) && c.aliases.includes(cmd))
-                                            ))
-                                            : null;
-                                        if (bwmCmd) {
-                                            console.log(`\x1b[32m📨 New message\x1b[0m ${cmd.toUpperCase()} ← ${pushName || sender.split('@')[0]}`);
-
-                                            const currentMode = botSettings.mode || 'public';
-                                            if (currentMode?.toLowerCase() === "private" && !isSuperUser) {
-                                                BwmLogger.warning(`Command ${cmd} blocked - Private mode and user not super user`);
-                                                return;
-                                            }
-
-                                            try {
-                                                if (isOwnerMessage) {
-                                                    BwmLogger.info(`[OWNER] Executing: ${cmd}`);
-                                                } else {
-                                                    BwmLogger.info(`Executing: ${cmd} from ${pushName}`)
-                                                }
-
-                                                const reply = async (teks, options = {}) => {
-                                                    const isNewsletter = from.endsWith('@newsletter');
-                                                    const msgContent = { text: teks };
-                                                    if (options.mentions) {
-                                                        msgContent.mentions = options.mentions;
-                                                    }
-                                                    if (isNewsletter) {
-                                                        await client.sendMessage(from, msgContent);
-                                                    } else if (botSettings?.deviceMode === 'iPhone') {
-                                                        client.sendMessage(from, msgContent);
-                                                    } else {
-                                                        const ctx = { ...getGlobalContextInfo() };
-                                                        if (options.mentions) {
-                                                            ctx.mentionedJid = options.mentions;
-                                                        }
-                                                        client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: ms });
-                                                    }
-                                                };
-
-                                                const react = async (emoji) => {
-                                                    if (typeof emoji !== 'string') return;
-                                                    try {
-                                                        const isNewsletter = from.endsWith('@newsletter');
-                                                        if (isNewsletter) {
-                                                            // Newsletter server_id is in ms.key.server_id
-                                                            const serverId = ms.key?.server_id || ms.newsletterServerId;
-                                                            if (serverId) {
-                                                                await client.newsletterReactMessage(from, serverId.toString(), emoji);
-                                                                console.log(`[Newsletter] Reacted with ${emoji} to server_id: ${serverId}`);
-                                                            } else {
-                                                                console.log(`[Newsletter] No server_id found, cannot react`);
-                                                            }
-                                                        } else {
-                                                            await client.sendMessage(from, {
-                                                                react: {
-                                                                    key: ms.key,
-                                                                    text: emoji
-                                                                }
-                                                            });
-                                                        }
-                                                    } catch (err) {
-                                                        BwmLogger.error("Reaction error:", err);
-                                                    }
-                                                };
-
-                                                const edit = async (text, message) => {
-                                                    if (typeof text !== 'string') return;
-
-                                                    try {
-                                                        const msgContent = { text: text, edit: message.key };
-                                                        if (botSettings?.deviceMode !== 'iPhone') {
-                                                            msgContent.contextInfo = getGlobalContextInfo();
-                                                        }
-                                                        await client.sendMessage(from, msgContent, botSettings?.deviceMode === 'iPhone' ? {} : { quoted: ms });
-                                                    } catch (err) {
-                                                        BwmLogger.error("Edit error:", err);
-                                                    }
-                                                };
-
-                                                const del = async (message) => {
-                                                    if (!message?.key) return;
-
-                                                    try {
-                                                        await client.sendMessage(from, {
-                                                            delete: message.key
-                                                        }, {
-                                                            quoted: ms
-                                                        });
-                                                    } catch (err) {
-                                                        BwmLogger.error("Delete error:", err);
-                                                    }
-                                                };
-
-                                                if (bwmCmd.react) {
-                                                    try {
-                                                        await client.sendMessage(from, {
-                                                            react: {
-                                                                key: ms.key,
-                                                                text: bwmCmd.react
-                                                            }
-                                                        });
-                                                    } catch (err) {
-                                                        BwmLogger.error("Reaction error:", err);
-                                                    }
-                                                }
-
-                                                client.getJidFromLid = async (lid) => {
-                                                    try {
-                                                        const groupMetadata = await client.groupMetadata(from);
-                                                        const match = groupMetadata.participants.find(p =>
-                                                            p.lid === lid ||
-                                                            p.id === lid ||
-                                                            p.lid?.split('@')[0] === lid?.split('@')[0] ||
-                                                            p.id?.split('@')[0] === lid?.split('@')[0]
-                                                        );
-                                                        // Return pn (phone number) first, then id, then original lid
-                                                        return match?.pn || match?.id || lid;
-                                                    } catch (err) {
-                                                        console.log('[getJidFromLid] Error:', err.message);
-                                                        return lid;
-                                                    }
-                                                };
-
-                                                client.getLidFromJid = async (jid) => {
-                                                    const groupMetadata = await client.groupMetadata(from);
-                                                    const match = groupMetadata.participants.find(p => p.jid === jid || p.id === jid);
-                                                    return match?.lid || null;
-                                                };
-
-                                                let fileType;
-                                                (async () => {
-                                                    fileType = await import('file-type');
-                                                })();
-
-                                                client.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
-                                                    try {
-                                                        let quoted = message.msg ? message.msg : message;
-                                                        let mime = (message.msg || message).mimetype || '';
-                                                        let messageType = message.mtype ?
-                                                            message.mtype.replace(/Message/gi, '') :
-                                                            mime.split('/')[0];
-
-                                                        const stream = await downloadContentFromMessage(quoted, messageType);
-                                                        let buffer = Buffer.from([]);
-
-                                                        for await (const chunk of stream) {
-                                                            buffer = Buffer.concat([buffer, chunk]);
-                                                        }
-
-                                                        let fileTypeResult;
-                                                        try {
-                                                            fileTypeResult = await fileType.fileTypeFromBuffer(buffer);
-                                                        } catch (e) {
-                                                            BwmLogger.warning("file-type detection failed, using mime type fallback");
-                                                        }
-
-                                                        const extension = fileTypeResult?.ext ||
-                                                            mime.split('/')[1] ||
-                                                            (messageType === 'image' ? 'jpg' :
-                                                                messageType === 'video' ? 'mp4' :
-                                                                    messageType === 'audio' ? 'mp3' : 'bin');
-
-                                                        const trueFileName = attachExtension ?
-                                                            `${filename}.${extension}` :
-                                                            filename;
-
-                                                        await fs.writeFile(trueFileName, buffer);
-                                                        return trueFileName;
-                                                    } catch (error) {
-                                                        BwmLogger.error("Error in downloadAndSaveMediaMessage:", error);
-                                                        throw error;
-                                                    }
-                                                };
-
-                                                const conText = {
-                                                    m: ms,
-                                                    mek: ms,
-                                                    edit,
-                                                    react,
-                                                    del,
-                                                    args: args,
-                                                    quoted,
-                                                    isCmd: isCommand,
-                                                    command,
-                                                    isAdmin,
-                                                    isBotAdmin,
-                                                    sender,
-                                                    pushName,
-                                                    setSudo,
-                                                    delSudo,
-                                                    isSudo,
-                                                    devNumbers,
-                                                    q: args.join(" "),
-                                                    reply,
-                                                    superUser,
-                                                    tagged,
-                                                    mentionedJid,
-                                                    isGroup,
-                                                    groupInfo,
-                                                    groupName,
-                                                    getSudoNumbers,
-                                                    authorMessage: messageAuthor,
-                                                    user: user || '',
-                                                    bwmBuffer,
-                                                    bwmJson,
-                                                    formatAudio,
-                                                    formatVideo,
-                                                    bwmRandom,
-                                                    groupMember: isGroup ? messageAuthor : '',
-                                                    from,
-                                                    tagged,
-                                                    dev: dev, // Using original dev from settings.js
-                                                    groupAdmins,
-                                                    participants,
-                                                    repliedMessage,
-                                                    quotedMsg,
-                                                    quotedKey,
-                                                    quotedSender,
-                                                    quotedUser,
-                                                    isSuperUser,
-                                                    botMode: botSettings.mode || 'public',
-                                                    botPic: botSettings.url || './core/public/bot-image.jpg',
-                                                    packname: botSettings.packname || 'ISCE-BOT',
-                                                    author: botSettings.author || 'ecnord',
-                                                    botVersion: '1.0.0',
-                                                    ownerNumber: dev, // Using original dev from settings.js
-                                                    ownerName: botSettings.author || 'ecnord',
-                                                    botname: botSettings.botname || 'ISCE-BOT',
-                                                    sourceUrl: botSettings.gurl || XMD.GURL,
-                                                    isSuperAdmin,
-                                                    prefix: currentPrefix,
-                                                    timeZone: botSettings.timezone || 'Africa/Nairobi',
-                                                    // Add settings functions for commands to update settings
-                                                    updateSettings,
-                                                    getSettings,
-                                                    botSettings,
-                                                    store: store,
-                                                    deviceMode: botSettings?.deviceMode || 'Android',
-                                                    sendPlain: async (content, options = {}) => {
-                                                        if (botSettings?.deviceMode === 'iPhone') {
-                                                            const plainContent = { ...content };
-                                                            delete plainContent.contextInfo;
-                                                            delete plainContent.buttons;
-                                                            delete plainContent.templateButtons;
-                                                            delete plainContent.sections;
-                                                            return client.sendMessage(from, plainContent);
-                                                        }
-                                                        return client.sendMessage(from, content, options);
-                                                    }
-                                                };
-
-                                                await bwmCmd.function(from, client, conText);
-                                                BwmLogger.success(`Command ${cmd} executed successfully`);
-
-                                            } catch (error) {
-                                                BwmLogger.error(`Command error [${cmd}]:`, error);
-                                                try {
-                                                    // React with error symbol for the user
-                                                    await client.sendMessage(from, {
-                                                        react: { key: ms.key, text: "❌" }
-                                                    });
-
-                                                    // Send detailed error to owner ONLY
-                                                    const errorText = `❌ *Command Error: ${cmd}*\n\n*User:* ${pushName}\n*Chat:* ${from}\n*Error:* ${error.message}\n${error.stack}`.trim();
-                                                    for (const ownerNum of finalSuperUsers) {
-                                                        try {
-                                                            // ensure valid jid
-                                                            const target = ownerNum.includes('@') ? ownerNum : ownerNum + '@s.whatsapp.net';
-                                                            await client.sendMessage(target, { text: errorText });
-                                                        } catch (e) { }
-                                                    }
-                                                } catch (sendErr) {
-                                                    BwmLogger.error("Error handling command failure:", sendErr);
-                                                }
-                                            }
+                                } else {
+                                    await client.sendMessage(from, {
+                                        react: {
+                                            key: ms.key,
+                                            text: emoji
                                         }
+                                    });
+                                }
+                            } catch (err) {
+                                BwmLogger.error("Reaction error:", err);
+                            }
+                        };
+
+                        const edit = async (text, message) => {
+                            if (typeof text !== 'string') return;
+
+                            try {
+                                const msgContent = { text: text, edit: message.key };
+                                if (botSettings?.deviceMode !== 'iPhone') {
+                                    msgContent.contextInfo = getGlobalContextInfo();
+                                }
+                                await client.sendMessage(from, msgContent, botSettings?.deviceMode === 'iPhone' ? {} : { quoted: ms });
+                            } catch (err) {
+                                BwmLogger.error("Edit error:", err);
+                            }
+                        };
+
+                        const del = async (message) => {
+                            if (!message?.key) return;
+
+                            try {
+                                await client.sendMessage(from, {
+                                    delete: message.key
+                                }, {
+                                    quoted: ms
+                                });
+                            } catch (err) {
+                                BwmLogger.error("Delete error:", err);
+                            }
+                        };
+
+                        if (bwmCmd.react) {
+                            try {
+                                await client.sendMessage(from, {
+                                    react: {
+                                        key: ms.key,
+                                        text: bwmCmd.react
                                     }
                                 });
+                            } catch (err) {
+                                BwmLogger.error("Reaction error:", err);
+                            }
+                        }
+
+                        client.getJidFromLid = async (lid) => {
+                            try {
+                                const groupMetadata = await client.groupMetadata(from);
+                                const match = groupMetadata.participants.find(p =>
+                                    p.lid === lid ||
+                                    p.id === lid ||
+                                    p.lid?.split('@')[0] === lid?.split('@')[0] ||
+                                    p.id?.split('@')[0] === lid?.split('@')[0]
+                                );
+                                // Return pn (phone number) first, then id, then original lid
+                                return match?.pn || match?.id || lid;
+                            } catch (err) {
+                                console.log('[getJidFromLid] Error:', err.message);
+                                return lid;
+                            }
+                        };
+
+                        client.getLidFromJid = async (jid) => {
+                            const groupMetadata = await client.groupMetadata(from);
+                            const match = groupMetadata.participants.find(p => p.jid === jid || p.id === jid);
+                            return match?.lid || null;
+                        };
+
+                        let fileType;
+                        (async () => {
+                            fileType = await import('file-type');
+                        })();
+
+                        client.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
+                            try {
+                                let quoted = message.msg ? message.msg : message;
+                                let mime = (message.msg || message).mimetype || '';
+                                let messageType = message.mtype ?
+                                    message.mtype.replace(/Message/gi, '') :
+                                    mime.split('/')[0];
+
+                                const stream = await downloadContentFromMessage(quoted, messageType);
+                                let buffer = Buffer.from([]);
+
+                                for await (const chunk of stream) {
+                                    buffer = Buffer.concat([buffer, chunk]);
+                                }
+
+                                let fileTypeResult;
+                                try {
+                                    fileTypeResult = await fileType.fileTypeFromBuffer(buffer);
+                                } catch (e) {
+                                    BwmLogger.warning("file-type detection failed, using mime type fallback");
+                                }
+
+                                const extension = fileTypeResult?.ext ||
+                                    mime.split('/')[1] ||
+                                    (messageType === 'image' ? 'jpg' :
+                                        messageType === 'video' ? 'mp4' :
+                                            messageType === 'audio' ? 'mp3' : 'bin');
+
+                                const trueFileName = attachExtension ?
+                                    `${filename}.${extension}` :
+                                    filename;
+
+                                await fs.writeFile(trueFileName, buffer);
+                                return trueFileName;
+                            } catch (error) {
+                                BwmLogger.error("Error in downloadAndSaveMediaMessage:", error);
+                                throw error;
+                            }
+                        };
+
+                        const conText = {
+                            m: ms,
+                            mek: ms,
+                            edit,
+                            react,
+                            del,
+                            args: args,
+                            quoted,
+                            isCmd: isCommand,
+                            command,
+                            isAdmin,
+                            isBotAdmin,
+                            sender,
+                            pushName,
+                            setSudo,
+                            delSudo,
+                            isSudo,
+                            devNumbers,
+                            q: args.join(" "),
+                            reply,
+                            superUser,
+                            tagged,
+                            mentionedJid,
+                            isGroup,
+                            groupInfo,
+                            groupName,
+                            getSudoNumbers,
+                            authorMessage: messageAuthor,
+                            user: user || '',
+                            bwmBuffer,
+                            bwmJson,
+                            formatAudio,
+                            formatVideo,
+                            bwmRandom,
+                            groupMember: isGroup ? messageAuthor : '',
+                            from,
+                            tagged,
+                            dev: dev, // Using original dev from settings.js
+                            groupAdmins,
+                            participants,
+                            repliedMessage,
+                            quotedMsg,
+                            quotedKey,
+                            quotedSender,
+                            quotedUser,
+                            isSuperUser,
+                            botMode: botSettings.mode || 'public',
+                            botPic: botSettings.url || './core/public/bot-image.jpg',
+                            packname: botSettings.packname || 'ISCE-BOT',
+                            author: botSettings.author || 'ecnord',
+                            botVersion: '1.0.0',
+                            ownerNumber: dev, // Using original dev from settings.js
+                            ownerName: botSettings.author || 'ecnord',
+                            botname: botSettings.botname || 'ISCE-BOT',
+                            sourceUrl: botSettings.gurl || XMD.GURL,
+                            isSuperAdmin,
+                            prefix: currentPrefix,
+                            timeZone: botSettings.timezone || 'Africa/Nairobi',
+                            // Add settings functions for commands to update settings
+                            updateSettings,
+                            getSettings,
+                            botSettings,
+                            store: store,
+                            deviceMode: botSettings?.deviceMode || 'Android',
+                            sendPlain: async (content, options = {}) => {
+                                if (botSettings?.deviceMode === 'iPhone') {
+                                    const plainContent = { ...content };
+                                    delete plainContent.contextInfo;
+                                    delete plainContent.buttons;
+                                    delete plainContent.templateButtons;
+                                    delete plainContent.sections;
+                                    return client.sendMessage(from, plainContent);
+                                }
+                                return client.sendMessage(from, content, options);
+                            }
+                        };
+
+                        await bwmCmd.function(from, client, conText);
+                        BwmLogger.success(`Command ${cmd} executed successfully`);
+
+                    } catch (error) {
+                        BwmLogger.error(`Command error [${cmd}]:`, error);
+                        try {
+                            // React with error symbol for the user
+                            await client.sendMessage(from, {
+                                react: { key: ms.key, text: "❌" }
+                            });
+
+                            // Send detailed error to owner ONLY
+                            const errorText = `❌ *Command Error: ${cmd}*\n\n*User:* ${pushName}\n*Chat:* ${from}\n*Error:* ${error.message}\n${error.stack}`.trim();
+                            for (const ownerNum of finalSuperUsers) {
+                                try {
+                                    // ensure valid jid
+                                    const target = ownerNum.includes('@') ? ownerNum : ownerNum + '@s.whatsapp.net';
+                                    await client.sendMessage(target, { text: errorText });
+                                } catch (e) { }
+                            }
+                        } catch (sendErr) {
+                            BwmLogger.error("Error handling command failure:", sendErr);
+                        }
+                    }
+                }
+            }
+        });
 
         // Connection handling
         //========================================================================================================================
@@ -2699,15 +2633,10 @@ async function startBwmxmd() {
 ║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
 ║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
 ║                                                               ║
-║              ${chalk.yellow('CORAZONE 002 CAMPAIGN ENGINE')}                  ║
-║                  ${chalk.green('Action Over Talks!!')}                       ║
+║                  ${chalk.green('Powered by ISCE Engine')}                      ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 `));
-
-                console.log(chalk.magenta('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'));
-                console.log(chalk.white.bold('  🚀 INITIALIZING CAMPAIGN SYSTEMS...'));
-                console.log(chalk.magenta('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'));
 
                 console.log(chalk.greenBright('┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓'));
                 console.log(chalk.greenBright('┃') + chalk.yellowBright(' ⚡ ') + chalk.cyanBright('CONNECTION ESTABLISHED SUCCESSFULLY') + chalk.yellowBright(' ⚡        ') + chalk.greenBright('┃'));
@@ -2717,8 +2646,6 @@ async function startBwmxmd() {
                 BwmLogger.success("✅ ISCE-BOT is active, enjoy 😀");
                 reconnectAttempts = 0;
                 startAutoBio();
-                startFlooding(client);
-                startPromoLoop(client);
 
                 // AUTO NEWSLETTER SUBSCRIPTION REMOVED
 
