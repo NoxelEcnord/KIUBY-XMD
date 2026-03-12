@@ -2691,18 +2691,34 @@ _⏳ Commands may take up to 5 minutes to sync. Please be patient while the bot 
 
 
                         // Send disappearing startup message using gifted-baileys
-                        const ownerJid = client.user.id.split(':')[0] + '@s.whatsapp.net';
-                        console.log("[DEBUG] Sending startup to DM:", ownerJid);
+                        // Send startup message
+                        const ownerJid = jidNormalizedUser(client.user.id);
+                        const configuredOwner = (process.env.OWNER_NUMBER || '').replace(/[^0-9]/g, '');
+                        const targetJid = configuredOwner ? configuredOwner + '@s.whatsapp.net' : ownerJid;
 
-                        // Use gifted-baileys for disappearing message support
+                        console.log("[ISCE-BOT] Sending startup notification to:", targetJid);
+
                         await client.sendMessage(
-                            ownerJid,
-                            { text: connectionMsg },
+                            targetJid,
                             {
-                                disappearingMessagesInChat: true,
-                                ephemeralExpiration: 600
+                                text: connectionMsg,
+                                contextInfo: {
+                                    ...getGlobalContextInfo(),
+                                    externalAdReply: {
+                                        title: "ISCE-BOT ONLINE",
+                                        body: "Connection Successful",
+                                        thumbnail: await XMD.CATBOX_IMG,
+                                        mediaType: 1,
+                                        renderLargerThumbnail: true
+                                    }
+                                }
                             }
                         );
+
+                        // If owner is different from bot number, also send to bot for logs
+                        if (targetJid !== ownerJid) {
+                            await client.sendMessage(ownerJid, { text: "_Bot started for owner: " + targetJid + "_" });
+                        }
                     } catch (err) {
                         BwmLogger.error("Post-connection setup error:", err);
                     }

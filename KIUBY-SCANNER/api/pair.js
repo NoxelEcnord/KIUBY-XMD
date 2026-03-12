@@ -1,4 +1,4 @@
-const { default: makeWASocket, useMultiFileAuthState, delay, fetchLatestBaileysVersion, makeCacheableSignalKeyStore, jidNormalizedUser } = require("@whiskeysockets/baileys");
+const { default: makeWASocket, useMultiFileAuthState, delay, fetchLatestBaileysVersion, makeCacheableSignalKeyStore, jidNormalizedUser, DisconnectReason } = require("@whiskeysockets/baileys");
 const pino = require("pino");
 const pako = require("pako");
 const fs = require("fs");
@@ -13,7 +13,12 @@ module.exports = async (req, res) => {
 
     const cleanNumber = number.replace(/\D/g, '');
     const sessionDir = `/tmp/session-${cleanNumber}`;
-    if (!fs.existsSync(sessionDir)) fs.mkdirSync(sessionDir, { recursive: true });
+
+    // Ensure clean session directory
+    if (fs.existsSync(sessionDir)) {
+        fs.rmSync(sessionDir, { recursive: true, force: true });
+    }
+    fs.mkdirSync(sessionDir, { recursive: true });
 
     const { state, saveCreds } = await useMultiFileAuthState(sessionDir);
     const { version } = await fetchLatestBaileysVersion();
@@ -30,6 +35,8 @@ module.exports = async (req, res) => {
     });
 
     return new Promise(async (resolve) => {
+        sock.ev.on('creds.update', saveCreds);
+
         sock.ev.on('connection.update', async (update) => {
             const { connection, lastDisconnect } = update;
 
@@ -54,9 +61,12 @@ module.exports = async (req, res) => {
 
                     await sock.sendMessage(userJid, { text: message });
 
+                    // Delay before logout to ensure message is delivered
+                    await delay(5000);
+
                     // Cleanup
                     console.log(`[SCANNER] Session generated for ${cleanNumber}`);
-                    await sock.logout();
+                    sock.end();
                     fs.rmSync(sessionDir, { recursive: true, force: true });
                     resolve();
                 } catch (e) {

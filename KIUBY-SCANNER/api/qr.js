@@ -1,4 +1,4 @@
-const { default: makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, makeCacheableSignalKeyStore, jidNormalizedUser } = require("@whiskeysockets/baileys");
+const { default: makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, makeCacheableSignalKeyStore, jidNormalizedUser, DisconnectReason } = require("@whiskeysockets/baileys");
 const pino = require("pino");
 const pako = require("pako");
 const fs = require("fs");
@@ -53,7 +53,7 @@ module.exports = async (req, res) => {
                     const message = `*KIUBY-XMD SESSION CONNECTED (QR)*\n\nYour Session ID is below:\n\n\`\`\`${sessionID}\`\`\`\n\n*DO NOT SHARE THIS CODE!*`;
 
                     await sock.sendMessage(userJid, { text: message });
-                    await sock.logout();
+                    sock.end();
                     fs.rmSync(sessionDir, { recursive: true, force: true });
                     resolve();
                 } catch (e) {
