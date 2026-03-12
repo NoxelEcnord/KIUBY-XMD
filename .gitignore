@@ -1,0 +1,11 @@
+node_modules/
+session/*
+!session/xmd
+core/subbots_sessions/*
+!core/subbots_sessions/xmd
+*.log
+config.env
+.env
+creds.json
+auth_info_baileys/
+database.db
