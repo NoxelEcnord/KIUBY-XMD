@@ -1,38 +1,74 @@
 <p align="center">
-  <img src="assets/kiuby_banner.png" width="100%" alt="KIUBY-XMD Banner">
+  <img src="assets/kiuby_xmd_banner.png" width="100%" alt="KIUBY-XMD High-Tech Banner">
 </p>
 
-# 🚀 KIUBY-XMD: The Ultimate WhatsApp Automation Bot
+# 🦾 KIUBY-XMD: The Zenith of WhatsApp Automation
 
-**KIUBY-XMD** is a high-performance, multi-device compatible WhatsApp bot designed for power users, businesses, and developers. Built with reliability and speed in mind, it offers an extensive range of features from AI-driven conversations to advanced system utilities.
+**KIUBY-XMD** isn't just a bot; it's a structural masterpiece of engineering designed to dominate the WhatsApp ecosystem. Engineered with a "Performance-First" philosophy, it melds ultra-fast response times with a suite of lethal features, making it the **most powerful, most advanced** automation tool in existence.
+
+From autonomous AI reasoning to heavy-duty media processing, **KIUBY-XMD** is built to handle the impossible with ease.
 
 ---
 
-## 🌟 Key Features
+## ⚡ Core Dominance
 
--   **🤖 Advanced AI Integration**: Powered by GPT-4, Gemini, and DeepSeek for intelligent responses and image analysis.
--   **⚡ Ultra-Fast Performance**: Lightweight core ensures minimal latency and high availability.
--   **🔒 Secure & Private**: End-to-end encryption support with robust session management.
--   **🖼️ Media Hub**: Professional-grade image processing, video effects, and sticker generation.
--   **📥 Universal Downloader**: Supports YouTube, TikTok, Instagram, Facebook, and more.
--   **👨‍👨‍👦‍👦 Group Management**: Automated group moderation, welcome messages, and anti-link features.
--   **💰 Economy & Levels**: Built-in engagement system with virtual currency and ranking levels.
--   **🛠️ System Tools**: File encryption, URL shorteners, and comprehensive search utilities.
+-   **🧠 Neural Processing**: Deep integration with GPT-4, Gemini Pro, and DeepSeek. It doesn't just reply; it *remembers* and *analyzes*.
+-   **🚀 Mach-Speed Execution**: Optimized asynchronous core built on the latest Baileys socket for zero-latency commands.
+-   **🔐 Ironclad Security**: Hardened session management with full encryption support. Your data stays Yours.
+-   **🎨 Creative Engine**: Professional-grade image manipulation, dynamic sticker creation, and high-fidelity video processing.
+-   **🌍 Omni-Downloader**: One-tap media extraction from YouTube, Instagram, TikTok, Facebook, and SoundCloud.
+-   **🛡️ Sovereign Moderation**: Automated group governance with AI-powered anti-spam and link-detection protocols.
+-   **💎 Infinite Scalability**: Modular plugin architecture allow for unlimited feature expansion.
 
 ---
 
-## 📌 Deployment Guide
+## 🏗️ Local Installation
 
-### **Step 1: Get Session ID**
-Generate your WhatsApp session ID securely:
-<p align="center">
-  <a href="https://main.bwmxmd.online/scanner" target="_blank">
-    <img src="https://img.shields.io/badge/🔑_GET_SESSION-FF0000?style=for-the-badge" height="40"/>
-  </a>
-</p>
+Prepare your environment to host the titan:
 
-### **Step 2: Choose Your Platform**
-Deploy instantly on your favorite hosting provider:
+### **1. Prerequisites**
+- **Node.js**: `v20.x` or higher
+- **Git**: Installed
+- **FFmpeg**: Required for media processing
+
+### **2. Clone & Setup**
+```bash
+git clone https://github.com/NoxelEcnord/KIUBY-XMD.git
+cd KIUBY-XMD
+npm install
+```
+
+### **3. Configuration**
+Create a `config.env` file in the root directory and populate your credentials:
+```env
+SESSION_ID = "YOUR_SESSION_ID"
+OWNER_NUMBER = "YOUR_PHONE_NUMBER"
+PREFIX = "."
+BOT_NAME = "KIUBY-XMD"
+```
+
+---
+
+## 🚀 Launching the Bot
+
+Run the bot with maximum performance:
+
+### **Developer Mode**
+```bash
+npm run start
+```
+
+### **Production Mode (Recommended)**
+Use PM2 to keep the bot alive 24/7 with auto-restart:
+```bash
+npm run bot
+```
+
+---
+
+## 📌 One-Click Deployment
+
+Don't want to host it yourself? Deploy instantly:
 
 <p align="center">
   <a href="https://pro.bwmxmd.co.ke" target="_blank">
@@ -41,34 +77,18 @@ Deploy instantly on your favorite hosting provider:
   <a href="https://main.bwmxmd.co.ke/Deploy" target="_blank">
     <img src="https://img.shields.io/badge/🚀_HEROKU-6762A6?style=for-the-badge&logo=heroku" height="40"/>
   </a>
-  <a href="https://render.com" target="_blank">
-    <img src="https://img.shields.io/badge/🚀_RENDER-46E3B7?style=for-the-badge" height="40"/>
-  </a>
 </p>
 
 ---
 
-## 🔧 Configuration
+## 📢 Matrix Hub
 
-All settings can be managed via `config.env` or Environment Variables:
-
-| Variable | Description | Default |
-| :--- | :--- | :--- |
-| `SESSION` | Your WhatsApp Session ID | `None` |
-| `PREFIX` | Bot command prefix | `.` |
-| `OWNER_NUMBER` | Your phone number | `None` |
-| `BOT_NAME` | Display name for the bot | `KIUBY-XMD` |
-
----
-
-## 📢 Stay Connected
-
--   **WhatsApp Channel**: [Join Updates](https://whatsapp.com/channel/0029VbAuCjELtOj5n8Lv9h3d)
--   **Official Website**: [bwmxmd.co.ke](https://bwmxmd.co.ke)
--   **Support Group**: [Community Chat](https://chat.whatsapp.com/DfmTOy8g2bmHvpg1o4xplG)
+-   **Official Channel**: [Get Latest Updates](https://whatsapp.com/channel/0029VbAuCjELtOj5n8Lv9h3d)
+-   **Support Group**: [Join the Community](https://chat.whatsapp.com/DfmTOy8g2bmHvpg1o4xplG)
+-   **Main Site**: [kiuby-xmd.online](https://kiuby-xmd.online)
 
 ---
 
 <p align="center">
-  <strong>Developed by <a href="https://github.com/NoxelEcnord">NoxelEcnord</a> | © 2026</strong>
+  <strong>Crafted for Power by <a href="https://github.com/NoxelEcnord">NoxelEcnord</a> | © 2026</strong>
 </p>
