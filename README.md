@@ -66,16 +66,9 @@ npm run bot
 
 ---
 
-## 📌 One-Click Deployment
-
-Don't want to host it yourself? Deploy instantly:
-
 <p align="center">
-  <a href="https://pro.bwmxmd.co.ke" target="_blank">
-    <img src="https://img.shields.io/badge/🚀_KIUBY_HOSTING-FF00FF?style=for-the-badge" height="40"/>
-  </a>
-  <a href="https://main.bwmxmd.co.ke/Deploy" target="_blank">
-    <img src="https://img.shields.io/badge/🚀_HEROKU-6762A6?style=for-the-badge&logo=heroku" height="40"/>
+  <a href="https://whatsapp.com/channel/0029Vb7Qi89C1Fu9Bxitnr3m" target="_blank">
+    <img src="https://img.shields.io/badge/🚀_KIUBY_CHANNEL-FF00FF?style=for-the-badge" height="40"/>
   </a>
 </p>
 
@@ -83,9 +76,8 @@ Don't want to host it yourself? Deploy instantly:
 
 ## 📢 Matrix Hub
 
--   **Official Channel**: [Get Latest Updates](https://whatsapp.com/channel/0029VbAuCjELtOj5n8Lv9h3d)
+-   **Official Channel**: [Get Latest Updates](https://whatsapp.com/channel/0029Vb7Qi89C1Fu9Bxitnr3m)
 -   **Support Group**: [Join the Community](https://chat.whatsapp.com/DfmTOy8g2bmHvpg1o4xplG)
--   **Main Site**: [kiuby-xmd.online](https://kiuby-xmd.online)
 
 ---
 

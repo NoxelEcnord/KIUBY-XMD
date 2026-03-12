@@ -10,7 +10,7 @@ const AutoStatusDB = database.define('autostatus', {
   },
   autoLikeStatus: {
     type: DataTypes.STRING,
-    defaultValue: 'true',
+    defaultValue: 'false',
     allowNull: false,
     validate: { isIn: [['true', 'false']] }
   },
@@ -22,7 +22,7 @@ const AutoStatusDB = database.define('autostatus', {
   },
   statusReplyText: {
     type: DataTypes.TEXT,
-    defaultValue: '✅ Status Viewed By KIUBY-XMD',
+    defaultValue: '✅ Status Viewed By ISCE-BOT',
     allowNull: false
   },
   statusLikeEmojis: {
@@ -47,7 +47,7 @@ async function initAutoStatusDB() {
 async function getAutoStatusSettings() {
   try {
     let settings = await AutoStatusDB.findOne();
-
+    
     // If no record exists, create one using env vars as initial defaults
     if (!settings) {
       const envView = process.env.AUTO_STATUS_VIEW;
@@ -55,22 +55,22 @@ async function getAutoStatusSettings() {
       const envReply = process.env.AUTO_STATUS_REPLY;
       const envReplyText = process.env.STATUS_REPLY_MSG;
       const envLikeEmojis = process.env.STATUS_LIKE_EMOJIS;
-
+      
       settings = await AutoStatusDB.create({
         autoviewStatus: envView ? ((envView.toLowerCase() === 'on' || envView.toLowerCase() === 'true') ? 'true' : 'false') : 'true',
         autoLikeStatus: envLike ? ((envLike.toLowerCase() === 'on' || envLike.toLowerCase() === 'true') ? 'true' : 'false') : 'false',
         autoReplyStatus: envReply ? ((envReply.toLowerCase() === 'on' || envReply.toLowerCase() === 'true') ? 'true' : 'false') : 'false',
-        statusReplyText: envReplyText || '✅ Status Viewed By KIUBY-XMD',
+        statusReplyText: envReplyText || '✅ Status Viewed By ISCE-BOT',
         statusLikeEmojis: envLikeEmojis || '💛,❤️,💜,🤍,💙'
       });
     }
-
+    
     // Database values take priority (commands override env vars)
     return {
       autoviewStatus: settings.autoviewStatus || 'true',
       autoLikeStatus: settings.autoLikeStatus || 'false',
       autoReplyStatus: settings.autoReplyStatus || 'false',
-      statusReplyText: settings.statusReplyText || '✅ Status Viewed By KIUBY-XMD',
+      statusReplyText: settings.statusReplyText || '✅ Status Viewed By ISCE-BOT',
       statusLikeEmojis: settings.statusLikeEmojis || '💛,❤️,💜,🤍,💙'
     };
   } catch (error) {
@@ -84,7 +84,7 @@ async function getAutoStatusSettings() {
       autoviewStatus: envView ? ((envView.toLowerCase() === 'on' || envView.toLowerCase() === 'true') ? 'true' : 'false') : 'true',
       autoLikeStatus: envLike ? ((envLike.toLowerCase() === 'on' || envLike.toLowerCase() === 'true') ? 'true' : 'false') : 'false',
       autoReplyStatus: envReply ? ((envReply.toLowerCase() === 'on' || envReply.toLowerCase() === 'true') ? 'true' : 'false') : 'false',
-      statusReplyText: envReplyText || '✅ Status Viewed By KIUBY-XMD',
+      statusReplyText: envReplyText || '✅ Status Viewed By ISCE-BOT',
       statusLikeEmojis: envLikeEmojis || '💛,❤️,💜,🤍,💙'
     };
   }
@@ -98,15 +98,15 @@ async function syncAutoStatusFromEnv() {
     const envReply = process.env.AUTO_STATUS_REPLY;
     const envReplyText = process.env.STATUS_REPLY_MSG;
     const envLikeEmojis = process.env.STATUS_LIKE_EMOJIS;
-
+    
     const updates = {
       autoviewStatus: envView ? ((envView.toLowerCase() === 'on' || envView.toLowerCase() === 'true') ? 'true' : 'false') : 'true',
       autoLikeStatus: envLike ? ((envLike.toLowerCase() === 'on' || envLike.toLowerCase() === 'true') ? 'true' : 'false') : 'false',
       autoReplyStatus: envReply ? ((envReply.toLowerCase() === 'on' || envReply.toLowerCase() === 'true') ? 'true' : 'false') : 'false',
-      statusReplyText: envReplyText || '✅ Status Viewed By KIUBY-XMD',
+      statusReplyText: envReplyText || '✅ Status Viewed By ISCE-BOT',
       statusLikeEmojis: envLikeEmojis || '💛,❤️,💜,🤍,💙'
     };
-
+    
     let settings = await AutoStatusDB.findOne();
     if (!settings) {
       settings = await AutoStatusDB.create(updates);

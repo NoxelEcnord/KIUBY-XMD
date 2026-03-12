@@ -8,47 +8,47 @@ const { exec } = require("child_process");
 const s = require(__dirname + "/../config");
 const XMD = require('../core/xmd');
 
-const BOT_NAME = s.BOT || 'KIUBY-XMD';
+const BOT_NAME = s.BOT || 'ISCE-BOT';
 const MEDIA_URLS = s.BOT_URL || [];
 const getGlobalContextInfo = () => XMD.getContextInfo();
 const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, sender);
 
 const randomMedia = () => {
-  if (!MEDIA_URLS || MEDIA_URLS.length === 0) return null;
-  const url = MEDIA_URLS[Math.floor(Math.random() * MEDIA_URLS.length)];
-  if (typeof url === 'string') {
-    const trimmed = url.trim();
-    return trimmed.startsWith('http') ? trimmed : null;
-  }
-  return null;
+    if (!MEDIA_URLS || MEDIA_URLS.length === 0) return null;
+    const url = MEDIA_URLS[Math.floor(Math.random() * MEDIA_URLS.length)];
+    if (typeof url === 'string') {
+        const trimmed = url.trim();
+        return trimmed.startsWith('http') ? trimmed : null;
+    }
+    return null;
 };
 
 const getRandomAudio = async () => {
-  try {
-    const response = await axios.get(XMD.EXTERNAL.NCS_RANDOM, { timeout: 10000 });
-    if (response.data.status === "success" && response.data.data.length > 0) {
-      return response.data.data[0].links.Bwm_stream_link;
+    try {
+        const response = await axios.get(XMD.EXTERNAL.NCS_RANDOM, { timeout: 10000 });
+        if (response.data.status === "success" && response.data.data.length > 0) {
+            return response.data.data[0].links.Bwm_stream_link;
+        }
+        return null;
+    } catch (error) {
+        console.error("Error fetching random audio:", error.message);
+        return null;
     }
-    return null;
-  } catch (error) {
-    console.error("Error fetching random audio:", error.message);
-    return null;
-  }
 };
 
 const convertToOpus = (inputPath, outputPath) => {
-  return new Promise((resolve, reject) => {
-    exec(`ffmpeg -y -i "${inputPath}" -c:a libopus -b:a 64k -vbr on -compression_level 10 -frame_duration 60 -application voip "${outputPath}"`, (error) => {
-      if (error) reject(error);
-      else resolve(outputPath);
+    return new Promise((resolve, reject) => {
+        exec(`ffmpeg -y -i "${inputPath}" -c:a libopus -b:a 64k -vbr on -compression_level 10 -frame_duration 60 -application voip "${outputPath}"`, (error) => {
+            if (error) reject(error);
+            else resolve(outputPath);
+        });
     });
-  });
 };
 
 bwmxmd({
   pattern: "bwmgift",
   aliases: ["bwmapk", "siteapk"],
-  description: "Send KIUBY-XMD APK",
+  description: "Send ISCE-BOT APK",
   category: "General",
   filename: __filename
 }, async (from, client, conText) => {
@@ -236,7 +236,7 @@ bwmxmd({
 bwmxmd({
   pattern: "repo",
   aliases: ["script", "sc", "git"],
-  description: "Send KIUBY-XMD repo information with random audio",
+  description: "Send ISCE-BOT repo information with random audio",
   category: "General",
   filename: __filename
 }, async (from, client, conText) => {
@@ -255,7 +255,7 @@ bwmxmd({
       day: "numeric", month: "short", year: "numeric"
     });
 
-    const repoUrl = 'github.com/NoxelEcnord/KIUBY-XMD';
+    const repoUrl = 'github.com/Bwmxmd254/ISCE-BOT-GO';
 
     const messageText =
       `📌 *${BOT_NAME} REPO INFO*\n\n` +
@@ -316,9 +316,9 @@ bwmxmd({
       const quotedStanzaId = message.message.extendedTextMessage?.contextInfo?.stanzaId;
       if (quotedStanzaId !== sentMsg.key.id) return;
 
-      const responseText = message.message.extendedTextMessage?.text?.trim() ||
-        message.message.conversation?.trim();
-
+      const responseText = message.message.extendedTextMessage?.text?.trim() || 
+                         message.message.conversation?.trim();
+      
       if (!responseText) return;
 
       const destChat = message.key.remoteJid;
@@ -326,22 +326,22 @@ bwmxmd({
       if (responseText === "1") {
         try {
           await client.sendMessage(destChat, { react: { text: "⏳", key: message.key } });
-
+          
           const audioUrl = await getRandomAudio();
           if (audioUrl) {
             const tempMp3 = path.join('/tmp', `repo_song_${Date.now()}.mp3`);
             const tempOgg = path.join('/tmp', `repo_song_${Date.now()}.ogg`);
-
+            
             const audioResponse = await axios({
               method: 'GET',
               url: audioUrl,
               responseType: 'arraybuffer',
               timeout: 30000
             });
-
+            
             fs.writeFileSync(tempMp3, Buffer.from(audioResponse.data));
             await convertToOpus(tempMp3, tempOgg);
-
+            
             const audioBuffer = fs.readFileSync(tempOgg);
             await client.sendMessage(destChat, {
               audio: audioBuffer,
@@ -349,9 +349,9 @@ bwmxmd({
               ptt: true,
               contextInfo
             }, { quoted: message });
-
+            
             await client.sendMessage(destChat, { react: { text: "✅", key: message.key } });
-
+            
             fs.unlinkSync(tempMp3);
             fs.unlinkSync(tempOgg);
           } else {

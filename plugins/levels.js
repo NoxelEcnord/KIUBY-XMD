@@ -1,7 +1,7 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const { LevelsDB } = require('../core/database/levels');
 
-bwmxmd({
+kiubyxmd({
     pattern: "rank",
     aliases: ["level", "lvl"],
     category: "levels",
@@ -20,7 +20,7 @@ bwmxmd({
     reply(`🏆 *User Rank*\n\n👤 *User:* @${sender.split('@')[0]}\n⭐ *Level:* ${user.level}\n✨ *XP:* ${user.xp} / ${xpNeeded}\n\n[${progressBar}] ${progress.toFixed(1)}%`, { mentions: [sender] });
 });
 
-bwmxmd({
+kiubyxmd({
     pattern: "leaderboard",
     aliases: ["lb", "top"],
     category: "levels",

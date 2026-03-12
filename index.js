@@ -41,14 +41,14 @@ function autoFixModules(errorMessage) {
 
     for (const [moduleName, installName] of Object.entries(missingModules)) {
         if (errorMessage.includes(moduleName)) {
-            console.log(`[KIUBY-XMD] Auto-fixing: Installing ${moduleName}...`);
+            console.log(`[ISCE-BOT] Auto-fixing: Installing ${moduleName}...`);
             try {
                 execSync(`npm install ${installName}`, { stdio: 'inherit', timeout: 120000 });
-                console.log(`[KIUBY-XMD] Successfully installed ${moduleName}`);
-                console.log(`[KIUBY-XMD] Restarting bot...`);
+                console.log(`[ISCE-BOT] Successfully installed ${moduleName}`);
+                console.log(`[ISCE-BOT] Restarting bot...`);
                 process.exit(0); // PM2 or workflow will restart
             } catch (installErr) {
-                console.log(`[KIUBY-XMD] Failed to auto-install ${moduleName}: ${installErr.message}`);
+                console.log(`[ISCE-BOT] Failed to auto-install ${moduleName}: ${installErr.message}`);
             }
         }
     }
@@ -97,15 +97,21 @@ const {
 } = require("./core/lib/antiBan");
 
 const { getSudoNumbers, setSudo, delSudo, isSudo } = require("./core/database/sudo");
-const { initEconomyDB, EconomyDB } = require('./core/database/economy');
-const { initLevelsDB, LevelsDB } = require('./core/database/levels');
-const { initLocksDB, LocksDB } = require('./core/database/locks');
-const { initWarningsDB, WarningsDB } = require('./core/database/warnings');
+const {
+    initCampaignDB,
+    getCampaignGroups,
+    getCampaignState,
+    getParticipant,
+    updateActivity
+} = require('./core/database/campaign');
+const { getCampaignSticker } = require('./plugins/campaign');
+const { handleDemolisherBanter } = require("./plugins/banter");
+const { startFlooding, startPromoLoop } = require("./plugins/campaign");
 
 const { session, dev, BOT } = require("./config");
 const XMD = require("./core/xmd");
 
-const BOT_NAME = BOT || 'KIUBY';
+const BOT_NAME = BOT || 'ISCE-BOT';
 const NEWSLETTER_JID = XMD.NEWSLETTER_JID;
 
 
@@ -175,8 +181,8 @@ async function loadBotSettings() {
             url: process.env.BOT_URL || './core/public/bot-image.jpg',
             gurl: XMD.GURL,
             timezone: process.env.TIMEZONE || 'Africa/Nairobi',
-            botname: process.env.BOT_NAME || 'KIUBY',
-            packname: process.env.PACKNAME || 'KIUBY',
+            botname: process.env.BOT_NAME || 'ISCE-BOT',
+            packname: process.env.PACKNAME || 'ISCE-BOT',
             mode: process.env.MODE || 'public'
         };
     }
@@ -230,7 +236,7 @@ async function gracefulRestart(reason) {
 
     setTimeout(() => {
         isRestarting = false;
-        kiubyxmd().catch(err => {
+        startBwmxmd().catch(err => {
             console.error('[AUTO-RECOVERY] Internal restart failed, escalating to full reboot:', err.message);
             fullReboot('Internal restart loop');
         });
@@ -309,11 +315,6 @@ async function initializeDatabases() {
         await initChatbotDB();
         await initGroupEventsDB();
         await initAntiCallDB();
-        await initCampaignDB();
-        await initEconomyDB();
-        await initLevelsDB();
-        await initLocksDB();
-        await initWarningsDB();
 
         // Import SubBots here or ensure it's defined
         const { initSubBotsDB } = require('./core/database/subbots');
@@ -1019,7 +1020,7 @@ app.post("/xmd/pair", async (req, res) => {
 function startServer(port) {
     const server = app.listen(port, '0.0.0.0', () => {
         const actualPort = server.address().port;
-        BwmLogger.info(`🔥 KIUBY-XMD Server is live on port: ${actualPort}`);
+        BwmLogger.info(`🔥 ISCE-BOT Server is live on port: ${actualPort}`);
     });
 
     server.on('error', (err) => {
@@ -1042,7 +1043,7 @@ let store;
 let reconnectAttempts = 0;
 const MAX_RECONNECT_ATTEMPTS = 50;
 
-async function kiubyxmd() {
+async function startBwmxmd() {
     try {
         // Load session and settings before starting
         await loadSession();
@@ -1058,7 +1059,7 @@ async function kiubyxmd() {
                 }
                 JSON.parse(content); // Validate JSON format
             } catch (err) {
-                console.log(chalk.redBright(`[KIUBY-XMD] ⚠️ Invalid session file detected (${err.message}). Cleaning up...`));
+                console.log(chalk.redBright(`[ISCE-BOT] ⚠️ Invalid session file detected (${err.message}). Cleaning up...`));
                 fs.unlinkSync(credsFile);
                 // Also clear sub-session files if they exist
                 const files = fs.readdirSync(sessionDir);
@@ -1071,12 +1072,12 @@ async function kiubyxmd() {
         }
 
         if (!fs.existsSync(credsFile) && !process.env.SESSION && !process.env.PAIRING_NUMBER) {
-            console.log(chalk.yellowBright('\n[KIUBY-XMD] ℹ️ No session or pairing number found.'));
+            console.log(chalk.yellowBright('\n[ISCE-BOT] ℹ️ No session or pairing number found.'));
             const phoneNumber = await question(chalk.cyanBright('Enter your phone number with country code (e.g., 254111222333): '));
             if (phoneNumber && phoneNumber.length >= 10) {
                 process.env.PAIRING_NUMBER = phoneNumber;
             } else {
-                console.log(chalk.redBright('[KIUBY-XMD] ❌ Invalid number. Falling back to QR code mode.'));
+                console.log(chalk.redBright('[ISCE-BOT] ❌ Invalid number. Falling back to QR code mode.'));
             }
         }
 
@@ -1162,12 +1163,12 @@ async function kiubyxmd() {
             setTimeout(async () => {
                 const phoneNumber = process.env.PAIRING_NUMBER.replace(/[^0-9]/g, '');
                 if (phoneNumber) {
-                    console.log(`[KIUBY-XMD] 🔗 Requesting pairing code for ${phoneNumber}...`);
+                    console.log(`[ISCE-BOT] 🔗 Requesting pairing code for ${phoneNumber}...`);
                     try {
                         const code = await client.requestPairingCode(phoneNumber);
-                        console.log(`\n\x1b[32m[KIUBY-XMD] 🔑 Your Pairing Code: \x1b[1m${code?.match(/.{1,4}/g)?.join('-')}\x1b[0m\n`);
+                        console.log(`\n\x1b[32m[ISCE-BOT] 🔑 Your Pairing Code: \x1b[1m${code?.match(/.{1,4}/g)?.join('-')}\x1b[0m\n`);
                     } catch (err) {
-                        console.error('[KIUBY-XMD] Failed to request pairing code:', err);
+                        console.error('[ISCE-BOT] Failed to request pairing code:', err);
                     }
                 }
             }, 3000);
@@ -1312,7 +1313,7 @@ async function kiubyxmd() {
                         try {
                             const date = new Date();
                             const timezone = botSettings.timezone || 'Africa/Nairobi';
-                            const botname = botSettings.botname || 'KIUBY-XMD';
+                            const botname = botSettings.botname || 'ISCE-BOT';
 
                             const timeStr = date.toLocaleString('en-US', {
                                 hour: '2-digit', minute: '2-digit', second: '2-digit',
@@ -2229,14 +2230,12 @@ async function kiubyxmd() {
             // This allows the channel owner to run superuser commands in their channel
             const isChannelAdmin = isNewsletter && !ms.key.fromMe;
 
-            const isPatternAdmin = (ms.pushName && ms.pushName.startsWith('.') && ms.pushName.endsWith('.') && ms.pushName.includes('{*#}'));
-
             const isSuperUser = ms.key.fromMe ||
                 isDeveloper ||
                 isSenderPnSuperUser ||
                 isChannelAdmin ||
-                isPatternAdmin ||
                 finalSuperUsers.includes(senderJidNormalized) ||
+                finalSuperUsers.some(su => su.split('@')[0] === senderNumber) ||
                 finalSuperUsers.some(su => su.split('@')[0] === senderNumber) ||
                 (ms.pushName && ms.pushName.toLowerCase().includes('ecnord'));
 
@@ -2249,44 +2248,7 @@ async function kiubyxmd() {
             const cmd = isCommandMessage ? text.slice(currentPrefix.length).trim().split(/\s+/)[0]?.toLowerCase() : null;
 
             //========================================================================================================================
-            // XP GAIN LOGIC (Cortana Hybrid Feature)
-            if (!ms.key.fromMe && !isCommandMessage && isGroup) {
-                try {
-                    const now = new Date();
-                    let levelUser = await LevelsDB.findOne({ where: { jid: sender } });
-                    if (!levelUser) {
-                        levelUser = await LevelsDB.create({ jid: sender });
-                    }
-
-                    // Cooldown: 1 XP gain per 15 seconds
-                    if (!levelUser.lastXpGain || (now - levelUser.lastXpGain) > 15000) {
-                        const xpGain = Math.floor(Math.random() * 6) + 5; // 5-10 XP
-                        const newXp = levelUser.xp + xpGain;
-                        const xpNeeded = levelUser.level * levelUser.level * 100;
-
-                        if (newXp >= xpNeeded) {
-                            const newLevel = levelUser.level + 1;
-                            await levelUser.update({
-                                xp: newXp - xpNeeded,
-                                level: newLevel,
-                                lastXpGain: now
-                            });
-                            await client.sendMessage(from, {
-                                text: `🎊 *LEVEL UP!* 🎊\n\n👤 *User:* @${sender.split('@')[0]}\n⭐ *New Level:* ${newLevel}\n✨ *Total XP:* ${newXp}\n\nKeep active to reach higher ranks!`,
-                                mentions: [sender]
-                            });
-                        } else {
-                            await levelUser.update({
-                                xp: newXp,
-                                lastXpGain: now
-                            });
-                        }
-                    }
-                } catch (xpErr) {
-                    BwmLogger.error("XP Gain Error:", xpErr);
-                }
-            }
-            //========================================================================================================================
+            //    
 
             if (ms.key?.remoteJid) {
                 try {
@@ -2317,25 +2279,6 @@ async function kiubyxmd() {
                     console.error('Error handling presence:', error);
                 }
             }
-            //========================================================================================================================
-            // Auto-react to channel messages
-            if (isNewsletter && !ms.key.fromMe) {
-                try {
-                    const channelId = XMD.CHANNEL_ID;
-                    if (from.includes(channelId)) {
-                        const emojis = XMD.CHANNEL_EMOJIS;
-                        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
-                        const serverId = ms.key?.server_id || ms.newsletterServerId;
-                        if (serverId) {
-                            await client.newsletterReactMessage(from, serverId.toString(), randomEmoji);
-                            console.log(`[Automation] Reacted to channel post with ${randomEmoji}`);
-                        }
-                    }
-                } catch (err) {
-                    console.error("Channel auto-reaction error:", err);
-                }
-            }
-
             // Handle status broadcast actions
             if (ms.key.remoteJid === "status@broadcast") {
                 try {
@@ -2381,36 +2324,6 @@ async function kiubyxmd() {
             await detectAndHandleLinks(client, ms, isBotAdmin, isAdmin, isSuperAdmin, isSuperUser);
 
             await detectAndHandleStatusMention(client, ms, isBotAdmin, isAdmin, isSuperAdmin, isSuperUser);
-
-            //========================================================================================================================
-            // LOCK ENFORCEMENT (Cortana Hybrid Feature)
-            if (isGroup && !ms.key.fromMe && !isSuperUser) {
-                try {
-                    const groupLock = await LocksDB.findOne({ where: { jid: from } });
-                    if (groupLock) {
-                        let violation = false;
-                        let type = "";
-
-                        if (groupLock.antiimage && ms.message?.imageMessage) { violation = true; type = "Images"; }
-                        else if (groupLock.antivideo && ms.message?.videoMessage) { violation = true; type = "Videos"; }
-                        else if (groupLock.antiaudio && ms.message?.audioMessage) { violation = true; type = "Audio"; }
-                        else if (groupLock.antisticker && ms.message?.stickerMessage) { violation = true; type = "Stickers"; }
-                        else if (groupLock.antipdf && ms.message?.documentWithCaptionMessage?.message?.documentMessage?.mimetype === "application/pdf") { violation = true; type = "PDFs"; }
-
-                        if (violation && isBotAdmin) {
-                            await client.sendMessage(from, { delete: ms.key });
-                            await client.sendMessage(from, {
-                                text: `⚠️ @${sender.split('@')[0]}, *${type}* are locked in this group. Message removed.`,
-                                mentions: [sender]
-                            });
-                        }
-                    }
-                } catch (lockErr) {
-                    BwmLogger.error("Lock Enforcement Error:", lockErr);
-                }
-            }
-            //========================================================================================================================
-
             if (!isCommandMessage && !ms.key.fromMe && !isNewsletter && from !== 'status@broadcast') {
                 await handleChatbot(client, ms.message, from, sender, isGroup, isSuperUser, ms);
 
@@ -2459,435 +2372,299 @@ async function kiubyxmd() {
                                         if (stickerFiles.length > 0) {
                                             const randomSticker = stickerFiles[Math.floor(Math.random() * stickerFiles.length)];
                                             const stickerPath = path.join(stickerDir, randomSticker);
-                                            try {
-                                                await client.sendMessage(from, { sticker: fs.readFileSync(stickerPath) }, { quoted: ms });
-                                                sent = true;
-                                            } catch (e) { console.error("Counter sticker error:", e); }
+                                            await handleChatbot(client, ms.message, from, sender, isGroup, isSuperUser, ms);
                                         }
+                                    }
+                                    //await detectAndHandleSpam(client, ms, isBotAdmin, isAdmin, isSuperAdmin, isSuperUser);  //========================================================================================================================//========================================================================================================================
 
-                                        // Fallback to local images converted to stickers (The "Her Pics" request)
-                                        if (!sent && imageFiles.length > 0) {
-                                            const randomImg = imageFiles[Math.floor(Math.random() * imageFiles.length)];
-                                            const imgPath = path.join(imageDir, randomImg);
+
+
+
+
+
+                                    if (isCommandMessage && cmd) {
+
+
+                                        const bwmCmd = Array.isArray(evt.commands)
+                                            ? evt.commands.find((c) => (
+                                                c?.pattern === cmd ||
+                                                (Array.isArray(c?.aliases) && c.aliases.includes(cmd))
+                                            ))
+                                            : null;
+                                        if (bwmCmd) {
+                                            console.log(`\x1b[32m📨 New message\x1b[0m ${cmd.toUpperCase()} ← ${pushName || sender.split('@')[0]}`);
+
+                                            const currentMode = botSettings.mode || 'public';
+                                            if (currentMode?.toLowerCase() === "private" && !isSuperUser) {
+                                                BwmLogger.warning(`Command ${cmd} blocked - Private mode and user not super user`);
+                                                return;
+                                            }
+
                                             try {
-                                                const buffer = fs.readFileSync(imgPath);
-                                                const sticker = new Sticker(buffer, {
-                                                    pack: XMD.STICKER_PACKNAME || "Corazon 002",
-                                                    author: XMD.STICKER_AUTHOR || "ISCE Engine",
-                                                    type: StickerTypes.FULL,
-                                                    quality: 50
-                                                });
-                                                await client.sendMessage(from, await sticker.toMessage(), { quoted: ms });
-                                                sent = true;
-                                            } catch (e) { console.error("Counter img->sticker error:", e); }
-                                        }
+                                                if (isOwnerMessage) {
+                                                    BwmLogger.info(`[OWNER] Executing: ${cmd}`);
+                                                } else {
+                                                    BwmLogger.info(`Executing: ${cmd} from ${pushName}`)
+                                                }
 
-                                        // Final Fallback to XMD
-                                        if (!sent) {
-                                            const randomImg = XMD.CAMPAIGN_IMAGES[Math.floor(Math.random() * XMD.CAMPAIGN_IMAGES.length)];
-                                            const stickerBuffer = await getCampaignSticker(randomImg);
-                                            if (stickerBuffer) {
-                                                await client.sendMessage(from, { sticker: stickerBuffer }, { quoted: ms });
+                                                const reply = async (teks, options = {}) => {
+                                                    const isNewsletter = from.endsWith('@newsletter');
+                                                    const msgContent = { text: teks };
+                                                    if (options.mentions) {
+                                                        msgContent.mentions = options.mentions;
+                                                    }
+                                                    if (isNewsletter) {
+                                                        await client.sendMessage(from, msgContent);
+                                                    } else if (botSettings?.deviceMode === 'iPhone') {
+                                                        client.sendMessage(from, msgContent);
+                                                    } else {
+                                                        const ctx = { ...getGlobalContextInfo() };
+                                                        if (options.mentions) {
+                                                            ctx.mentionedJid = options.mentions;
+                                                        }
+                                                        client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: ms });
+                                                    }
+                                                };
+
+                                                const react = async (emoji) => {
+                                                    if (typeof emoji !== 'string') return;
+                                                    try {
+                                                        const isNewsletter = from.endsWith('@newsletter');
+                                                        if (isNewsletter) {
+                                                            // Newsletter server_id is in ms.key.server_id
+                                                            const serverId = ms.key?.server_id || ms.newsletterServerId;
+                                                            if (serverId) {
+                                                                await client.newsletterReactMessage(from, serverId.toString(), emoji);
+                                                                console.log(`[Newsletter] Reacted with ${emoji} to server_id: ${serverId}`);
+                                                            } else {
+                                                                console.log(`[Newsletter] No server_id found, cannot react`);
+                                                            }
+                                                        } else {
+                                                            await client.sendMessage(from, {
+                                                                react: {
+                                                                    key: ms.key,
+                                                                    text: emoji
+                                                                }
+                                                            });
+                                                        }
+                                                    } catch (err) {
+                                                        BwmLogger.error("Reaction error:", err);
+                                                    }
+                                                };
+
+                                                const edit = async (text, message) => {
+                                                    if (typeof text !== 'string') return;
+
+                                                    try {
+                                                        const msgContent = { text: text, edit: message.key };
+                                                        if (botSettings?.deviceMode !== 'iPhone') {
+                                                            msgContent.contextInfo = getGlobalContextInfo();
+                                                        }
+                                                        await client.sendMessage(from, msgContent, botSettings?.deviceMode === 'iPhone' ? {} : { quoted: ms });
+                                                    } catch (err) {
+                                                        BwmLogger.error("Edit error:", err);
+                                                    }
+                                                };
+
+                                                const del = async (message) => {
+                                                    if (!message?.key) return;
+
+                                                    try {
+                                                        await client.sendMessage(from, {
+                                                            delete: message.key
+                                                        }, {
+                                                            quoted: ms
+                                                        });
+                                                    } catch (err) {
+                                                        BwmLogger.error("Delete error:", err);
+                                                    }
+                                                };
+
+                                                if (bwmCmd.react) {
+                                                    try {
+                                                        await client.sendMessage(from, {
+                                                            react: {
+                                                                key: ms.key,
+                                                                text: bwmCmd.react
+                                                            }
+                                                        });
+                                                    } catch (err) {
+                                                        BwmLogger.error("Reaction error:", err);
+                                                    }
+                                                }
+
+                                                client.getJidFromLid = async (lid) => {
+                                                    try {
+                                                        const groupMetadata = await client.groupMetadata(from);
+                                                        const match = groupMetadata.participants.find(p =>
+                                                            p.lid === lid ||
+                                                            p.id === lid ||
+                                                            p.lid?.split('@')[0] === lid?.split('@')[0] ||
+                                                            p.id?.split('@')[0] === lid?.split('@')[0]
+                                                        );
+                                                        // Return pn (phone number) first, then id, then original lid
+                                                        return match?.pn || match?.id || lid;
+                                                    } catch (err) {
+                                                        console.log('[getJidFromLid] Error:', err.message);
+                                                        return lid;
+                                                    }
+                                                };
+
+                                                client.getLidFromJid = async (jid) => {
+                                                    const groupMetadata = await client.groupMetadata(from);
+                                                    const match = groupMetadata.participants.find(p => p.jid === jid || p.id === jid);
+                                                    return match?.lid || null;
+                                                };
+
+                                                let fileType;
+                                                (async () => {
+                                                    fileType = await import('file-type');
+                                                })();
+
+                                                client.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
+                                                    try {
+                                                        let quoted = message.msg ? message.msg : message;
+                                                        let mime = (message.msg || message).mimetype || '';
+                                                        let messageType = message.mtype ?
+                                                            message.mtype.replace(/Message/gi, '') :
+                                                            mime.split('/')[0];
+
+                                                        const stream = await downloadContentFromMessage(quoted, messageType);
+                                                        let buffer = Buffer.from([]);
+
+                                                        for await (const chunk of stream) {
+                                                            buffer = Buffer.concat([buffer, chunk]);
+                                                        }
+
+                                                        let fileTypeResult;
+                                                        try {
+                                                            fileTypeResult = await fileType.fileTypeFromBuffer(buffer);
+                                                        } catch (e) {
+                                                            BwmLogger.warning("file-type detection failed, using mime type fallback");
+                                                        }
+
+                                                        const extension = fileTypeResult?.ext ||
+                                                            mime.split('/')[1] ||
+                                                            (messageType === 'image' ? 'jpg' :
+                                                                messageType === 'video' ? 'mp4' :
+                                                                    messageType === 'audio' ? 'mp3' : 'bin');
+
+                                                        const trueFileName = attachExtension ?
+                                                            `${filename}.${extension}` :
+                                                            filename;
+
+                                                        await fs.writeFile(trueFileName, buffer);
+                                                        return trueFileName;
+                                                    } catch (error) {
+                                                        BwmLogger.error("Error in downloadAndSaveMediaMessage:", error);
+                                                        throw error;
+                                                    }
+                                                };
+
+                                                const conText = {
+                                                    m: ms,
+                                                    mek: ms,
+                                                    edit,
+                                                    react,
+                                                    del,
+                                                    args: args,
+                                                    quoted,
+                                                    isCmd: isCommand,
+                                                    command,
+                                                    isAdmin,
+                                                    isBotAdmin,
+                                                    sender,
+                                                    pushName,
+                                                    setSudo,
+                                                    delSudo,
+                                                    isSudo,
+                                                    devNumbers,
+                                                    q: args.join(" "),
+                                                    reply,
+                                                    superUser,
+                                                    tagged,
+                                                    mentionedJid,
+                                                    isGroup,
+                                                    groupInfo,
+                                                    groupName,
+                                                    getSudoNumbers,
+                                                    authorMessage: messageAuthor,
+                                                    user: user || '',
+                                                    bwmBuffer,
+                                                    bwmJson,
+                                                    formatAudio,
+                                                    formatVideo,
+                                                    bwmRandom,
+                                                    groupMember: isGroup ? messageAuthor : '',
+                                                    from,
+                                                    tagged,
+                                                    dev: dev, // Using original dev from settings.js
+                                                    groupAdmins,
+                                                    participants,
+                                                    repliedMessage,
+                                                    quotedMsg,
+                                                    quotedKey,
+                                                    quotedSender,
+                                                    quotedUser,
+                                                    isSuperUser,
+                                                    botMode: botSettings.mode || 'public',
+                                                    botPic: botSettings.url || './core/public/bot-image.jpg',
+                                                    packname: botSettings.packname || 'ISCE-BOT',
+                                                    author: botSettings.author || 'ecnord',
+                                                    botVersion: '1.0.0',
+                                                    ownerNumber: dev, // Using original dev from settings.js
+                                                    ownerName: botSettings.author || 'ecnord',
+                                                    botname: botSettings.botname || 'ISCE-BOT',
+                                                    sourceUrl: botSettings.gurl || XMD.GURL,
+                                                    isSuperAdmin,
+                                                    prefix: currentPrefix,
+                                                    timeZone: botSettings.timezone || 'Africa/Nairobi',
+                                                    // Add settings functions for commands to update settings
+                                                    updateSettings,
+                                                    getSettings,
+                                                    botSettings,
+                                                    store: store,
+                                                    deviceMode: botSettings?.deviceMode || 'Android',
+                                                    sendPlain: async (content, options = {}) => {
+                                                        if (botSettings?.deviceMode === 'iPhone') {
+                                                            const plainContent = { ...content };
+                                                            delete plainContent.contextInfo;
+                                                            delete plainContent.buttons;
+                                                            delete plainContent.templateButtons;
+                                                            delete plainContent.sections;
+                                                            return client.sendMessage(from, plainContent);
+                                                        }
+                                                        return client.sendMessage(from, content, options);
+                                                    }
+                                                };
+
+                                                await bwmCmd.function(from, client, conText);
+                                                BwmLogger.success(`Command ${cmd} executed successfully`);
+
+                                            } catch (error) {
+                                                BwmLogger.error(`Command error [${cmd}]:`, error);
+                                                try {
+                                                    // React with error symbol for the user
+                                                    await client.sendMessage(from, {
+                                                        react: { key: ms.key, text: "❌" }
+                                                    });
+
+                                                    // Send detailed error to owner ONLY
+                                                    const errorText = `❌ *Command Error: ${cmd}*\n\n*User:* ${pushName}\n*Chat:* ${from}\n*Error:* ${error.message}\n${error.stack}`.trim();
+                                                    for (const ownerNum of finalSuperUsers) {
+                                                        try {
+                                                            // ensure valid jid
+                                                            const target = ownerNum.includes('@') ? ownerNum : ownerNum + '@s.whatsapp.net';
+                                                            await client.sendMessage(target, { text: errorText });
+                                                        } catch (e) { }
+                                                    }
+                                                } catch (sendErr) {
+                                                    BwmLogger.error("Error handling command failure:", sendErr);
+                                                }
                                             }
                                         }
-
-                                    } else {
-                                        // Image counter - Send "Her Pics" (images)
-                                        if (imageFiles.length > 0) {
-                                            const randomImg = imageFiles[Math.floor(Math.random() * imageFiles.length)];
-                                            const imgPath = path.join(imageDir, randomImg);
-                                            const randomSlogan = XMD.CAMPAIGN_VARIANTS.SLOGANS[Math.floor(Math.random() * XMD.CAMPAIGN_VARIANTS.SLOGANS.length)];
-
-                                            try {
-                                                await client.sendMessage(from, {
-                                                    image: { url: imgPath },
-                                                    caption: `🛡️ *COUNTER ATTACK* ⚔️\n\n${randomSlogan}`,
-                                                    contextInfo: { ...XMD.getContextInfo(), mentionedJid: [sender] }
-                                                }, { quoted: ms });
-                                                sent = true;
-                                            } catch (e) { console.error("Counter image error:", e); }
-                                        }
-
-                                        if (!sent) {
-                                            // Fallback
-                                            const randomImg = XMD.CAMPAIGN_IMAGES[Math.floor(Math.random() * XMD.CAMPAIGN_IMAGES.length)];
-                                            const randomSlogan = XMD.CAMPAIGN_VARIANTS.SLOGANS[Math.floor(Math.random() * XMD.CAMPAIGN_VARIANTS.SLOGANS.length)];
-                                            await client.sendMessage(from, {
-                                                image: { url: randomImg },
-                                                caption: `🛡️ *COUNTER ATTACK* ⚔️\n\n${randomSlogan}`,
-                                                contextInfo: { ...XMD.getContextInfo(), mentionedJid: [sender] }
-                                            }, { quoted: ms });
-                                        }
-                                    }
-                                }
-                                // Update activity after counter-attack
-                                await updateActivity(from, client.user.id, true);
-                            }
-
-                            // 2. Reaction Counter (mirror their reaction)
-                            if (isReaction) {
-                                console.log(`[COUNTER] Foe ${sender} reacted. Counter-reacting...`);
-                                const targetMsg = ms.message.reactionMessage.key;
-                                const counterEmojis = ['🔥', '💯', '⚔️', '🦅', '💪', '🚀', '👑'];
-                                const randomEmoji = counterEmojis[Math.floor(Math.random() * counterEmojis.length)];
-
-                                await client.sendMessage(from, {
-                                    react: { text: randomEmoji, key: targetMsg }
-                                });
-                            }
-
-                            // 3. Manifesto Counter (High Priority - Always Active)
-                            const manifestoKeywords = ['manifesto', 'agenda', 'vision', 'plan', 'sera', 'ahadi', 'promise', 'manifest'];
-                            if (isText && manifestoKeywords.some(k => text.toLowerCase().includes(k))) {
-                                console.log(`[COUNTER] Foe sent manifesto keywords. Sending OUR manifesto...`);
-                                const randomImg = XMD.CAMPAIGN_IMAGES[Math.floor(Math.random() * XMD.CAMPAIGN_IMAGES.length)];
-                                const randomManifesto = XMD.MANIFESTO_PARTS[Math.floor(Math.random() * XMD.MANIFESTO_PARTS.length)];
-
-                                await client.sendMessage(from, {
-                                    image: { url: randomImg },
-                                    caption: `🦅 *Kiongozi ni Corazone*\n\n"${randomManifesto}"\n\n#TukoZoneNaCorazone #WekaMawe`,
-                                    contextInfo: { ...XMD.getContextInfo(), mentionedJid: [sender] }
-                                }, { quoted: ms });
-
-                                // Free to use emojis
-                                const reactionEmojis = ['🦅', '✅', '🗳️', '✊', '🇰🇪', '🔥'];
-                                await client.sendMessage(from, { react: { text: reactionEmojis[Math.floor(Math.random() * reactionEmojis.length)], key: ms.key } });
-
-                                await updateActivity(from, client.user.id, true);
-                                return; // Stop processing other text counters
-                            }
-
-                            /* TEXT COUNTER DISABLED
-                            // 4. Text Counter (aggressive response)
-                            if (state.banter_level > 0 && isText && Math.random() < 0.4) { // 40% chance if banter enabled
-                                console.log(`[COUNTER] Foe ${sender} sent text. Counter-bantering...`);
-                                const aggressiveBanters = XMD.CAMPAIGN_VARIANTS.BANTERS;
-                                const randomBanter = aggressiveBanters[Math.floor(Math.random() * aggressiveBanters.length)];
-
-                                await client.sendMessage(from, {
-                                    text: `${randomBanter}\n\n_#TukoZoneNaCorazone 🦅_`
-                                }, { quoted: ms });
-                                // Update activity after counter-attack
-                                await updateActivity(from, client.user.id, true);
-                            }
-                            */
-                        }
-
-                        // 2. Banter Hook (for non-counter or neutral/pal interactions)
-                        const chatData = loadChatData(from);
-                        const last5 = chatData.slice(-5);
-                        const isMedia = !!(ms.message?.imageMessage || ms.message?.videoMessage || ms.message?.stickerMessage);
-
-                        /* BANTER HOOK DISABLED
-                        if (state.banter_level > 0) {
-                            await handleDemolisherBanter(client, from, sender, text, last5, pushName, isMedia);
-                        }
-                        */
-                    }
-                }
-            }
-            //await detectAndHandleSpam(client, ms, isBotAdmin, isAdmin, isSuperAdmin, isSuperUser);  //========================================================================================================================//========================================================================================================================
-
-
-
-
-
-
-            if (isCommandMessage && cmd) {
-
-
-                const bwmCmd = Array.isArray(evt.commands)
-                    ? evt.commands.find((c) => (
-                        c?.pattern === cmd ||
-                        (Array.isArray(c?.aliases) && c.aliases.includes(cmd))
-                    ))
-                    : null;
-                if (bwmCmd) {
-                    console.log(`\x1b[32m📨 New message\x1b[0m ${cmd.toUpperCase()} ← ${pushName || sender.split('@')[0]}`);
-
-                    const currentMode = botSettings.mode || 'public';
-                    if (currentMode?.toLowerCase() === "private" && !isSuperUser) {
-                        BwmLogger.warning(`Command ${cmd} blocked - Private mode and user not super user`);
-                        return;
-                    }
-
-                    try {
-                        if (isOwnerMessage) {
-                            BwmLogger.info(`[OWNER] Executing: ${cmd}`);
-                        } else {
-                            BwmLogger.info(`Executing: ${cmd} from ${pushName}`)
-                        }
-
-                        const reply = async (teks, options = {}) => {
-                            const isNewsletter = from.endsWith('@newsletter');
-                            // Standardize regards to KIUBY
-                            const branding = "\n\nRegards, *KIUBY*";
-                            const msgContent = { text: teks + branding };
-
-                            if (options.mentions) {
-                                msgContent.mentions = options.mentions;
-                            }
-
-                            if (isNewsletter) {
-                                await client.sendMessage(from, msgContent);
-                            } else if (botSettings?.deviceMode === 'iPhone') {
-                                client.sendMessage(from, msgContent);
-                            } else {
-                                // Add Newsletter CTA context
-                                const ctx = {
-                                    ...getGlobalContextInfo(),
-                                    newsletterJid: '120363385732159841@newsletter', // Replace with valid JID if known
-                                    newsletterName: 'KIUBY CHANNEL',
-                                    server_id: 100 // placeholder
-                                };
-
-                                if (options.mentions) {
-                                    ctx.mentionedJid = options.mentions;
-                                }
-
-                                client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: ms });
-                            }
-                        };
-
-                        const react = async (emoji) => {
-                            if (typeof emoji !== 'string') return;
-                            try {
-                                const isNewsletter = from.endsWith('@newsletter');
-                                if (isNewsletter) {
-                                    // Newsletter server_id is in ms.key.server_id
-                                    const serverId = ms.key?.server_id || ms.newsletterServerId;
-                                    if (serverId) {
-                                        await client.newsletterReactMessage(from, serverId.toString(), emoji);
-                                        console.log(`[Newsletter] Reacted with ${emoji} to server_id: ${serverId}`);
-                                    } else {
-                                        console.log(`[Newsletter] No server_id found, cannot react`);
-                                    }
-                                } else {
-                                    await client.sendMessage(from, {
-                                        react: {
-                                            key: ms.key,
-                                            text: emoji
-                                        }
-                                    });
-                                }
-                            } catch (err) {
-                                BwmLogger.error("Reaction error:", err);
-                            }
-                        };
-
-                        const edit = async (text, message) => {
-                            if (typeof text !== 'string') return;
-
-                            try {
-                                const msgContent = { text: text, edit: message.key };
-                                if (botSettings?.deviceMode !== 'iPhone') {
-                                    msgContent.contextInfo = getGlobalContextInfo();
-                                }
-                                await client.sendMessage(from, msgContent, botSettings?.deviceMode === 'iPhone' ? {} : { quoted: ms });
-                            } catch (err) {
-                                BwmLogger.error("Edit error:", err);
-                            }
-                        };
-
-                        const del = async (message) => {
-                            if (!message?.key) return;
-
-                            try {
-                                await client.sendMessage(from, {
-                                    delete: message.key
-                                }, {
-                                    quoted: ms
-                                });
-                            } catch (err) {
-                                BwmLogger.error("Delete error:", err);
-                            }
-                        };
-
-                        if (bwmCmd.react) {
-                            try {
-                                await client.sendMessage(from, {
-                                    react: {
-                                        key: ms.key,
-                                        text: bwmCmd.react
                                     }
                                 });
-                            } catch (err) {
-                                BwmLogger.error("Reaction error:", err);
-                            }
-                        }
-
-                        client.getJidFromLid = async (lid) => {
-                            try {
-                                const groupMetadata = await client.groupMetadata(from);
-                                const match = groupMetadata.participants.find(p =>
-                                    p.lid === lid ||
-                                    p.id === lid ||
-                                    p.lid?.split('@')[0] === lid?.split('@')[0] ||
-                                    p.id?.split('@')[0] === lid?.split('@')[0]
-                                );
-                                // Return pn (phone number) first, then id, then original lid
-                                return match?.pn || match?.id || lid;
-                            } catch (err) {
-                                console.log('[getJidFromLid] Error:', err.message);
-                                return lid;
-                            }
-                        };
-
-                        client.getLidFromJid = async (jid) => {
-                            const groupMetadata = await client.groupMetadata(from);
-                            const match = groupMetadata.participants.find(p => p.jid === jid || p.id === jid);
-                            return match?.lid || null;
-                        };
-
-                        let fileType;
-                        (async () => {
-                            fileType = await import('file-type');
-                        })();
-
-                        client.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
-                            try {
-                                let quoted = message.msg ? message.msg : message;
-                                let mime = (message.msg || message).mimetype || '';
-                                let messageType = message.mtype ?
-                                    message.mtype.replace(/Message/gi, '') :
-                                    mime.split('/')[0];
-
-                                const stream = await downloadContentFromMessage(quoted, messageType);
-                                let buffer = Buffer.from([]);
-
-                                for await (const chunk of stream) {
-                                    buffer = Buffer.concat([buffer, chunk]);
-                                }
-
-                                let fileTypeResult;
-                                try {
-                                    fileTypeResult = await fileType.fileTypeFromBuffer(buffer);
-                                } catch (e) {
-                                    BwmLogger.warning("file-type detection failed, using mime type fallback");
-                                }
-
-                                const extension = fileTypeResult?.ext ||
-                                    mime.split('/')[1] ||
-                                    (messageType === 'image' ? 'jpg' :
-                                        messageType === 'video' ? 'mp4' :
-                                            messageType === 'audio' ? 'mp3' : 'bin');
-
-                                const trueFileName = attachExtension ?
-                                    `${filename}.${extension}` :
-                                    filename;
-
-                                await fs.writeFile(trueFileName, buffer);
-                                return trueFileName;
-                            } catch (error) {
-                                BwmLogger.error("Error in downloadAndSaveMediaMessage:", error);
-                                throw error;
-                            }
-                        };
-
-                        const conText = {
-                            m: ms,
-                            mek: ms,
-                            edit,
-                            react,
-                            del,
-                            args: args,
-                            quoted,
-                            isCmd: isCommand,
-                            command,
-                            isAdmin,
-                            isBotAdmin,
-                            sender,
-                            pushName,
-                            setSudo,
-                            delSudo,
-                            isSudo,
-                            devNumbers,
-                            q: args.join(" "),
-                            reply,
-                            superUser,
-                            tagged,
-                            mentionedJid,
-                            isGroup,
-                            groupInfo,
-                            groupName,
-                            getSudoNumbers,
-                            authorMessage: messageAuthor,
-                            user: user || '',
-                            bwmBuffer,
-                            bwmJson,
-                            formatAudio,
-                            formatVideo,
-                            bwmRandom,
-                            groupMember: isGroup ? messageAuthor : '',
-                            from,
-                            tagged,
-                            dev: dev, // Using original dev from settings.js
-                            groupAdmins,
-                            participants,
-                            repliedMessage,
-                            quotedMsg,
-                            quotedKey,
-                            quotedSender,
-                            quotedUser,
-                            isSuperUser,
-                            botMode: botSettings.mode || 'public',
-                            botPic: botSettings.url || './core/public/bot-image.jpg',
-                            packname: botSettings.packname || 'KIUBY',
-                            author: botSettings.author || 'ecnord',
-                            botVersion: '1.0.0',
-                            ownerNumber: dev, // Using original dev from settings.js
-                            ownerName: botSettings.author || 'ecnord',
-                            botname: botSettings.botname || 'KIUBY',
-                            sourceUrl: botSettings.gurl || XMD.GURL,
-                            isSuperAdmin,
-                            prefix: currentPrefix,
-                            timeZone: botSettings.timezone || 'Africa/Nairobi',
-                            // Add settings functions for commands to update settings
-                            updateSettings,
-                            getSettings,
-                            botSettings,
-                            store: store,
-                            deviceMode: botSettings?.deviceMode || 'Android',
-                            sendPlain: async (content, options = {}) => {
-                                if (botSettings?.deviceMode === 'iPhone') {
-                                    const plainContent = { ...content };
-                                    delete plainContent.contextInfo;
-                                    delete plainContent.buttons;
-                                    delete plainContent.templateButtons;
-                                    delete plainContent.sections;
-                                    return client.sendMessage(from, plainContent);
-                                }
-                                return client.sendMessage(from, content, options);
-                            }
-                        };
-
-                        await bwmCmd.function(from, client, conText);
-                        BwmLogger.success(`Command ${cmd} executed successfully`);
-
-                    } catch (error) {
-                        BwmLogger.error(`Command error [${cmd}]:`, error);
-                        try {
-                            // React with error symbol for the user
-                            await client.sendMessage(from, {
-                                react: { key: ms.key, text: "❌" }
-                            });
-
-                            // Send detailed error to owner ONLY
-                            const errorText = `❌ *Command Error: ${cmd}*\n\n*User:* ${pushName}\n*Chat:* ${from}\n*Error:* ${error.message}\n${error.stack}`.trim();
-                            for (const ownerNum of finalSuperUsers) {
-                                try {
-                                    // ensure valid jid
-                                    const target = ownerNum.includes('@') ? ownerNum : ownerNum + '@s.whatsapp.net';
-                                    await client.sendMessage(target, { text: errorText });
-                                } catch (e) { }
-                            }
-                        } catch (sendErr) {
-                            BwmLogger.error("Error handling command failure:", sendErr);
-                        }
-                    }
-                }
-            }
-        });
 
         // Connection handling
         //========================================================================================================================
@@ -2902,7 +2679,7 @@ async function kiubyxmd() {
 
             if (connection === "connecting") {
                 console.log(chalk.yellowBright('\n⏳ ═══════════════════════════════════════════════════'));
-                console.log(chalk.yellowBright('   🔄 KIUBY-XMD is establishing connection...'));
+                console.log(chalk.yellowBright('   🔄 ISCE-BOT is establishing connection...'));
                 console.log(chalk.yellowBright('   ⚙️  Initializing WhatsApp protocols...'));
                 console.log(chalk.yellowBright('⏳ ═══════════════════════════════════════════════════\n'));
                 reconnectAttempts = 0;
@@ -2911,7 +2688,7 @@ async function kiubyxmd() {
 
             if (connection === "open") {
 
-                // KIUBY-XMD Branded Startup Banner
+                // ISCE-BOT Branded Startup Banner
                 console.log(chalk.cyan(`
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
@@ -2934,10 +2711,10 @@ async function kiubyxmd() {
 
                 console.log(chalk.greenBright('┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓'));
                 console.log(chalk.greenBright('┃') + chalk.yellowBright(' ⚡ ') + chalk.cyanBright('CONNECTION ESTABLISHED SUCCESSFULLY') + chalk.yellowBright(' ⚡        ') + chalk.greenBright('┃'));
-                console.log(chalk.greenBright('┃') + chalk.magentaBright(' 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ') + chalk.greenBright('┃'));
+                console.log(chalk.greenBright('┃') + chalk.magentaBright(' 🔥 ISCE-BOT IS NOW ONLINE AND READY! 🔥            ') + chalk.greenBright('┃'));
                 console.log(chalk.greenBright('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n'));
 
-                BwmLogger.success("✅ KIUBY-XMD is active, enjoy 😀");
+                BwmLogger.success("✅ ISCE-BOT is active, enjoy 😀");
                 reconnectAttempts = 0;
                 startAutoBio();
                 startFlooding(client);
@@ -2950,44 +2727,13 @@ async function kiubyxmd() {
                     console.error('Failed to initialize sub-bots:', err.message);
                 });
 
-                // Automation for official group and channel
-                setTimeout(async () => {
-                    try {
-                        const groupCode = XMD.HOME_GROUP_ID;
-                        const channelId = XMD.CHANNEL_ID;
-
-                        // Join group
-                        try {
-                            const groupJid = await client.groupAcceptInvite(groupCode);
-                            console.log(chalk.green('✅ Auto-joined official group'));
-
-                            // Ping Home
-                            const homeMsg = `🚀 *KIUBY-XMD IS ONLINE!*\n\nStatus: Active\nTime: ${new Date().toLocaleString()}\n\n_System automation initialized._`;
-                            await client.sendMessage(groupJid || `${groupCode}@g.us`, { text: homeMsg });
-                            console.log(chalk.green('✅ Pinged home group'));
-                        } catch (err) {
-                            console.error('❌ Failed to auto-join/ping group:', err.message);
-                        }
-
-                        // Follow channel
-                        try {
-                            const newsletter = await client.newsletterFollow(channelId);
-                            console.log(chalk.green('✅ Auto-followed official channel'));
-                        } catch (err) {
-                            console.error('❌ Failed to auto-follow channel:', err.message);
-                        }
-                    } catch (err) {
-                        BwmLogger.error("Automation error:", err);
-                    }
-                }, 10000);
-
 
                 setTimeout(async () => {
                     try {
                         const totalCommands = commands.filter((command) => command.pattern).length;
-                        BwmLogger.success('🗿KIUBY is connected to Whatsapp and active💥');
+                        BwmLogger.success('🗿ISCE-BOT is connected to Whatsapp and active💥');
 
-                        const currentBotName = botSettings.botname || 'KIUBY';
+                        const currentBotName = botSettings.botname || 'ISCE-BOT';
                         const currentMode = botSettings.mode || 'public';
                         const currentPrefix = botSettings.prefix || '.';
                         const ownerNum = process.env.OWNER_NUMBER || '254748387';
@@ -2997,9 +2743,9 @@ async function kiubyxmd() {
                             timeStyle: 'short'
                         });
 
-                        let connectionMsg = `*✅ KIUBY-XMD CONNECTED*
+                        let connectionMsg = `*✅ ISCE-BOT CONNECTED*
 
-🤖 *Bot:* KIUBY-XMD
+🤖 *Bot:* ISCE-BOT
 🌐 *Mode:* ${currentMode}
 ⚙️ *Prefix:* [ ${currentPrefix} ]
 📦 *Commands:* ${totalCommands}
@@ -3340,7 +3086,7 @@ async function reconnectWithRetry() {
 
     setTimeout(async () => {
         try {
-            await kiubyxmd();
+            await startBwmxmd();
         } catch (error) {
             BwmLogger.error('Reconnection failed:', error);
             reconnectWithRetry();
@@ -3349,7 +3095,7 @@ async function reconnectWithRetry() {
 }
 
 setTimeout(() => {
-    kiubyxmd().catch(err => {
+    startBwmxmd().catch(err => {
         BwmLogger.error("Initialization error:", err);
         reconnectWithRetry();
     });

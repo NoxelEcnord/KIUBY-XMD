@@ -198,7 +198,7 @@ bwmxmd({
         ptt: true,
         contextInfo: {
           externalAdReply: {
-            title: `⚡ 𝐊𝐈𝐔𝐁𝐘-𝐗𝐌𝐃 𝐒𝐩𝐞𝐞𝐝: ${speed}𝐦𝐬`,
+            title: `⚡ 𝐈𝐒𝐂𝐄 𝐒𝐩𝐞𝐞𝐝: ${speed}𝐦𝐬`,
             body: "𝐌𝐨𝐝𝐞: 𝐂𝐡𝐢𝐥𝐮𝐱 | 𝐏𝐫𝐞𝐦𝐢𝐮𝐦 🦅",
             mediaType: 2,
             thumbnailUrl: XMD.LOGO,
@@ -261,7 +261,7 @@ bwmxmd({
   }
 
   try {
-    await reply("*🚀 Rebooting KIUBY-XMD System...*");
+    await reply("*🚀 Rebooting ISCE-BOT System...*");
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     try {
@@ -388,9 +388,9 @@ bwmxmd({
 
     const status = `
 *╭──────────────┈❖*
-*│  『 💫 ᴋɪᴜʙʏ sᴛᴀᴛᴜs 』*
+*│  『 💫 ɪᴄᴇ sᴛᴀᴛᴜs 』*
 *╰──────────────┈❖*
-*❯ ᴋɪᴜʙʏ-xᴍᴅ ʟɪᴠᴇ sʏsᴛᴇᴍ*
+*❯ ɪɴᴛᴇʟʟɪɢᴇɴᴛ sʏɴᴛʜᴇᴛɪᴄ ᴄᴏᴍᴘᴜᴛɪɴɢ ᴇɴᴛɪᴛʏ*
 
 *🤖 ʙᴏᴛ:* ${botname}
 *⚡ ᴘɪɴɢ:* ${ping}
@@ -413,7 +413,7 @@ bwmxmd({
 *│*
 *╰──────────────┈❖*
 
-*❯ ᴋɪᴜʙʏ-ʙᴏᴛ ɪs ᴀʟɪᴠᴇ ᴀɴᴅ ʀᴜɴɴɪɴɢ!* 🔥`.trim();
+*❯ ɪsᴄᴇ-ʙᴏᴛ ɪs ᴀʟɪᴠᴇ ᴀɴᴅ ʀᴜɴɴɪɴɢ!* 🔥`.trim();
 
     await client.sendMessage(from, { text: status }, { quoted: contactMessage });
 

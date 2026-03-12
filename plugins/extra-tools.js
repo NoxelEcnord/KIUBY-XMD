@@ -1,9 +1,9 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 
-bwmxmd({
+kiubyxmd({
     pattern: "qr",
     category: "utility",
     description: "Generate a QR code from text"
@@ -16,7 +16,7 @@ bwmxmd({
     await client.sendMessage(from, { image: { url: qrUrl }, caption: `✅ QR Code generated for: *${q}*` });
 });
 
-bwmxmd({
+kiubyxmd({
     pattern: "ocr",
     category: "utility",
     description: "Extract text from a quoted image"
@@ -52,7 +52,7 @@ bwmxmd({
     }
 });
 
-bwmxmd({
+kiubyxmd({
     pattern: "inspect",
     category: "utility",
     description: "Get detailed information about a quoted message"

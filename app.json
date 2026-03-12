@@ -1,10 +1,11 @@
+
 {
-  "name": "KIUBY-XMD",
-  "description": "A powerful WhatsApp bot named KIUBY-XMD",
+  "name": "ISCE-BOT",
+  "description": "This is a simple whatsapp bot built with nodejs to make your WhatsApp enjoyable",
   "keywords": [
-    "KIUBY-XMD",
     "bot",
     "whatsapp",
+    "ISCE-BOT",
     "whatsapp-stickers",
     "anime",
     "whatsapp-bot",
@@ -14,8 +15,8 @@
     "baileys-md",
     "md-bot"
   ],
-  "website": "https://github.com/Bwmxmd254/BWM-XMD-GO#readme",
-  "repository": "https://github.com/Bwmxmd254/BWM-XMD-GO.git",
+  "website": "https://github.com/Bwmxmd254/ISCE-BOT-GO#readme",
+  "repository": "https://github.com/Bwmxmd254/ISCE-BOT-GO.git",
   "logo": "https://i.imgur.com/dAtHp2k.jpeg",
   "success_url": "/",
   "env": {
@@ -25,7 +26,7 @@
     },
     "OWNER_NUMBER": {
       "description": "Put any phone numbers you want to be bot owner without + or spaces. Ex: 2547123456797",
-      "required": true
+      "required": false
     },
     "DATABASE_URL": {
       "description": "PostgreSQL database URL (optional, uses SQLite if not set)",
@@ -33,7 +34,7 @@
     },
     "BOT_NAME": {
       "description": "Your bot name",
-      "value": "KIUBY-XMD",
+      "value": "ISCE-BOT",
       "required": false
     },
     "PREFIX": {
@@ -48,7 +49,7 @@
     },
     "PACKNAME": {
       "description": "Sticker pack name",
-      "value": "KIUBY-XMD",
+      "value": "ISCE-BOT",
       "required": false
     },
     "TIMEZONE": {
@@ -58,13 +59,13 @@
     },
     "AUTHOR": {
       "description": "Bot author name",
-      "value": "Ibrahim Adams",
+      "value": "ecnord",
       "required": false
     },
     "DEVICE_MODE": {
       "description": "Device mode: iPhone (plain text) or Android (full features with buttons)",
       "value": "Android",
-      "required": true
+      "required": false
     },
     "ANTI_CALL": {
       "description": "Anti-call feature: on or off",
@@ -111,6 +112,11 @@
       "value": "off",
       "required": false
     },
+    "AUTO_BIO_MSG": {
+      "description": "Auto-bio message text",
+      "value": "🐬",
+      "required": false
+    },
     "AUTO_STATUS_VIEW": {
       "description": "Auto-view status: on or off",
       "value": "on",
@@ -128,7 +134,7 @@
     },
     "STATUS_REPLY_MSG": {
       "description": "Auto-reply message for status views",
-      "value": "Nice status! Viewed by KIUBY-XMD Bot",
+      "value": "Nice status! Viewed by ISCE-BOT Bot",
       "required": false
     },
     "STATUS_LIKE_EMOJIS": {

@@ -1,7 +1,7 @@
 {
-  "name": "KIUBY-XMD",
+  "name": "isce-bot",
   "version": "2.0.0",
-  "description": "KIUBY-XMD: A premium, ultra-fast, and feature-rich WhatsApp Business Automation Bot. Built for power and reliability with advanced AI integration.",
+  "description": "ISCE-BOT WhatsApp Bot",
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
@@ -20,18 +20,19 @@
     "jimp": "0.16.13"
   },
   "keywords": [
-    "KIUBY-XMD",
     "bot",
     "Baileys",
+    "ISCE-BOT",
     "whatsapp",
     "whatsapp-bot",
-    "Ibrahimadams"
+    "ecnord"
   ],
-  "author": "Ibrahimadams",
+  "author": "ecnord",
   "license": "ISC",
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "latest",
     "@hapi/boom": "latest",
+    "@img/sharp-linux-x64": "^0.34.5",
     "@whiskeysockets/baileys": "npm:xmd-baileys@latest",
     "adm-zip": "latest",
     "axios": "^1.2.5",
@@ -58,12 +59,13 @@
     "pg-hstore": "^2.3.4",
     "pino": "^7.0.5",
     "pm2": "latest",
+    "qrcode-terminal": "^0.12.0",
     "sequelize": "latest",
     "sharp": "^0.32.6",
     "sqlite3": "latest",
     "stream": "latest",
     "util": "latest",
-    "wa-sticker-formatter": "latest",
+    "wa-sticker-formatter": "^4.4.4",
     "xmd-baileys": "^1.0.31"
   }
 }

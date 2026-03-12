@@ -1,5 +1,4 @@
 const { bwmxmd } = require('../core/commandHandler');
-const { getCampaignGroups, clearCampaignGroups } = require('../core/database/campaign');
 
 // Utility: Get JID of current chat
 bwmxmd({
@@ -20,28 +19,3 @@ bwmxmd({
     await reply(jidInfo);
 });
 
-// Utility: Clear campaign scope (remove all groups)
-bwmxmd({
-    pattern: "clear",
-
-
-}, async (from, client, conText) => {
-    const { react, isSuperUser, sender } = conText;
-    const XMD = require('../core/xmd');
-
-    // Check if user is owner/dev
-    if (!isSuperUser && !XMD.isDev(sender)) {
-        return react("❌");
-    }
-
-    try {
-        const groups = await getCampaignGroups();
-        if (groups.length === 0) return react("🤷‍♂️");
-
-        await clearCampaignGroups();
-        react("💯");
-    } catch (error) {
-        console.error("Clear scope error:", error);
-        react("❌");
-    }
-});

@@ -20,12 +20,12 @@ const SubBotSettingsDB = database.define('subbot_settings', {
     },
     url: {
         type: DataTypes.TEXT,
-        defaultValue: "./core/public/gemini_images/Gemini_Generated_Image_u0u0hfu0u0hfu0u0.png",
+        defaultValue: "./core/public/bot-image.jpg",
         allowNull: false
     },
     gurl: {
         type: DataTypes.TEXT,
-        defaultValue: "https://github.com/Bwmxmd254/KIUBY-XMD-GO",
+        defaultValue: "https://github.com/Bwmxmd254/ISCE-BOT-GO",
         allowNull: false
     },
     timezone: {
@@ -35,12 +35,12 @@ const SubBotSettingsDB = database.define('subbot_settings', {
     },
     botname: {
         type: DataTypes.STRING,
-        defaultValue: "KIUBY-XMD",
+        defaultValue: "ISCE-BOT",
         allowNull: false
     },
     packname: {
         type: DataTypes.STRING,
-        defaultValue: "KIUBY-XMD",
+        defaultValue: "ISCE-BOT",
         allowNull: false
     },
     mode: {
@@ -50,7 +50,7 @@ const SubBotSettingsDB = database.define('subbot_settings', {
     },
     sessionName: {
         type: DataTypes.STRING,
-        defaultValue: "KIUBY-XMD",
+        defaultValue: "ISCE-BOT",
         allowNull: false
     },
     // Antilink settings
@@ -215,13 +215,13 @@ async function getSubBotSettings(botId) {
                 botId,
                 prefix: mainSettings.prefix || '.',
                 author: mainSettings.author || 'ecnord',
-                url: mainSettings.url || './core/public/gemini_images/Gemini_Generated_Image_u0u0hfu0u0hfu0u0.png',
-                gurl: mainSettings.gurl || 'https://github.com/Bwmxmd254/KIUBY-XMD-GO',
+                url: mainSettings.url || './core/public/bot-image.jpg',
+                gurl: mainSettings.gurl || 'https://github.com/Bwmxmd254/ISCE-BOT-GO',
                 timezone: mainSettings.timezone || 'Africa/Nairobi',
-                botname: mainSettings.botname || 'KIUBY-XMD',
-                packname: mainSettings.packname || 'KIUBY-XMD',
+                botname: mainSettings.botname || 'ISCE-BOT',
+                packname: mainSettings.packname || 'ISCE-BOT',
                 mode: mainSettings.mode || 'public',
-                sessionName: mainSettings.sessionName || 'KIUBY-XMD'
+                sessionName: mainSettings.sessionName || 'ISCE-BOT'
             });
         }
         return settings.toJSON();
@@ -241,16 +241,16 @@ async function updateSubBotSettings(botId, newSettings) {
                 botId,
                 prefix: mainSettings.prefix || '.',
                 author: mainSettings.author || 'ecnord',
-                url: mainSettings.url || './core/public/gemini_images/Gemini_Generated_Image_u0u0hfu0u0hfu0u0.png',
-                gurl: mainSettings.gurl || 'https://github.com/Bwmxmd254/KIUBY-XMD-GO',
+                url: mainSettings.url || './core/public/bot-image.jpg',
+                gurl: mainSettings.gurl || 'https://github.com/Bwmxmd254/ISCE-BOT-GO',
                 timezone: mainSettings.timezone || 'Africa/Nairobi',
-                botname: mainSettings.botname || 'KIUBY-XMD',
-                packname: mainSettings.packname || 'KIUBY-XMD',
+                botname: mainSettings.botname || 'ISCE-BOT',
+                packname: mainSettings.packname || 'ISCE-BOT',
                 mode: mainSettings.mode || 'public',
-                sessionName: mainSettings.sessionName || 'KIUBY-XMD'
+                sessionName: mainSettings.sessionName || 'ISCE-BOT'
             });
         }
-
+        
         await settings.update(newSettings);
         return settings.toJSON();
     } catch (error) {

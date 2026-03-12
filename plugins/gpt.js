@@ -2,11 +2,11 @@
 const { bwmxmd } = require('../core/commandHandler');
 const axios = require('axios');
 const XMD = require('../core/xmd');
-const {
-  saveConversation,
-  getConversationHistory,
-  clearConversationHistory,
-  getLastConversation
+const { 
+    saveConversation, 
+    getConversationHistory, 
+    clearConversationHistory,
+    getLastConversation 
 } = require('../core/database/gpt');
 //========================================================================================================================
 //========================================================================================================================
@@ -22,23 +22,23 @@ bwmxmd({
 
   if (!arg || arg.length === 0) {
     await react("❓");
-    return reply(`🤖 *KIUBY-XMD GPT AI*\n\nAsk me anything!\n\nExample: gpt What is JavaScript?`);
+    return reply(`🤖 *ISCE-BOT GPT AI*\n\nAsk me anything!\n\nExample: gpt What is JavaScript?`);
   }
 
   try {
     await react("⏳");
-
+    
     const question = arg.join(' ');
-
+    
     // Get last conversation for context
     const lastConv = await getLastConversation(sender);
     let context = '';
-
+    
     if (lastConv) {
       context = `Previous conversation:\nYou: ${lastConv.user}\nAI: ${lastConv.ai}\n\nCurrent question: ${question}`;
     }
 
-    const systemPrompt = `[System: You are KIUBY-XMD, a WhatsApp AI assistant made by ecnord. You are NOT Keith AI and NOT made by Keithkeizzah. Only mention your name or creator if the user asks who you are or who made you. Otherwise just reply naturally without introducing yourself.]\n`;
+    const systemPrompt = `[System: You are ISCE-BOT, a WhatsApp AI assistant made by ecnord. You are NOT Keith AI and NOT made by Keithkeizzah. Only mention your name or creator if the user asks who you are or who made you. Otherwise just reply naturally without introducing yourself.]\n`;
     const fullQuery = systemPrompt + (context || question);
 
     let aiResponse = null;
@@ -104,24 +104,24 @@ bwmxmd({
 
   try {
     await react("📚");
-
+    
     const history = await getConversationHistory(sender, 5); // Last 5 conversations
-
+    
     if (!history.length) {
       return reply(`📚 *Chat History*\n\nNo previous conversations found. Start chatting with *gpt <question>*`);
     }
 
     let historyMsg = `📚 *Chat History for ${pushName}*\n\n`;
-
+    
     history.forEach((conv, index) => {
       const shortUser = conv.user.length > 30 ? conv.user.substring(0, 30) + '...' : conv.user;
       const shortAI = conv.ai.length > 30 ? conv.ai.substring(0, 30) + '...' : conv.ai;
-
+      
       historyMsg += `*${index + 1}. You:* ${shortUser}\n   *AI:* ${shortAI}\n\n`;
     });
 
     historyMsg += `_Total conversations: ${history.length}_`;
-
+    
     await reply(historyMsg);
 
   } catch (error) {
@@ -141,21 +141,21 @@ bwmxmd({
   const { reply, react, sender, pushName } = conText;
 
   try {
-    //  await react("🕒");
-
+  //  await react("🕒");
+    
     const lastConv = await getLastConversation(sender);
-
+    
     if (!lastConv) {
       return reply(`🕒 *Last Conversation*\n\nNo previous conversation found. Start chatting with *gpt <question>*`);
     }
 
     const lastChatMsg = `🕒 *Last Conversation*\n\n💬 *You:* ${lastConv.user}\n\n🤖 *AI:* ${lastConv.ai}`;
-
+    
     await reply(lastChatMsg);
 
   } catch (error) {
     console.error("lastchat error:", error);
-    //  await react("❌");
+  //  await react("❌");
     await reply(`❌ Error: ${error.message}`);
   }
 });
@@ -172,9 +172,9 @@ bwmxmd({
 
   try {
     await react("🗑️");
-
+    
     const cleared = await clearConversationHistory(sender);
-
+    
     if (cleared) {
       await reply(`🗑️ *Chat History Cleared*\n\nAll your conversation history with GPT has been deleted successfully.`);
     } else {

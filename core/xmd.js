@@ -1,4 +1,4 @@
-const BOT_NAME = 'KIUBY';
+const BOT_NAME = 'ISCE';
 const OWNER_NAME = 'ECNORD';
 
 const XMD = {
@@ -12,12 +12,6 @@ const XMD = {
         '275823370182724': '254710772666',  // Main owner number
         // Add more mappings as needed
     },
-
-    // Automation Constants
-    OFFICIAL_GROUP: "https://chat.whatsapp.com/DfmTOy8g2bmHvpg1o4xplG",
-    OFFICIAL_CHANNEL: "https://whatsapp.com/channel/0029Vb7Qi89C1Fu9Bxitnr3m",
-    HOME_GROUP_ID: "DfmTOy8g2bmHvpg1o4xplG",
-    CHANNEL_ID: "0029Vb7Qi89C1Fu9Bxitnr3m",
 
     // Resolve LID to phone number if mapping exists
     resolveLidToPhone: function (lid) {
@@ -72,107 +66,18 @@ const XMD = {
 
     NEWSLETTER_JID: '',
     AUTO_REACT_CHANNELS: [],
-    NEWSLETTER_NAME: 'KIUBY CHANNEL',
+    NEWSLETTER_NAME: BOT_NAME,
     GURL: '',
     CHANNEL_URL: '',
     GROUP_URL: '',
     WEB: '',
 
-    // Campaign Settings
-    MANIFESTO: `Hello Fellow Comrades! 
-My name is CORAZONE CHEPKOECH BOR, Year 3 MBCH.B student. 
-I feel greatly esteemed to announce my candidature for the position of the academic DELEGATE 002. 
-I believe effective academic representation requires more than enthusiasm. It requires accountability, advocacy and informed decision making. 
-My goal is to represent your academic interests with clarity, fairness and consistency while engaging constructively with the administration. 
-I value dialogue over division, solutions over complaints and progress over promises.
-While I take this position seriously, I understand that a healthy academic environment should be rigorous without being rigid.
-Bestowed with this duty, I commit to being a principled voice, a reliable bridge and a powerful negotiator in the best interest of the students' body.
-Together, let's steer CHS to a new level.
-Thank you 🤝
-## Action over talks!!
-## Tuko zone na Corazone`,
-
-    PROMO_STRINGS: [
-        "Vote Corazone Chepkoech for MUSO Delegate 002! 🚀 #ExcellenceInService",
-        "Corazone Chepkoech - The Vision for CHS 26/27. 🎓 #Delegate002",
-        "Empowering CHS Students through Corazone Chepkoech! 💪 #MUSO2026",
-        "Delegate 002: Corazone Chepkoech. Your Vote, Your Future! ✨",
-        "For a better CHS, Vote Corazone Chepkoech! 💯 #MUSODelegate"
-    ],
-
-    THEME_SONG_URL: 'https://github.com/NoxelEcnord/KIUBY-XMD/raw/main/core/public/audio/branding.mp3',
-    THEME_SONG_TITLE: '🎵 KIUBY-XMD OFFICIAL THEME',
-
-    CAMPAIGN_GROUP_KEYWORDS: ['moi', 'first year', 'chs', 'mu', 'delegate'],
-
-    CAMPAIGN_IMAGES: [
-        'https://files.catbox.moe/p4d92g.jpeg',
-        'https://files.catbox.moe/hxch25.jpeg'
-    ],
-
-    CAMPAIGN_VARIANTS: {
-        SLOGANS: [
-            "ActionOverTalks 🦅",
-            "TukoZoneNaCORAZONE 🚀",
-            "Corazone to the horizon 🌄",
-            "WEKAMAWE 💎",
-            "Action Over Talks!! 💯",
-            "WEKA MAWE! Tuko Zone na Corazone! 🦅"
-        ],
-        CAPTIONS: [
-            "📢 *CAMPAIGN ALERT*: Choose performance over rhetoric. Corazone Bor for 002!",
-            "🎓 *THE VISION*: Together we achieve more. Vote Corazone Chepkoech for Delegate 002!",
-            "🚀 *NEW LEVEL*: Your interest, my priority. Corazone Chepkoech is the answer!",
-            "✨ *TRANSPARENCY*: A principled voice for all students. Support Corazone!",
-            "🔥 *THE VISION*: Advocacy that produces results. Corazone 002 for Delegate!",
-            "💎 *RELIABILITY*: A bridge between administration and students. Vote Bor!",
-            "🌟 *CHS PRIDE*: Let's steer our school to greatness together. #ActionOverTalks",
-            "💪 *BOLDER VOICE*: Corazone Chepkoech - The strength of CHS representation!",
-            "🏆 *DELEGATE 002*: Proven leadership, actionable plans. #TukoZoneNaCorazone",
-            "🤝 *UNITY*: Dialogue, Solutions, Progress. Corazone Chepkoech Bor."
-        ],
-        HASHTAGS: [
-            "#ActionOverTalks", "#TukoZoneNaCorazone", "#Corazone002", "#CHSVote", "#MUSO2026",
-            "#ExcellenceInService", "#Delegate002", "#TeamCorazone", "#CHSElection", "#BorTosha",
-            "#WekaMawe", "#CorazonHorizon", "#NewHorizon", "#WekaMaweCorazone", "#TukoReady"
-        ],
-        QUOTES: [
-            "\"Effective representation requires more than enthusiasm; it requires accountability.\"",
-            "\"I value dialogue over division and solutions over complaints.\"",
-            "\"My goal is to represent your interests with clarity, fairness, and consistency.\"",
-            "\"Together, let's steer CHS to a new level.\"",
-            "\"A principled voice and a powerful negotiator for the student body.\"",
-            "\"Progress over promises: That is my commitment to you.\"",
-            "\"Action over talks: Our time for real representation is now.\"",
-            "\"Leadership is about advocacy and informed decision making.\"",
-            "\"Building a bridge that connects every student's voice to the administration.\"",
-            "\"CHS deserves a rigourous yet inclusive academic environment.\""
-        ],
-        BANTERS: [
-            "Lmaoo that's a weak point. Corazone is already out here working while you yap. 💀",
-            "Cope harder. 002 is locked for Bor. Corazone to the world! 🚀",
-            "Imagine opposing Corazone in 2026. Couldn't be me. #ActionOverTalks",
-            "Headshot! Corazone's manifesto literally solves that. Read up. 📚",
-            "Zero arguments detected. Only noise. Corazone 002 all the way! 🦅",
-            "Nice try, but Corazone has the administration's ear. What do you have? 👂",
-            "Stay mad. Corazone is the bridge CHS needs. #TukoZoneNaCorazone",
-            "Manifesto check: Corazone's plan is actionable. Yours is just words. 🥱",
-            "Delegate 002 is not for jokes. Choose Corazone Chepkoech. 🎓",
-            "The energy for Corazone is unmatched. Join the winning side or stay behind. 💯"
-        ]
-    },
-
-    MANIFESTO_PARTS: [
-        "Effective academic representation requires accountability, advocacy and informed decision making.",
-        "My goal is to represent your academic interests with clarity, fairness and consistency.",
-        "I value dialogue over division, solutions over complaints and progress over promises.",
-        "I commit to being a principled voice and a reliable bridge for the students' body.",
-        "Together, let's steer CHS to a new level. Action over talks!"
-    ],
+    THEME_SONG_URL: 'https://www.youtube.com/watch?v=VjMZJZdNnBE', // GIMS - Corazon ft. Lil Wayne & French Montana
+    THEME_SONG_TITLE: '🎵 GIMS - Corazon ft. Lil Wayne & French Montana',
 
     SUPABASE_APK: 'https://teugqirxznhfegcwwnzh.supabase.co/storage/v1/object/public/Bwm-xmd-apps/BWM-GIFT-5.5.apk',
     SESSION_SCANNER: (number) => `https://bwm-xmd-scan-pro.onrender.com/code?number=${number}`,
-    GITHUB_REPO_API: 'https://api.github.com/repos/NoxelEcnord/KIUBY-XMD',
+    GITHUB_REPO_API: 'https://api.github.com/repos/Bwmxmd254/ISCE-BOT-GO',
     GITHUB_REMOTE_CMDS: 'https://api.github.com/repos/keithghost/REMOTE/contents/Cmds',
     NCS_RANDOM: 'https://ncs.bwmxmd.online/random',
     LANGCODE_JSON: 'https://raw.githubusercontent.com/ecnord/INFO/refs/heads/main/langcode.json',
@@ -215,7 +120,7 @@ Thank you 🤝
         AI: {
             CHAT: (q) => `https://apiskeith.top/keithai?q=${encodeURIComponent(q)}`,
             GPT: (q) => `https://apiskeith.top/ai/gpt?q=${encodeURIComponent(q)}`,
-            TEXT2SPEECH: (q, voice = 'en-GB-Standard-B') => `https://apiskeith.top/ai/text2speech?q=${encodeURIComponent(q)}&voice=${voice}`,
+            TEXT2SPEECH: (q, voice = 'en-US-Standard-C') => `https://apiskeith.top/ai/text2speech?q=${encodeURIComponent(q)}&voice=${voice}`,
             TEXT2VIDEO: (q) => `https://apiskeith.top/text2video?q=${encodeURIComponent(q)}`,
             FLUX: (q) => `https://apiskeith.top/ai/flux?q=${encodeURIComponent(q)}`,
             GEMINI_VISION: (image, q) => `https://apiskeith.top/ai/gemini-vision?image=${encodeURIComponent(image)}&q=${encodeURIComponent(q)}`,

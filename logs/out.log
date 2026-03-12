@@ -1,0 +1,816 @@
+npm error code ENOENT
+npm error syscall open
+npm error path /home/bard/Desktop/BWM-XMD-GO/package.json
+npm error errno -2
+npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open '/home/bard/Desktop/BWM-XMD-GO/package.json'
+npm error enoent This is related to npm not being able to find a file.
+npm error enoent
+npm error A complete log of this run can be found in: /home/bard/.npm/_logs/2026-02-13T23_15_54_126Z-debug-0.log
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+[INFO] Server Running on Port: 5000
+Sudo table ready
+Settings table ready
+Chatbot tables ready
+
+> isce-bot@2.0.0 start
+> node index.js
+
+AntiDelete table ready
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 ISCE-BOT is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+Greet table ready
+[DATABASE] Using: SQLite
+GPT Conversations table ready
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║   ██████╗ ██╗    ██╗███╗   ███╗    ██╗  ██╗███╗   ███╗██████╗  ║
+║   ██╔══██╗██║    ██║████╗ ████║    ╚██╗██╔╝████╗ ████║██╔══██╗ ║
+║   ██████╔╝██║ █╗ ██║██╔████╔██║     ╚███╔╝ ██╔████╔██║██║  ██║ ║
+║   ██╔══██╗██║███╗██║██║╚██╔╝██║     ██╔██╗ ██║╚██╔╝██║██║  ██║ ║
+║   ██████╔╝╚███╔███╔╝██║ ╚═╝ ██║    ██╔╝ ██╗██║ ╚═╝ ██║██████╔╝ ║
+║   ╚═════╝  ╚══╝╚══╝ ╚═╝     ╚═╝    ╚═╝  ╚═╝╚═╝     ╚═╝╚═════╝  ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 ISCE-BOT IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ ISCE-BOT is active, enjoy 😀
+SubBots table ready
+AutoStatus table ready
+[SubBotManager] Found 0 active sub-bots to start
+
+> isce-bot@2.0.0 start
+> node index.js
+
+AutoRead table ready
+AutoBio table ready
+AntiLink table ready
+AntiStatusMention table ready
+Presence table ready
+[DATABASE] Using: SQLite
+Chatbot tables ready
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+GroupEvents table ready
+✅ [SUCCESS] 🗿ISCE-BOT is connected to Whatsapp and active💥
+[DEBUG] Sending startup to DM: 254726498682@s.whatsapp.net
+
+> isce-bot@2.0.0 start
+> node index.js
+
+AntiCall table ready
+✅ Message sent → 254726498682
+Campaign tables ready
+SubBots table ready
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+SubBot Settings table ready
+All databases initialized successfully
+[CLEANUP] Scheduler started (every 6 hours)
+[CLEANUP] Starting database cleanup...
+[CLEANUP] Cleanup completed: {"subBots":{"deleted":0,"expired":0},"chatbotMessages":{"deleted":0},"gptConversations":{"deleted":0},"subBotSettings":{"deleted":0},"sessionFiles":{"deleted":0},"tmpFiles":{"deleted":0}}
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+
+
+> isce-bot@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:5000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at node:net:2206:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 5000
+}
+
+❌ [CRASH HANDLER] Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+
+🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
+🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
+

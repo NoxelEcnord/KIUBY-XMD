@@ -46,7 +46,7 @@ module.exports = {
     dev,
     session,
 
-    BOT: process.env.BOT_NAME || 'KIUBY-XMD',
+    BOT: process.env.BOT_NAME || 'ISCE-BOT',
     PREFIX: process.env.PREFIX || '.',
     TZ: process.env.TZ || 'Africa/Nairobi',
 

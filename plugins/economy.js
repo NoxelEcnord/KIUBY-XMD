@@ -1,8 +1,8 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const { EconomyDB } = require('../core/database/economy');
 const moment = require('moment-timezone');
 
-bwmxmd({
+kiubyxmd({
     pattern: "balance",
     aliases: ["bal", "money", "wallet"],
     category: "economy",
@@ -16,7 +16,7 @@ bwmxmd({
     reply(`💰 *Wallet Balance*\n\n👤 *User:* @${sender.split('@')[0]}\n💵 *Balance:* $${user.balance.toLocaleString()}`, { mentions: [sender] });
 });
 
-bwmxmd({
+kiubyxmd({
     pattern: "daily",
     category: "economy",
     description: "Claim your daily reward"
@@ -44,7 +44,7 @@ bwmxmd({
     reply(`🎁 *Daily Reward*\n\n✅ You've claimed $${reward}!\n💰 *Total Balance:* $${(parseInt(user.balance)).toLocaleString()}`);
 });
 
-bwmxmd({
+kiubyxmd({
     pattern: "gamble",
     category: "economy",
     description: "Gamble your money (Double or Nothing)"

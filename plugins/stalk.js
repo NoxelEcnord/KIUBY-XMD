@@ -287,7 +287,7 @@ bwmxmd({
   const { q, reply, mek } = conText;
 
   if (!q || !q.includes("github.com")) {
-    return reply("❌ Provide a valid GitHub repository URL.\n\nExample: repostalk https://github.com/Bwmxmd254/KIUBY-XMD");
+    return reply("❌ Provide a valid GitHub repository URL.\n\nExample: repostalk https://github.com/Bwmxmd254/ISCE-BOT-GO");
   }
 
   try {

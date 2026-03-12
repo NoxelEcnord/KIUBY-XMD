@@ -9,7 +9,7 @@ const { exec } = require("child_process");
 const readMore = String.fromCharCode(8206).repeat(4000);
 
 const PREFIX = s.PREFIX || ".";
-const BOT_NAME = s.BOT || "KIUBY";
+const BOT_NAME = s.BOT || "ISCE-BOT";
 const MEDIA_URLS = s.BOT_URL || [];
 const MENU_TOP_LEFT = s.MENU_TOP_LEFT || "╔═════════════════════════════╗";
 const MENU_BOT_NAME_LINE = s.MENU_BOT_NAME_LINE || "║       ";
@@ -28,41 +28,14 @@ const getContactMsg = (contactName, sender) =>
     XMD.getContactMsg(contactName, sender);
 
 const randomMedia = () => {
-    try {
-        const publicDir = path.join(__dirname, "../core/public");
-        const geminiDir = path.join(publicDir, "gemini_images");
-
-        let allImages = [];
-
-        // Check core/public/gemini_images
-        if (fs.existsSync(geminiDir)) {
-            const files = fs.readdirSync(geminiDir).filter(f => f.match(/\.(png|jpg|jpeg|webp)$/i));
-            allImages = allImages.concat(files.map(f => path.join(geminiDir, f)));
-        }
-
-        // Check core/public for new Gemini images, ignoring legacy ones
-        if (fs.existsSync(publicDir)) {
-            const files = fs.readdirSync(publicDir).filter(f =>
-                f.match(/\.(png|jpg|jpeg|webp)$/i) &&
-                !f.toLowerCase().includes('isce.png') &&
-                !f.toLowerCase().includes('bot-image.jpg') &&
-                (f.toLowerCase().includes('gemini') || f.toLowerCase().includes('whatsapp'))
-            );
-            allImages = allImages.concat(files.map(f => path.join(publicDir, f)));
-        }
-
-        if (allImages.length > 0) {
-            const randomFile = allImages[Math.floor(Math.random() * allImages.length)];
-            return randomFile;
-        }
-    } catch (e) {
-        console.error("Error reading images:", e.message);
-    }
+    // Priority: Local ISCE.png
+    const localPath = path.join(__dirname, "../core/public/isce.png");
+    if (fs.existsSync(localPath)) return localPath;
 
     // Fallback: URLs
-    const combinedUrls = [...(MEDIA_URLS || []), ...(XMD.CAMPAIGN_IMAGES || [])];
+    const combinedUrls = [...(MEDIA_URLS || [])];
     const validUrls = combinedUrls.filter(url => typeof url === "string" && url.trim().startsWith("http"));
-    if (validUrls.length === 0) return XMD.BOT_LOGO || "https://i.imgur.com/vHqB7U7.png";
+    if (validUrls.length === 0) return XMD.BOT_LOGO;
 
     return validUrls[Math.floor(Math.random() * validUrls.length)];
 };
@@ -97,7 +70,7 @@ const convertToOpus = (inputPath, outputPath) => {
 
 const getWelcomeAudio = async (text) => {
     try {
-        const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=en-gb&client=tw-ob`;
+        const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=en&client=tw-ob`;
         const response = await axios({
             method: "GET",
             url: url,
@@ -121,7 +94,7 @@ const getWelcomeAudio = async (text) => {
 const fetchGitHubStats = async () => {
     try {
         const response = await axios.get(XMD.GITHUB_REPO_API, {
-            headers: { "User-Agent": "KIUBY-XMD-BOT" },
+            headers: { "User-Agent": "ISCE-BOT-BOT" },
             timeout: 5000,
         });
         const forks = response.data.forks_count || 0;
@@ -161,11 +134,6 @@ const categories = {
     "11. 🔧 SYSTEM MENU": ["system"],
     "12. 📚 EDUCATION MENU": ["education"],
     "13. 🔗 SHORTENER MENU": ["shortener"],
-    "14. ⚔️ CAMPAIGN MENU": ["campaign"],
-    "15. 💰 ECONOMY MENU": ["economy"],
-    "16. 🏆 LEVELS MENU": ["levels"],
-    "17. 💀 BUG MENU": ["owner"],
-    "18. 📂 BOT REPO": ["general"]
 };
 
 bwmxmd(
@@ -205,7 +173,7 @@ bwmxmd(
             else if (hour >= 12 && hour < 18) greeting = "☀️ Good Afternoon 😊";
             else if (hour >= 18 && hour < 22) greeting = "🌆 Good Evening 🤠";
 
-            const menuOptions = `╭───『 🌟 𝐊𝐈𝐔𝐁𝐘 𝐌𝐄𝐍𝐔 』───╮
+            const menuOptions = `╭───『 🌟 𝐈𝐒𝐂𝐄 𝐌𝐄𝐍𝐔 』───╮
 │
 │ 𝟏. 🌐 ᴏᴜʀ ᴡᴇʙ ᴀᴘᴘ
 │ 𝟐. 🎵 ʀᴀɴᴅᴏᴍ sᴏɴɢ
@@ -223,17 +191,12 @@ bwmxmd(
 │ 𝟏𝟒. 🔧 sʏsᴛᴇᴍ ᴛᴏᴏʟs
 │ 𝟏𝟓. 📚 ᴇᴅᴜᴄᴀᴛɪᴏɴ
 │ 𝟏𝟔. 🔗 ᴜʀʟ sʜᴏʀᴛᴇɴᴇʀ
-│ 𝟏𝟕. ⚔️ 𝐂𝐀𝐌𝐏𝐀𝐈𝐆𝐍 𝐇𝐐
-│ 𝟏𝟖. 💰 𝐄𝐂𝐎𝐍𝐎𝐌𝐘 𝐒𝐘𝐒𝐓𝐄𝐌
-│ 𝟏𝟗. 🏆 𝐋𝐄𝐕𝐄𝐋𝐒 & 𝐑𝐀𝐍𝐊𝐒
-│ 𝟐𝟎. 💀 𝐁𝐔𝐆 𝐌𝐄𝐍𝐔 (☢️)
-│ 𝟐𝟏. 📂 𝐁𝐎𝐓 𝐑𝐄𝐏𝐎
 │
 ╰─────────────────────╯
-💡 𝐑𝐞𝐩𝐥𝐲 𝐰𝐢𝐭𝐡 𝐚 𝐧𝐮𝐦𝐛𝐞𝐫 (𝟏-𝟐𝟏)`;
+💡 𝐑𝐞𝐩𝐥𝐲 𝐰𝐢𝐭𝐡 𝐚 𝐧𝐮𝐦𝐛𝐞𝐫 (𝟏-𝟏𝟔)`;
 
             const menuHeader = `╭───────────────╮
-│ 🤖 𝐁𝐨𝐭: 𝐊𝐈𝐔𝐁𝐘
+│ 🤖 𝐁𝐨𝐭: 𝐈𝐒𝐂𝐄 𝐕𝟐
 │ 👤 𝐎𝐰𝐧𝐞𝐫: 𝐄𝐂𝐍𝐎𝐑𝐃
 │ 📅 𝐃𝐚𝐭𝐞: ${date}
 │ ⌚ 𝐓𝐢𝐦𝐞: ${time} (${s.TZ})
@@ -325,29 +288,20 @@ ${greeting}, *${pushName}*! 👋`;
 
             // Send Theme Song (Corazon)
             try {
-                // Try local branding audio first, then fallback to URL
-                let audioContent;
-                const localBranding = path.join(__dirname, "../core/public/audio/branding.mp3");
+                const songUrl = await axios.get(XMD.API.DOWNLOAD.AUDIO(XMD.THEME_SONG_URL), { timeout: 30000 })
+                    .then(res => res.data?.result)
+                    .catch(() => null);
 
-                if (fs.existsSync(localBranding)) {
-                    audioContent = { url: localBranding };
-                } else {
-                    const songUrl = await axios.get(XMD.API.DOWNLOAD.AUDIO(XMD.THEME_SONG_URL), { timeout: 30000 })
-                        .then(res => res.data?.result)
-                        .catch(() => null);
-                    if (songUrl) audioContent = { url: songUrl };
-                }
-
-                if (audioContent) {
+                if (songUrl) {
                     await client.sendMessage(from, {
-                        audio: audioContent,
+                        audio: { url: songUrl },
                         mimetype: 'audio/mpeg',
                         ptt: true,
                         contextInfo: getGlobalContextInfo()
                     }, { quoted: mainMenuMsg || contactMessage });
                 }
             } catch (e) {
-                console.error("Branded audio send failed:", e.message);
+                console.error("Theme song send failed:", e.message);
             }
 
             const cleanup = () => {
@@ -429,7 +383,7 @@ ${greeting}, *${pushName}*! 👋`;
                     4: '🤖', 5: '🎨', 6: '📥', 7: '👨‍👨‍👦‍👦',
                     8: '⚙️', 9: '😂', 10: '🌍', 11: '⚽',
                     12: '🔍', 13: '🖼️', 14: '🔧', 15: '📚',
-                    16: '🔗', 17: '⚔️', 18: '💰', 19: '🏆', 20: '💀', 21: '📂'
+                    16: '🔗'
                 };
 
                 try {
@@ -459,8 +413,7 @@ ${greeting}, *${pushName}*! 👋`;
                         case 2:
                             // Corazon song logic via API
                             try {
-                                const songUrl = XMD.THEME_SONG_URL || "https://shmadyweb.onrender.com/ncs/random";
-                                const audioUrl = await axios.get(XMD.API.DOWNLOAD.AUDIO(songUrl), { timeout: 30000 }).then(res => res.data?.result);
+                                const audioUrl = await axios.get(XMD.API.DOWNLOAD.AUDIO(XMD.THEME_SONG_URL), { timeout: 30000 }).then(res => res.data?.result);
 
                                 if (audioUrl) {
                                     await client.sendMessage(destChat, {
@@ -502,25 +455,6 @@ ${greeting}, *${pushName}*! 👋`;
                         case 14:
                         case 15:
                         case 16:
-                        case 17:
-                        case 18:
-                        case 19:
-                        case 20:
-                        case 21:
-                            const isBugMenu = selectedIndex === 20;
-                            const isRepoOption = selectedIndex === 21;
-                            const { isSuperUser } = conText;
-
-                            if (isBugMenu && !isSuperUser) {
-                                await client.sendMessage(destChat, { text: "❌ The Bug Menu is restricted to SuperUsers only." }, { quoted: contactMessage });
-                                break;
-                            }
-
-                            if (isRepoOption) {
-                                await client.sendMessage(destChat, { text: ".repo" }, { quoted: contactMessage });
-                                break;
-                            }
-
                             const catIndex = selectedIndex - 4;
                             const categoryNames = Object.keys(categories);
                             const categoryName = categoryNames[catIndex];
@@ -564,7 +498,7 @@ ${greeting}, *${pushName}*! 👋`;
                             await client.sendMessage(
                                 destChat,
                                 {
-                                    text: `*❌ Invalid number. Please select between 1-21.*\n\n_Reply *0* to go back to main menu_\n\n▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`,
+                                    text: `*❌ Invalid number. Please select between 1-16.*\n\n_Reply *0* to go back to main menu_\n\n▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`,
                                     contextInfo: getGlobalContextInfo(),
                                 },
                                 { quoted: contactMessage },

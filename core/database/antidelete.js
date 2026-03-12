@@ -9,7 +9,7 @@ const AntiDeleteDB = database.define('antidelete', {
     },
     notification: {
         type: DataTypes.STRING,
-        defaultValue: '🗑️ *KIUBY-XMD AntiDelete*',
+        defaultValue: '🗑️ *ISCE-BOT AntiDelete*',
         allowNull: false
     },
     includeGroupInfo: {
@@ -44,27 +44,27 @@ async function initAntiDeleteDB() {
 async function getAntiDeleteSettings() {
     try {
         let settings = await AntiDeleteDB.findOne();
-
+        
         // If no record exists, create one using env vars as initial defaults
         if (!settings) {
             const envStatus = process.env.ANTI_DELETE;
-            const initialStatus = envStatus !== undefined
+            const initialStatus = envStatus !== undefined 
                 ? (envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true')
                 : true;
-
+            
             settings = await AntiDeleteDB.create({
                 status: initialStatus,
-                notification: '🗑️ *KIUBY-XMD AntiDelete*',
+                notification: '🗑️ *ISCE-BOT AntiDelete*',
                 includeGroupInfo: true,
                 sendToOwner: true,
                 includeMedia: true
             });
         }
-
+        
         // Database values take priority (commands override env vars)
         return {
             status: settings.status,
-            notification: settings.notification || '🗑️ *KIUBY-XMD AntiDelete*',
+            notification: settings.notification || '🗑️ *ISCE-BOT AntiDelete*',
             includeGroupInfo: settings.includeGroupInfo ?? true,
             sendToOwner: settings.sendToOwner ?? true,
             includeMedia: settings.includeMedia ?? true
@@ -72,9 +72,9 @@ async function getAntiDeleteSettings() {
     } catch (error) {
         console.error('Error getting anti-delete settings:', error);
         const envStatus = process.env.ANTI_DELETE;
-        return {
-            status: envStatus ? (envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true') : true,
-            notification: '🗑️ *KIUBY-XMD AntiDelete*',
+        return { 
+            status: envStatus ? (envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true') : true, 
+            notification: '🗑️ *ISCE-BOT AntiDelete*',
             includeGroupInfo: true,
             sendToOwner: true,
             includeMedia: true
@@ -86,10 +86,10 @@ async function getAntiDeleteSettings() {
 async function syncAntiDeleteFromEnv() {
     try {
         const envStatus = process.env.ANTI_DELETE;
-        const status = envStatus !== undefined
+        const status = envStatus !== undefined 
             ? (envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true')
             : true;
-
+        
         let settings = await AntiDeleteDB.findOne();
         if (!settings) {
             settings = await AntiDeleteDB.create({ status });

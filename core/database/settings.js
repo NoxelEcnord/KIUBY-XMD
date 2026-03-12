@@ -29,12 +29,12 @@ const SettingsDB = database.define('settings', {
     },
     botname: {
         type: DataTypes.STRING,
-        defaultValue: "KIUBY",
+        defaultValue: "ISCE-BOT",
         allowNull: false
     },
     packname: {
         type: DataTypes.STRING,
-        defaultValue: "KIUBY",
+        defaultValue: "ISCE-BOT",
         allowNull: false
     },
     mode: {
@@ -44,7 +44,7 @@ const SettingsDB = database.define('settings', {
     },
     sessionName: {
         type: DataTypes.STRING,
-        defaultValue: "KIUBY",
+        defaultValue: "ISCE-BOT",
         allowNull: false
     },
     deviceMode: {
@@ -77,12 +77,12 @@ async function getSettings() {
                 prefix: process.env.PREFIX || ".",
                 author: process.env.AUTHOR || "ecnord",
                 url: process.env.BOT_URL || "./core/public/gemini_images/Gemini_Generated_Image_u0u0hfu0u0hfu0u0.png",
-                gurl: process.env.GURL || "https://github.com/Bwmxmd254/KIUBY-XMD-GO",
+                gurl: process.env.GURL || "https://github.com/Bwmxmd254/ISCE-BOT-GO",
                 timezone: process.env.TIMEZONE || "Africa/Nairobi",
-                botname: process.env.BOT_NAME || "KIUBY-XMD",
-                packname: process.env.PACKNAME || "KIUBY-XMD",
+                botname: process.env.BOT_NAME || "ISCE-BOT",
+                packname: process.env.PACKNAME || "ISCE-BOT",
                 mode: process.env.MODE || "public",
-                sessionName: process.env.SESSION_NAME || "KIUBY-XMD",
+                sessionName: process.env.SESSION_NAME || "ISCE-BOT",
                 deviceMode: process.env.DEVICE_MODE || "Android"
             });
         }
@@ -96,10 +96,10 @@ async function getSettings() {
             url: dbSettings.url || "./core/public/bot-image.jpg",
             gurl: dbSettings.gurl || "https://github.com/Bwmxmd254/ISCE-BOT-GO",
             timezone: dbSettings.timezone || "Africa/Nairobi",
-            botname: dbSettings.botname || "KIUBY-XMD",
-            packname: dbSettings.packname || "KIUBY-XMD",
+            botname: dbSettings.botname || "ISCE-BOT",
+            packname: dbSettings.packname || "ISCE-BOT",
             mode: dbSettings.mode || "public",
-            sessionName: dbSettings.sessionName || "KIUBY-XMD",
+            sessionName: dbSettings.sessionName || "ISCE-BOT",
             deviceMode: dbSettings.deviceMode || "Android"
         };
     } catch (error) {
@@ -110,10 +110,10 @@ async function getSettings() {
             url: process.env.BOT_URL || "./core/public/gemini_images/Gemini_Generated_Image_u0u0hfu0u0hfu0u0.png",
             gurl: process.env.GURL || "https://github.com/Bwmxmd254/ISCE-BOT-GO",
             timezone: process.env.TIMEZONE || "Africa/Nairobi",
-            botname: process.env.BOT_NAME || "KIUBY-XMD",
-            packname: process.env.PACKNAME || "KIUBY-XMD",
+            botname: process.env.BOT_NAME || "ISCE-BOT",
+            packname: process.env.PACKNAME || "ISCE-BOT",
             mode: process.env.MODE || "public",
-            sessionName: process.env.SESSION_NAME || "KIUBY-XMD",
+            sessionName: process.env.SESSION_NAME || "ISCE-BOT",
             deviceMode: process.env.DEVICE_MODE || "Android"
         };
     }
@@ -128,10 +128,10 @@ async function syncSettingsFromEnv() {
             url: process.env.BOT_URL || "./core/public/gemini_images/Gemini_Generated_Image_u0u0hfu0u0hfu0u0.png",
             gurl: process.env.GURL || "https://github.com/Bwmxmd254/ISCE-BOT-GO",
             timezone: process.env.TIMEZONE || "Africa/Nairobi",
-            botname: process.env.BOT_NAME || "KIUBY-XMD",
-            packname: process.env.PACKNAME || "KIUBY-XMD",
+            botname: process.env.BOT_NAME || "ISCE-BOT",
+            packname: process.env.PACKNAME || "ISCE-BOT",
             mode: process.env.MODE || "public",
-            sessionName: process.env.SESSION_NAME || "KIUBY-XMD",
+            sessionName: process.env.SESSION_NAME || "ISCE-BOT",
             deviceMode: process.env.DEVICE_MODE || "Android"
         };
 
