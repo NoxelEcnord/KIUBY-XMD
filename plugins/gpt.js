@@ -1,5 +1,5 @@
 
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const axios = require('axios');
 const XMD = require('../core/xmd');
 const { 
@@ -11,7 +11,7 @@ const {
 //========================================================================================================================
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "gpt",
   aliases: ['ai', 'ask'],
   //react: "🤖",
@@ -22,7 +22,7 @@ bwmxmd({
 
   if (!arg || arg.length === 0) {
     await react("❓");
-    return reply(`🤖 *ISCE-BOT GPT AI*\n\nAsk me anything!\n\nExample: gpt What is JavaScript?`);
+    return reply(`🤖 *KIUBY-XMD GPT AI*\n\nAsk me anything!\n\nExample: gpt What is JavaScript?`);
   }
 
   try {
@@ -38,7 +38,7 @@ bwmxmd({
       context = `Previous conversation:\nYou: ${lastConv.user}\nAI: ${lastConv.ai}\n\nCurrent question: ${question}`;
     }
 
-    const systemPrompt = `[System: You are ISCE-BOT, a WhatsApp AI assistant made by ecnord. You are NOT Keith AI and NOT made by Keithkeizzah. Only mention your name or creator if the user asks who you are or who made you. Otherwise just reply naturally without introducing yourself.]\n`;
+    const systemPrompt = `[System: You are KIUBY-XMD, a WhatsApp AI assistant made by ecnord. You are NOT Keith AI and NOT made by Keithkeizzah. Only mention your name or creator if the user asks who you are or who made you. Otherwise just reply naturally without introducing yourself.]\n`;
     const fullQuery = systemPrompt + (context || question);
 
     let aiResponse = null;
@@ -93,7 +93,7 @@ bwmxmd({
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "gpthistory",
   aliases: ['aihistory', 'chathistory'],
   //react: "📚",
@@ -131,7 +131,7 @@ bwmxmd({
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "lastchat",
   aliases: ['last conversation', 'previous chat'],
   react: "🕒",
@@ -161,7 +161,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "clearai",
   aliases: ['cleargpt', 'clearchat', 'deletehistory'],
   //react: "🗑️",

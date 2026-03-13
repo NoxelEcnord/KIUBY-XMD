@@ -9,7 +9,7 @@ const AutoBioDB = database.define('autobio', {
     },
     message: {
         type: DataTypes.STRING,
-        defaultValue: 'ISCE-BOT Always active!',
+        defaultValue: 'KIUBY-XMD Always active!',
         allowNull: false
     }
 }, {
@@ -41,14 +41,14 @@ async function getAutoBioSettings() {
             
             settings = await AutoBioDB.create({
                 status: initialStatus,
-                message: envMessage || 'ISCE-BOT Always active!'
+                message: envMessage || 'KIUBY-XMD Always active!'
             });
         }
         
         // Database values take priority (commands override env vars)
         return {
             status: settings.status || 'on',
-            message: settings.message || 'ISCE-BOT Always active!'
+            message: settings.message || 'KIUBY-XMD Always active!'
         };
     } catch (error) {
         console.error('Error getting AutoBio settings:', error);
@@ -56,7 +56,7 @@ async function getAutoBioSettings() {
         const envMessage = process.env.AUTO_BIO_MSG;
         return { 
             status: envStatus ? ((envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true') ? 'on' : 'off') : 'off', 
-            message: envMessage || 'ISCE-BOT Always active!' 
+            message: envMessage || 'KIUBY-XMD Always active!' 
         };
     }
 }
@@ -70,7 +70,7 @@ async function syncAutoBioFromEnv() {
         const status = envStatus !== undefined 
             ? ((envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true') ? 'on' : 'off') 
             : 'on';
-        const message = envMessage || 'ISCE-BOT Always active!';
+        const message = envMessage || 'KIUBY-XMD Always active!';
         
         let settings = await AutoBioDB.findOne();
         if (!settings) {

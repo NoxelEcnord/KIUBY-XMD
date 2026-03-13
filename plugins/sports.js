@@ -1,14 +1,14 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const axios = require('axios');
 const { generateWAMessageContent, generateWAMessageFromContent } = require('@whiskeysockets/baileys');
 const s = require(__dirname + "/../config");
 const XMD = require('../core/xmd');
 
-const BOT_NAME = s.BOT || 'ISCE-BOT';
+const BOT_NAME = s.BOT || 'KIUBY-XMD';
 const getGlobalContextInfo = () => XMD.getContextInfo();
 const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, sender);
 
-bwmxmd({
+kiubyxmd({
   pattern: "livescore",
   aliases: ["live", "score"],
   description: "Get live, finished, or upcoming football matches",
@@ -27,7 +27,7 @@ Select match status:
 
 Reply with number (1-3)
 
-▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
   const sent = await client.sendMessage(from, { text: caption, contextInfo: getGlobalContextInfo() }, { quoted: mek });
   const messageId = sent.key.id;
@@ -111,7 +111,7 @@ Reply with number (1-3)
 
       if (filteredGames.length === 0) {
         return client.sendMessage(chatId, {
-          text: `*${selected.name} Matches*\n\nNo ${selected.name.toLowerCase()} matches found.\n\n▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`,
+          text: `*${selected.name} Matches*\n\nNo ${selected.name.toLowerCase()} matches found.\n\n▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`,
           contextInfo: getGlobalContextInfo()
         }, { quoted: msg });
       }
@@ -152,7 +152,7 @@ Reply with number (1-3)
         });
       });
 
-      output += `Total: ${totalMatches} match(es)\n\n▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+      output += `Total: ${totalMatches} match(es)\n\n▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
       await client.sendMessage(chatId, { text: output, contextInfo: getGlobalContextInfo() }, { quoted: msg });
 
@@ -238,7 +238,7 @@ function formatDate(ts) {
   }
 }
 
-bwmxmd({
+kiubyxmd({
   pattern: "sportnews",
   aliases: ["footballnews", "soccernews"],
   category: "Sports",
@@ -325,7 +325,7 @@ bwmxmd({
   }
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "topscorers",
   aliases: ["scorers", "goals"],
   description: "View top goal scorers across major leagues",
@@ -349,7 +349,7 @@ Select a league:
 
 Reply with number (1-8)
 
-▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
   const sent = await client.sendMessage(from, { text: caption, contextInfo: getGlobalContextInfo() }, { quoted: mek });
   const messageId = sent.key.id;
@@ -409,7 +409,7 @@ Reply with number (1-8)
         output += `   Goals: ${scorer.goals} | Assists: ${scorer.assists} | Pens: ${scorer.penalties}\n\n`;
       });
 
-      output += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+      output += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
       await client.sendMessage(chatId, { text: output, contextInfo: getGlobalContextInfo() }, { quoted: msg });
     } catch (err) {
@@ -425,7 +425,7 @@ Reply with number (1-8)
   setTimeout(() => client.ev.off("messages.upsert", handleReply), 300000);
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "standings",
   aliases: ["leaguetable", "league"],
   description: "View league standings",
@@ -449,7 +449,7 @@ Select a league:
 
 Reply with number (1-8)
 
-▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
   const sent = await client.sendMessage(from, { text: caption, contextInfo: getGlobalContextInfo() }, { quoted: mek });
   const messageId = sent.key.id;
@@ -510,7 +510,7 @@ Reply with number (1-8)
         output += `   P:${team.played} W:${team.won} D:${team.draw} L:${team.lost} | Pts:${team.points} GD:${team.goalDifference}\n\n`;
       });
 
-      output += `🟢 UCL | 🔵 Europa | 🔴 Relegation\n\n▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+      output += `🟢 UCL | 🔵 Europa | 🔴 Relegation\n\n▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
       await client.sendMessage(chatId, { text: output, contextInfo: getGlobalContextInfo() }, { quoted: msg });
     } catch (err) {
@@ -526,7 +526,7 @@ Reply with number (1-8)
   setTimeout(() => client.ev.off("messages.upsert", handleReply), 300000);
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "fixtures",
   aliases: ["upcoming", "nextgames", "upcomingmatches"],
   description: "View upcoming matches across leagues",
@@ -550,7 +550,7 @@ Select a league:
 
 Reply with number (1-8)
 
-▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
   const sent = await client.sendMessage(from, { text: caption, contextInfo: getGlobalContextInfo() }, { quoted: mek });
   const messageId = sent.key.id;
@@ -605,7 +605,7 @@ Reply with number (1-8)
         output += `${match.date}\n\n`;
       });
 
-      output += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+      output += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
       await client.sendMessage(chatId, { text: output, contextInfo: getGlobalContextInfo() }, { quoted: msg });
     } catch (err) {
@@ -621,7 +621,7 @@ Reply with number (1-8)
   setTimeout(() => client.ev.off("messages.upsert", handleReply), 300000);
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "gamehistory",
   aliases: ["matchevents", "gameevents", "h2h"],
   description: "View match history between teams",
@@ -655,7 +655,7 @@ bwmxmd({
       caption += `${teams.home.name}: ${teams.home.score ?? "—"}\n`;
       caption += `${teams.away.name}: ${teams.away.score ?? "—"}\n\n`;
       if (match.media?.video) caption += `Video: ${match.media.video}\n\n`;
-      caption += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+      caption += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
       const mediaMsg = match.media?.poster || match.media?.thumb
         ? { image: { url: match.media.poster || match.media.thumb }, caption, contextInfo: getGlobalContextInfo() }
@@ -669,7 +669,7 @@ bwmxmd({
   }
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "stadium",
   aliases: ["venue", "venuesearch"],
   description: "Search for sports venues",
@@ -700,7 +700,7 @@ bwmxmd({
       if (venue.description) {
         caption += `${venue.description.split("\r\n").slice(0, 2).join("\n")}\n\n`;
       }
-      caption += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+      caption += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
       const media = venue.media?.thumb
         ? { image: { url: venue.media.thumb }, caption, contextInfo: getGlobalContextInfo() }
@@ -714,7 +714,7 @@ bwmxmd({
   }
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "team",
   aliases: ["teamsearch", "club"],
   description: "Search for sports teams",
@@ -748,7 +748,7 @@ bwmxmd({
     if (team.description) {
       caption += `${team.description.split("\r\n").slice(0, 2).join("\n")}\n\n`;
     }
-    caption += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+    caption += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
     await client.sendMessage(from, {
       image: { url: team.badges?.large },
@@ -761,7 +761,7 @@ bwmxmd({
   }
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "player",
   aliases: ["playersearch", "athlete"],
   description: "Search for sports players",
@@ -789,7 +789,7 @@ bwmxmd({
       caption += `Birth Date: ${player.birthDate}\n`;
       caption += `Position: ${player.position}\n`;
       caption += `Status: ${player.status}\n\n`;
-      caption += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+      caption += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
       const media = player.thumbnail
         ? { image: { url: player.thumbnail }, caption, contextInfo: getGlobalContextInfo() }

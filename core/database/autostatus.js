@@ -22,7 +22,7 @@ const AutoStatusDB = database.define('autostatus', {
   },
   statusReplyText: {
     type: DataTypes.TEXT,
-    defaultValue: '✅ Status Viewed By ISCE-BOT',
+    defaultValue: '✅ Status Viewed By KIUBY-XMD',
     allowNull: false
   },
   statusLikeEmojis: {
@@ -60,7 +60,7 @@ async function getAutoStatusSettings() {
         autoviewStatus: envView ? ((envView.toLowerCase() === 'on' || envView.toLowerCase() === 'true') ? 'true' : 'false') : 'true',
         autoLikeStatus: envLike ? ((envLike.toLowerCase() === 'on' || envLike.toLowerCase() === 'true') ? 'true' : 'false') : 'false',
         autoReplyStatus: envReply ? ((envReply.toLowerCase() === 'on' || envReply.toLowerCase() === 'true') ? 'true' : 'false') : 'false',
-        statusReplyText: envReplyText || '✅ Status Viewed By ISCE-BOT',
+        statusReplyText: envReplyText || '✅ Status Viewed By KIUBY-XMD',
         statusLikeEmojis: envLikeEmojis || '💛,❤️,💜,🤍,💙'
       });
     }
@@ -70,7 +70,7 @@ async function getAutoStatusSettings() {
       autoviewStatus: settings.autoviewStatus || 'true',
       autoLikeStatus: settings.autoLikeStatus || 'false',
       autoReplyStatus: settings.autoReplyStatus || 'false',
-      statusReplyText: settings.statusReplyText || '✅ Status Viewed By ISCE-BOT',
+      statusReplyText: settings.statusReplyText || '✅ Status Viewed By KIUBY-XMD',
       statusLikeEmojis: settings.statusLikeEmojis || '💛,❤️,💜,🤍,💙'
     };
   } catch (error) {
@@ -84,7 +84,7 @@ async function getAutoStatusSettings() {
       autoviewStatus: envView ? ((envView.toLowerCase() === 'on' || envView.toLowerCase() === 'true') ? 'true' : 'false') : 'true',
       autoLikeStatus: envLike ? ((envLike.toLowerCase() === 'on' || envLike.toLowerCase() === 'true') ? 'true' : 'false') : 'false',
       autoReplyStatus: envReply ? ((envReply.toLowerCase() === 'on' || envReply.toLowerCase() === 'true') ? 'true' : 'false') : 'false',
-      statusReplyText: envReplyText || '✅ Status Viewed By ISCE-BOT',
+      statusReplyText: envReplyText || '✅ Status Viewed By KIUBY-XMD',
       statusLikeEmojis: envLikeEmojis || '💛,❤️,💜,🤍,💙'
     };
   }
@@ -103,7 +103,7 @@ async function syncAutoStatusFromEnv() {
       autoviewStatus: envView ? ((envView.toLowerCase() === 'on' || envView.toLowerCase() === 'true') ? 'true' : 'false') : 'true',
       autoLikeStatus: envLike ? ((envLike.toLowerCase() === 'on' || envLike.toLowerCase() === 'true') ? 'true' : 'false') : 'false',
       autoReplyStatus: envReply ? ((envReply.toLowerCase() === 'on' || envReply.toLowerCase() === 'true') ? 'true' : 'false') : 'false',
-      statusReplyText: envReplyText || '✅ Status Viewed By ISCE-BOT',
+      statusReplyText: envReplyText || '✅ Status Viewed By KIUBY-XMD',
       statusLikeEmojis: envLikeEmojis || '💛,❤️,💜,🤍,💙'
     };
     

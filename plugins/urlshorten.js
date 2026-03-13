@@ -1,8 +1,8 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const axios = require('axios');
 const XMD = require('../core/xmd');
 
-bwmxmd({
+kiubyxmd({
   pattern: "tinube",
   aliases: ["tinu", "customurl"],
   category: "shortener",
@@ -41,7 +41,7 @@ async (from, client, conText) => {
 });
 //========================================================================================================================
 //
-bwmxmd({
+kiubyxmd({
   pattern: "tinyurl",
   aliases: ["shorturl", "shorten"],
   category: "shortener",

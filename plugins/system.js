@@ -1,4 +1,4 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const fs = require('fs');
 const path = require('path');
 const now = require('performance-now');
@@ -43,7 +43,7 @@ const fetchCorazonSong = async () => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "deljunk",
   aliases: ["deletejunk", "clearjunk", "cleanjunk"],
   description: "Delete junk files from session, tmp, logs, and more",
@@ -170,7 +170,7 @@ bwmxmd({
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "ping",
   aliases: ["speed", "latency"],
   description: "Check bot response time",
@@ -189,12 +189,14 @@ bwmxmd({
 
 
   const hackerPhrase = XMD.getRandomHackerPhrase();
-  const pingText = `🛸 *${hackerPhrase}*\n\n⚡ *Latency:* ${speed}ms\n📡 *Status:* Optimal\n\nRegards, *KIUBY-XMD*`;
+  const pingText = `⚡ *SYTEM LATENCY REPORT*\n\n🛰️ *Protocol:* ${hackerPhrase}\n📡 *Uplink:* ${speed}ms\n🦾 *Entity:* NEURAL-X\n\nRegards, *KIUBY-XMD*`;
 
-  // Send primary text response IMMEDIATELY
+  // Use getContextInfo for consistent branding
+  const context = XMD.getContextInfo('⚡ KIUBY SYSTEM SPEED', `Latency: ${speed}ms | Node: Active`);
+
   const sentMsg = await client.sendMessage(from, {
     text: pingText,
-    contextInfo: XMD.getContextInfo(`⚡ 𝐒𝐏𝐄𝐄𝐃: ${speed}𝐦𝐬`, `𝐏𝐢𝐧𝐠𝐢𝐧𝐠 𝐌𝐚𝐢𝐧frame...`)
+    contextInfo: context
   }, { quoted: ms });
 
   // Secondary audio fetching (non-blocking for the user experience)
@@ -220,9 +222,9 @@ bwmxmd({
 
 
 //========================================================================================================================
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
-bwmxmd({
+kiubyxmd({
   pattern: "resetdb",
   aliases: ["cleardb", "refreshdb"],
   description: "Delete the database file at ./database.db",
@@ -248,7 +250,7 @@ bwmxmd({
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "restart",
   aliases: ["reboot", "startbot"],
   description: "Bot restart",
@@ -262,7 +264,7 @@ bwmxmd({
   }
 
   try {
-    await reply("*🚀 Rebooting ISCE-BOT System...*");
+    await reply("*🚀 Rebooting KIUBY-XMD System...*");
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     try {
@@ -281,7 +283,7 @@ bwmxmd({
   }
 });
 //========================================================================================================================
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
 const formatUptime = (seconds) => {
   seconds = Number(seconds);
@@ -298,7 +300,7 @@ const formatUptime = (seconds) => {
   return `${dDisplay}${hDisplay}${mDisplay}${sDisplay}`.trim().replace(/,\s*$/, "");
 };
 
-bwmxmd(
+kiubyxmd(
   {
     pattern: "uptime",
     aliases: ["up", "runtime"],
@@ -343,7 +345,7 @@ const formatSize = (bytes) => {
   return `${(bytes / Math.pow(1024, i)).toFixed(2)} ${sizes[i]}`;
 };
 
-bwmxmd({
+kiubyxmd({
   pattern: "test",
   aliases: ["botstatus", "alive"],
   description: "Display bot system information with NCS music",

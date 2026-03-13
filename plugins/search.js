@@ -1,6 +1,6 @@
 const axios = require('axios');
 const { generateWAMessageContent, generateWAMessageFromContent } = require('@whiskeysockets/baileys');
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const XMD = require('../core/xmd');
 
 const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, sender);
@@ -14,7 +14,7 @@ const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, se
 //========================================================================================================================
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "news",
   aliases: ["headlines", "latestnews"],
   description: "Get the latest news headlines for any topic",
@@ -47,7 +47,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "google",
   aliases: ["googlesearch", "searchgoogle"],
   description: "Search Google results and preview links",
@@ -83,7 +83,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "brave",
   aliases: ["bravesearch", "searchbrave"],
   description: "Search Brave results and preview links",
@@ -121,7 +121,7 @@ bwmxmd({
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "wagroup",
   aliases: ["groupsearch", "whatsappgroup"],
   description: "Search and join WhatsApp groups by category",
@@ -205,7 +205,7 @@ bwmxmd({
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "lyrics",
   aliases: ["lyric", "song"],
   description: "Search for song lyrics by title or phrase",
@@ -234,7 +234,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "yts",
   aliases: ["ytsearch", "ytfind"],
   category: "Search",
@@ -326,7 +326,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "image",
   aliases: ["img"],
   category: "Search",

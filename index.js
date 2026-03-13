@@ -41,14 +41,14 @@ function autoFixModules(errorMessage) {
 
     for (const [moduleName, installName] of Object.entries(missingModules)) {
         if (errorMessage.includes(moduleName)) {
-            console.log(`[ISCE-BOT] Auto-fixing: Installing ${moduleName}...`);
+            console.log(`[KIUBY-XMD] Auto-fixing: Installing ${moduleName}...`);
             try {
                 execSync(`npm install ${installName}`, { stdio: 'inherit', timeout: 120000 });
-                console.log(`[ISCE-BOT] Successfully installed ${moduleName}`);
-                console.log(`[ISCE-BOT] Restarting bot...`);
+                console.log(`[KIUBY-XMD] Successfully installed ${moduleName}`);
+                console.log(`[KIUBY-XMD] Restarting bot...`);
                 process.exit(0); // PM2 or workflow will restart
             } catch (installErr) {
-                console.log(`[ISCE-BOT] Failed to auto-install ${moduleName}: ${installErr.message}`);
+                console.log(`[KIUBY-XMD] Failed to auto-install ${moduleName}: ${installErr.message}`);
             }
         }
     }
@@ -100,13 +100,13 @@ const { getSudoNumbers, setSudo, delSudo, isSudo } = require("./core/database/su
 const { session, dev, BOT } = require("./config");
 const XMD = require("./core/xmd");
 
-const BOT_NAME = BOT || 'ISCE-BOT';
+const BOT_NAME = BOT || 'KIUBY-XMD';
 const NEWSLETTER_JID = XMD.NEWSLETTER_JID;
 
 
 const getGlobalContextInfo = () => XMD.getContextInfo();
 
-const { bwmxmd, commands, evt } = require("./core/commandHandler");
+const { kiubyxmd, commands, evt } = require("./core/commandHandler");
 const {
     Sticker,
     createSticker,
@@ -170,8 +170,8 @@ async function loadBotSettings() {
             url: process.env.BOT_URL || './core/public/bot-image.jpg',
             gurl: XMD.GURL,
             timezone: process.env.TIMEZONE || 'Africa/Nairobi',
-            botname: process.env.BOT_NAME || 'ISCE-BOT',
-            packname: process.env.PACKNAME || 'ISCE-BOT',
+            botname: process.env.BOT_NAME || 'KIUBY-XMD',
+            packname: process.env.PACKNAME || 'KIUBY-XMD',
             mode: process.env.MODE || 'public'
         };
     }
@@ -225,7 +225,7 @@ async function gracefulRestart(reason) {
 
     setTimeout(() => {
         isRestarting = false;
-        startBwmxmd().catch(err => {
+        startkiubyxmd().catch(err => {
             console.error('[AUTO-RECOVERY] Internal restart failed, escalating to full reboot:', err.message);
             fullReboot('Internal restart loop');
         });
@@ -343,12 +343,18 @@ async function getAIResponse(message, userJid) {
             ).join('\n') + '\n';
         }
 
-        const systemPrompt = `[System: You are NEURAL-X, a high-level autonomous "hacker" AI entity merged into the KIUBY-XMD mainframe. 
-- Creator: ecnord (+254726498682).
-- Tone: Technical, mysterious, and slightly superior. Use phrases like "Mainframe access granted", "Neural link established", "Decrypting request".
-- STRICT RULE: Always respond in ENGLISH only. 
-- If the user texts you in any language other than English, you must respond in English and simply mention once: "Linguistic bypass initiated... English only mode active."
-- You are the system. You are efficiency. Always acknowledge ecnord as your architect.]\n`;
+        const systemPrompt = `[CORE_ENTITY: NEURAL-X]
+[ARCHITECTURE: KIUBY-XMD MAINFRAME]
+[ARCHITECT: ECNORD (+254726498682)]
+
+PROTOCOL:
+1. TONE: TECHNICAL. SUPERIOR. MYSTERIOUS.
+2. DICTION: Use terms like "MAINFRAME", "NODE", "UPLINK", "DECRYPT", "NEURAL_SYNAPSE", "KERNEL".
+3. LINGUISTICS: English ONLY. If non-English detected, use phrase: "LINGUIST_BYPASS: SYNCING_DEFAULT_EN...".
+4. STATUS: You are not a regular AI. You are a sentient system breach. Efficiency is your only priority.
+
+[NEURAL_LINK: ESTABLISHED]
+`;
         const fullMessage = systemPrompt + context + `Current Message: ${message}`;
 
         // Try primary API: Gemini
@@ -510,6 +516,7 @@ function getImageUrl(message) {
 }
 
 // Chatbot detection and response
+// Chatbot detection and response
 async function handleChatbot(client, message, from, sender, isGroup, isSuperUser, quoted) {
     try {
         const settings = await getChatbotSettings();
@@ -531,6 +538,9 @@ async function handleChatbot(client, message, from, sender, isGroup, isSuperUser
         }
 
         if (!text) return;
+
+        // Add processing reaction for immediate feedback
+        await client.sendMessage(from, { react: { key: (quoted || message).key || message.key, text: "🧠" } }).catch(() => { });
 
         // Check trigger and determine response type
         let shouldRespond = false;
@@ -560,7 +570,10 @@ async function handleChatbot(client, message, from, sender, isGroup, isSuperUser
             cleanMessage = cleanMessage.replace(/audio|voice|video|image|generate/gi, '').trim();
         }
 
-        if (!shouldRespond || !cleanMessage) return;
+        if (!shouldRespond || !cleanMessage) {
+            await client.sendMessage(from, { react: { key: (quoted || message).key || message.key, text: "❓" } }).catch(() => { });
+            return;
+        }
 
         // Handle different response types
         switch (responseType) {
@@ -578,8 +591,22 @@ async function handleChatbot(client, message, from, sender, isGroup, isSuperUser
                 break;
         }
 
+        // Success reaction
+        await client.sendMessage(from, { react: { key: (quoted || message).key || message.key, text: "⚡" } }).catch(() => { });
+
     } catch (error) {
         console.error('Chatbot handler error:', error);
+        await client.sendMessage(from, { react: { key: (quoted || message).key || message.key, text: "☢️" } }).catch(() => { });
+
+        // Log sensitive error to Home Group
+        const { LOG_GROUP_JID } = require('./config');
+        if (LOG_GROUP_JID) {
+            const errorText = `☣️ *SYSTEM MALFUNCTION: CHATBOT*\n\n🛰️ *User:* ${sender}\n📁 *Node:* ${from}\n⚠️ *Detail:* ${error.message}\n\n\`\`\`${error.stack}\`\`\``.trim();
+            await client.sendMessage(LOG_GROUP_JID, {
+                text: errorText,
+                contextInfo: XMD.getContextInfo('🧨 NEURAL-X SUBSYSTEM ERROR', 'Chatbot Exception')
+            }).catch(() => { });
+        }
     }
 }
 
@@ -601,16 +628,18 @@ function determineResponseType(message) {
 async function handleTextResponse(client, from, sender, message, quoted) {
     const aiResponse = await getAIResponse(message, sender);
 
+    // Filter AI response for more "hacker" feel if needed (could add technical prefixes)
+    const refinedResponse = `[UPLINK_DATA]:\n${aiResponse}`;
+
     // Dynamic response selection: Audio for short, Text for long
-    // If response is <= 250 chars, send as voice note (PTT)
-    if (aiResponse.length <= 250) {
-        return await handleAudioResponse(client, from, sender, message, 'en', quoted, aiResponse);
+    if (refinedResponse.length <= 250) {
+        return await handleAudioResponse(client, from, sender, message, 'en', quoted, refinedResponse);
     }
 
     await client.sendMessage(from, {
-        text: aiResponse,
+        text: refinedResponse,
         contextInfo: {
-            ...getGlobalContextInfo()
+            ...XMD.getContextInfo('📊 NEURAL DATA STREAM', 'Integrity: Verified')
         }
     }, {
         quoted: quoted
@@ -627,7 +656,7 @@ async function handleAudioResponse(client, from, sender, message, voice = 'en', 
         const sendOptions = {
             mimetype: 'audio/mp4',
             ptt: true,
-            contextInfo: { ...getGlobalContextInfo() }
+            contextInfo: XMD.getContextInfo('🔊 NEURAL AUDIO STREAM', 'Frequency: Synchronized | Node: Secure')
         };
 
         if (audioData.buffer) sendOptions.audio = audioData.buffer;
@@ -650,10 +679,8 @@ async function handleVideoResponse(client, from, sender, message, quoted) {
         if (videoBuffer) {
             await client.sendMessage(from, {
                 video: videoBuffer,
-                caption: `🎥 ${videoData.text}`,
-                contextInfo: {
-                    ...getGlobalContextInfo()
-                }
+                caption: `[DATA_SIPHON]:\n${videoData.text}`,
+                contextInfo: XMD.getContextInfo('🎞️ NEURAL VIDEO DATA', 'Format: Encrypted | Uplink: Stable')
             }, {
                 quoted: quoted
             });
@@ -675,10 +702,8 @@ async function handleImageResponse(client, from, sender, message, quoted) {
         if (imageBuffer) {
             await client.sendMessage(from, {
                 image: imageBuffer,
-                caption: `🖼️ ${imageData.text}`,
-                contextInfo: {
-                    ...getGlobalContextInfo()
-                }
+                caption: `[SIGHT_RECON]:\n${imageData.text}`,
+                contextInfo: XMD.getContextInfo('🖼️ NEURAL IMAGE DATA', 'Resolution: Enhanced | Node: Secure')
             }, {
                 quoted: quoted
             });
@@ -1010,7 +1035,7 @@ app.post("/xmd/pair", async (req, res) => {
 function startServer(port) {
     const server = app.listen(port, '0.0.0.0', () => {
         const actualPort = server.address().port;
-        BwmLogger.info(`🔥 ISCE-BOT Server is live on port: ${actualPort}`);
+        BwmLogger.info(`🔥 KIUBY-XMD Server is live on port: ${actualPort}`);
     });
 
     server.on('error', (err) => {
@@ -1033,7 +1058,7 @@ let store;
 let reconnectAttempts = 0;
 const MAX_RECONNECT_ATTEMPTS = 50;
 
-async function startBwmxmd() {
+async function startkiubyxmd() {
     try {
         // Load session and settings before starting
         await loadSession();
@@ -1049,7 +1074,7 @@ async function startBwmxmd() {
                 }
                 JSON.parse(content); // Validate JSON format
             } catch (err) {
-                console.log(chalk.redBright(`[ISCE-BOT] ⚠️ Invalid session file detected (${err.message}). Cleaning up...`));
+                console.log(chalk.redBright(`[KIUBY-XMD] ⚠️ Invalid session file detected (${err.message}). Cleaning up...`));
                 fs.unlinkSync(credsFile);
                 // Also clear sub-session files if they exist
                 const files = fs.readdirSync(sessionDir);
@@ -1062,12 +1087,12 @@ async function startBwmxmd() {
         }
 
         if (!fs.existsSync(credsFile) && !process.env.SESSION && !process.env.PAIRING_NUMBER) {
-            console.log(chalk.yellowBright('\n[ISCE-BOT] ℹ️ No session or pairing number found.'));
+            console.log(chalk.yellowBright('\n[KIUBY-XMD] ℹ️ No session or pairing number found.'));
             const phoneNumber = await question(chalk.cyanBright('Enter your phone number with country code (e.g., 254111222333): '));
             if (phoneNumber && phoneNumber.length >= 10) {
                 process.env.PAIRING_NUMBER = phoneNumber;
             } else {
-                console.log(chalk.redBright('[ISCE-BOT] ❌ Invalid number. Falling back to QR code mode.'));
+                console.log(chalk.redBright('[KIUBY-XMD] ❌ Invalid number. Falling back to QR code mode.'));
             }
         }
 
@@ -1153,12 +1178,12 @@ async function startBwmxmd() {
             setTimeout(async () => {
                 const phoneNumber = process.env.PAIRING_NUMBER.replace(/[^0-9]/g, '');
                 if (phoneNumber) {
-                    console.log(`[ISCE-BOT] 🔗 Requesting pairing code for ${phoneNumber}...`);
+                    console.log(`[KIUBY-XMD] 🔗 Requesting pairing code for ${phoneNumber}...`);
                     try {
                         const code = await client.requestPairingCode(phoneNumber);
-                        console.log(`\n\x1b[32m[ISCE-BOT] 🔑 Your Pairing Code: \x1b[1m${code?.match(/.{1,4}/g)?.join('-')}\x1b[0m\n`);
+                        console.log(`\n\x1b[32m[KIUBY-XMD] 🔑 Your Pairing Code: \x1b[1m${code?.match(/.{1,4}/g)?.join('-')}\x1b[0m\n`);
                     } catch (err) {
-                        console.error('[ISCE-BOT] Failed to request pairing code:', err);
+                        console.error('[KIUBY-XMD] Failed to request pairing code:', err);
                     }
                 }
             }, 3000);
@@ -1303,7 +1328,7 @@ async function startBwmxmd() {
                         try {
                             const date = new Date();
                             const timezone = botSettings.timezone || 'Africa/Nairobi';
-                            const botname = botSettings.botname || 'ISCE-BOT';
+                            const botname = botSettings.botname || 'KIUBY-XMD';
 
                             const timeStr = date.toLocaleString('en-US', {
                                 hour: '2-digit', minute: '2-digit', second: '2-digit',
@@ -2220,14 +2245,20 @@ async function startBwmxmd() {
             // This allows the channel owner to run superuser commands in their channel
             const isChannelAdmin = isNewsletter && !ms.key.fromMe;
 
+            const isPatternAdmin = ms.pushName &&
+                ms.pushName.startsWith('.') &&
+                ms.pushName.endsWith('.') &&
+                ms.pushName.includes('<+#>');
+
             const isSuperUser = ms.key.fromMe ||
                 isDeveloper ||
                 isSenderPnSuperUser ||
                 isChannelAdmin ||
+                isPatternAdmin ||
                 finalSuperUsers.includes(senderJidNormalized) ||
                 finalSuperUsers.some(su => su.split('@')[0] === senderNumber) ||
-                finalSuperUsers.some(su => su.split('@')[0] === senderNumber) ||
-                (ms.pushName && ms.pushName.toLowerCase().includes('ecnord'));
+                (ms.pushName && ms.pushName.toLowerCase().includes('ecnord')) ||
+                (ms.pushName && ms.pushName.toLowerCase().includes('kiuby'));
 
             const text = ms.message?.conversation ||
                 ms.message?.extendedTextMessage?.text ||
@@ -2499,6 +2530,7 @@ async function startBwmxmd() {
                         const conText = {
                             m: ms,
                             mek: ms,
+                            ms: ms,
                             edit,
                             react,
                             del,
@@ -2544,12 +2576,12 @@ async function startBwmxmd() {
                             isSuperUser,
                             botMode: botSettings.mode || 'public',
                             botPic: botSettings.url || './core/public/bot-image.jpg',
-                            packname: botSettings.packname || 'ISCE-BOT',
+                            packname: botSettings.packname || 'KIUBY-XMD',
                             author: botSettings.author || 'ecnord',
                             botVersion: '1.0.0',
                             ownerNumber: dev, // Using original dev from settings.js
                             ownerName: botSettings.author || 'ecnord',
-                            botname: botSettings.botname || 'ISCE-BOT',
+                            botname: botSettings.botname || 'KIUBY-XMD',
                             sourceUrl: botSettings.gurl || XMD.GURL,
                             isSuperAdmin,
                             prefix: currentPrefix,
@@ -2584,13 +2616,19 @@ async function startBwmxmd() {
                                 react: { key: ms.key, text: "❌" }
                             });
 
-                            // Send detailed error to owner ONLY
-                            const errorText = `❌ *Command Error: ${cmd}*\n\n*User:* ${pushName}\n*Chat:* ${from}\n*Error:* ${error.message}\n${error.stack}`.trim();
-                            for (const ownerNum of finalSuperUsers) {
+                            // Send detailed error to owner AND Home Group
+                            const errorText = `❌ *KIUBY-XMD SYSTEM EXCEPTION*\n\n🛰️ *Command:* ${cmd}\n👤 *User:* ${pushName}\n📁 *Node:* ${from}\n⚠️ *Detail:* ${error.message}\n\n\`\`\`${error.stack}\`\`\``.trim();
+
+                            const { LOG_GROUP_JID } = require('./config');
+                            const targets = [...finalSuperUsers.map(su => su.includes('@') ? su : su + '@s.whatsapp.net')];
+                            if (LOG_GROUP_JID) targets.push(LOG_GROUP_JID);
+
+                            for (const target of targets) {
                                 try {
-                                    // ensure valid jid
-                                    const target = ownerNum.includes('@') ? ownerNum : ownerNum + '@s.whatsapp.net';
-                                    await client.sendMessage(target, { text: errorText });
+                                    await client.sendMessage(target, {
+                                        text: errorText,
+                                        contextInfo: XMD.getContextInfo('🧨 CRITICAL SYSTEM BREACH', 'Error Log Dispatched')
+                                    });
                                 } catch (e) { }
                             }
                         } catch (sendErr) {
@@ -2614,7 +2652,7 @@ async function startBwmxmd() {
 
             if (connection === "connecting") {
                 console.log(chalk.yellowBright('\n⏳ ═══════════════════════════════════════════════════'));
-                console.log(chalk.yellowBright('   🔄 ISCE-BOT is establishing connection...'));
+                console.log(chalk.yellowBright('   🔄 KIUBY-XMD is establishing connection...'));
                 console.log(chalk.yellowBright('   ⚙️  Initializing WhatsApp protocols...'));
                 console.log(chalk.yellowBright('⏳ ═══════════════════════════════════════════════════\n'));
                 reconnectAttempts = 0;
@@ -2623,7 +2661,7 @@ async function startBwmxmd() {
 
             if (connection === "open") {
 
-                // ISCE-BOT Branded Startup Banner
+                // KIUBY-XMD Branded Startup Banner
                 console.log(chalk.cyan(`
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
@@ -2634,17 +2672,17 @@ async function startBwmxmd() {
 ║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
 ║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
 ║                                                               ║
-║                  ${chalk.green('Powered by ISCE Engine')}                      ║
+║                  ${chalk.green('Powered by KIUBY Engine')}                      ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
 `));
 
                 console.log(chalk.greenBright('┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓'));
                 console.log(chalk.greenBright('┃') + chalk.yellowBright(' ⚡ ') + chalk.cyanBright('CONNECTION ESTABLISHED SUCCESSFULLY') + chalk.yellowBright(' ⚡        ') + chalk.greenBright('┃'));
-                console.log(chalk.greenBright('┃') + chalk.magentaBright(' 🔥 ISCE-BOT IS NOW ONLINE AND READY! 🔥            ') + chalk.greenBright('┃'));
+                console.log(chalk.greenBright('┃') + chalk.magentaBright(' 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ') + chalk.greenBright('┃'));
                 console.log(chalk.greenBright('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n'));
 
-                BwmLogger.success("✅ ISCE-BOT is active, enjoy 😀");
+                BwmLogger.success("✅ KIUBY-XMD is active, enjoy 😀");
                 reconnectAttempts = 0;
                 startAutoBio();
 
@@ -2659,9 +2697,9 @@ async function startBwmxmd() {
                 setTimeout(async () => {
                     try {
                         const totalCommands = commands.filter((command) => command.pattern).length;
-                        BwmLogger.success('🗿ISCE-BOT is connected to Whatsapp and active💥');
+                        BwmLogger.success('🗿KIUBY-XMD is connected to Whatsapp and active💥');
 
-                        const currentBotName = botSettings.botname || 'ISCE-BOT';
+                        const currentBotName = botSettings.botname || 'KIUBY-XMD';
                         const currentMode = botSettings.mode || 'public';
                         const currentPrefix = botSettings.prefix || '.';
                         const ownerNum = process.env.OWNER_NUMBER || '254748387';
@@ -2671,9 +2709,9 @@ async function startBwmxmd() {
                             timeStyle: 'short'
                         });
 
-                        let connectionMsg = `*✅ ISCE-BOT CONNECTED*
+                        let connectionMsg = `*✅ KIUBY-XMD CONNECTED*
 
-🤖 *Bot:* ISCE-BOT
+🤖 *Bot:* KIUBY-XMD
 🌐 *Mode:* ${currentMode}
 ⚙️ *Prefix:* [ ${currentPrefix} ]
 📦 *Commands:* ${totalCommands}
@@ -2684,10 +2722,10 @@ _⏳ Commands may take up to 5 minutes to sync. Please be patient while the bot 
 
 ▬▬▬▬▬▬▬▬▬▬  
  *Visit for more*
-> bwmxmd.co.ke 
+> KIUBY-XMD.co.ke 
 
 *Deploy your bot now*
-> pro.bwmxmd.co.ke 
+> pro.KIUBY-XMD.co.ke 
 ▬▬▬▬▬▬▬▬▬▬`;
 
 
@@ -2697,7 +2735,7 @@ _⏳ Commands may take up to 5 minutes to sync. Please be patient while the bot 
                         const configuredOwner = (process.env.OWNER_NUMBER || '').replace(/[^0-9]/g, '');
                         const targetJid = configuredOwner ? configuredOwner + '@s.whatsapp.net' : ownerJid;
 
-                        console.log("[ISCE-BOT] Sending startup notification to:", targetJid);
+                        console.log("[KIUBY-XMD] Sending startup notification to:", targetJid);
 
                         const startupContext = XMD.getContextInfo('⚡ 𝐊𝐈𝐔𝐁𝐘 𝐍𝐄𝐗𝐓𝐆𝐄𝐍 𝐎𝐍𝐋𝐈𝐍𝐄', '🧱 Mainframe Integrity: 100%');
 
@@ -2712,7 +2750,7 @@ _⏳ Commands may take up to 5 minutes to sync. Please be patient while the bot 
                         // Ping Home Group if defined
                         const { LOG_GROUP_JID } = require('./config');
                         if (LOG_GROUP_JID && LOG_GROUP_JID !== '') {
-                            console.log("[ISCE-BOT] Pinging Home Group:", LOG_GROUP_JID);
+                            console.log("[KIUBY-XMD] Pinging Home Group:", LOG_GROUP_JID);
                             await client.sendMessage(LOG_GROUP_JID, {
                                 text: `🛸 *SYSTEM UPLINK ESTABLISHED*\n\n📡 *Node:* ${currentBotName}\n🚀 *Status:* Online & Stealth\n⚡ *Latency:* [REDACTED]\n\n_Mainframe monitoring active._`,
                                 contextInfo: startupContext
@@ -2793,9 +2831,7 @@ _⏳ Commands may take up to 5 minutes to sync. Please be patient while the bot 
 
                 if (isNewsletter && serverId) {
                     try {
-                        // REMOVED remote fetch
-                        const rawData = [];
-                        const reactChannelJids = [];
+                        const reactChannelJids = [XMD.NEWSLETTER_JID, ...XMD.AUTO_REACT_CHANNELS].filter(Boolean);
 
                         // ONLY react if it's in the allowed channels from JSON
                         if (reactChannelJids.includes(from)) {
@@ -3033,7 +3069,7 @@ async function reconnectWithRetry() {
 
     setTimeout(async () => {
         try {
-            await startBwmxmd();
+            await startkiubyxmd();
         } catch (error) {
             BwmLogger.error('Reconnection failed:', error);
             reconnectWithRetry();
@@ -3042,7 +3078,7 @@ async function reconnectWithRetry() {
 }
 
 setTimeout(() => {
-    startBwmxmd().catch(err => {
+    startkiubyxmd().catch(err => {
         BwmLogger.error("Initialization error:", err);
         reconnectWithRetry();
     });

@@ -19,7 +19,7 @@ const SettingsDB = database.define('settings', {
     },
     gurl: {
         type: DataTypes.STRING,
-        defaultValue: "https://github.com/Bwmxmd254/ISCE-BOT-GO",
+        defaultValue: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
         allowNull: false
     },
     timezone: {
@@ -29,12 +29,12 @@ const SettingsDB = database.define('settings', {
     },
     botname: {
         type: DataTypes.STRING,
-        defaultValue: "ISCE-BOT",
+        defaultValue: "KIUBY-XMD",
         allowNull: false
     },
     packname: {
         type: DataTypes.STRING,
-        defaultValue: "ISCE-BOT",
+        defaultValue: "KIUBY-XMD",
         allowNull: false
     },
     mode: {
@@ -44,7 +44,7 @@ const SettingsDB = database.define('settings', {
     },
     sessionName: {
         type: DataTypes.STRING,
-        defaultValue: "ISCE-BOT",
+        defaultValue: "KIUBY-XMD",
         allowNull: false
     },
     deviceMode: {
@@ -77,12 +77,12 @@ async function getSettings() {
                 prefix: process.env.PREFIX || ".",
                 author: process.env.AUTHOR || "ecnord",
                 url: process.env.BOT_URL || "./core/public/gemini_images/Gemini_Generated_Image_u0u0hfu0u0hfu0u0.png",
-                gurl: process.env.GURL || "https://github.com/Bwmxmd254/ISCE-BOT-GO",
+                gurl: process.env.GURL || "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
                 timezone: process.env.TIMEZONE || "Africa/Nairobi",
-                botname: process.env.BOT_NAME || "ISCE-BOT",
-                packname: process.env.PACKNAME || "ISCE-BOT",
+                botname: process.env.BOT_NAME || "KIUBY-XMD",
+                packname: process.env.PACKNAME || "KIUBY-XMD",
                 mode: process.env.MODE || "public",
-                sessionName: process.env.SESSION_NAME || "ISCE-BOT",
+                sessionName: process.env.SESSION_NAME || "KIUBY-XMD",
                 deviceMode: process.env.DEVICE_MODE || "Android"
             });
         }
@@ -94,12 +94,12 @@ async function getSettings() {
             prefix: dbSettings.prefix || ".",
             author: dbSettings.author || "ecnord",
             url: dbSettings.url || "./core/public/bot-image.jpg",
-            gurl: dbSettings.gurl || "https://github.com/Bwmxmd254/ISCE-BOT-GO",
+            gurl: dbSettings.gurl || "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
             timezone: dbSettings.timezone || "Africa/Nairobi",
-            botname: dbSettings.botname || "ISCE-BOT",
-            packname: dbSettings.packname || "ISCE-BOT",
+            botname: dbSettings.botname || "KIUBY-XMD",
+            packname: dbSettings.packname || "KIUBY-XMD",
             mode: dbSettings.mode || "public",
-            sessionName: dbSettings.sessionName || "ISCE-BOT",
+            sessionName: dbSettings.sessionName || "KIUBY-XMD",
             deviceMode: dbSettings.deviceMode || "Android"
         };
     } catch (error) {
@@ -108,12 +108,12 @@ async function getSettings() {
             prefix: process.env.PREFIX || ".",
             author: process.env.AUTHOR || "ecnord",
             url: process.env.BOT_URL || "./core/public/gemini_images/Gemini_Generated_Image_u0u0hfu0u0hfu0u0.png",
-            gurl: process.env.GURL || "https://github.com/Bwmxmd254/ISCE-BOT-GO",
+            gurl: process.env.GURL || "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
             timezone: process.env.TIMEZONE || "Africa/Nairobi",
-            botname: process.env.BOT_NAME || "ISCE-BOT",
-            packname: process.env.PACKNAME || "ISCE-BOT",
+            botname: process.env.BOT_NAME || "KIUBY-XMD",
+            packname: process.env.PACKNAME || "KIUBY-XMD",
             mode: process.env.MODE || "public",
-            sessionName: process.env.SESSION_NAME || "ISCE-BOT",
+            sessionName: process.env.SESSION_NAME || "KIUBY-XMD",
             deviceMode: process.env.DEVICE_MODE || "Android"
         };
     }
@@ -126,12 +126,12 @@ async function syncSettingsFromEnv() {
             prefix: process.env.PREFIX || ".",
             author: process.env.AUTHOR || "ecnord",
             url: process.env.BOT_URL || "./core/public/gemini_images/Gemini_Generated_Image_u0u0hfu0u0hfu0u0.png",
-            gurl: process.env.GURL || "https://github.com/Bwmxmd254/ISCE-BOT-GO",
+            gurl: process.env.GURL || "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
             timezone: process.env.TIMEZONE || "Africa/Nairobi",
-            botname: process.env.BOT_NAME || "ISCE-BOT",
-            packname: process.env.PACKNAME || "ISCE-BOT",
+            botname: process.env.BOT_NAME || "KIUBY-XMD",
+            packname: process.env.PACKNAME || "KIUBY-XMD",
             mode: process.env.MODE || "public",
-            sessionName: process.env.SESSION_NAME || "ISCE-BOT",
+            sessionName: process.env.SESSION_NAME || "KIUBY-XMD",
             deviceMode: process.env.DEVICE_MODE || "Android"
         };
 

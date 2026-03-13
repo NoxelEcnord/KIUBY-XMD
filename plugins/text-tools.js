@@ -1,4 +1,4 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const axios = require('axios');
 const XMD = require('../core/xmd');
 
@@ -22,7 +22,7 @@ const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, se
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "fancy",
   aliases: ["fancytext", "font", "style", "fancystyle"],
   category: "tools",
@@ -112,7 +112,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "tts",
   aliases: ["say"],
   category: "tools",
@@ -156,7 +156,7 @@ async (from, client, conText) => {
 });
 //========================================================================================================================
 //
-bwmxmd({
+kiubyxmd({
   pattern: "langcodes",
   aliases: ["langcode", "langs"],
   category: "tools",
@@ -184,7 +184,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "translate",
   aliases: ["trt", "tl"],
   category: "tools",

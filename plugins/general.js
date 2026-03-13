@@ -1,4 +1,4 @@
-const { bwmxmd, commands } = require('../core/commandHandler');
+const { kiubyxmd, commands } = require('../core/commandHandler');
 const fs = require("fs");
 const XMD = require('../core/xmd');
 
@@ -14,9 +14,9 @@ const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, se
 //========================================================================================================================
 //========================================================================================================================
 //========================================================================================================================
-//const { bwmxmd } = require("../commandHandler");
+//const { kiubyxmd } = require("../commandHandler");
 
-bwmxmd({
+kiubyxmd({
   pattern: "groupanon",
   aliases: ["ganon", "grouptext"],
   description: "Send custom text or quoted media anonymously to one or more groups",
@@ -93,7 +93,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "text",
   aliases: ["anonymous", "anon", "textmess"],
   description: "Send custom text or quoted media anonymously to one or more numbers",
@@ -170,9 +170,9 @@ bwmxmd({
 });
 //========================================================================================================================
 
-//const { bwmxmd } = require("../commandHandler");
+//const { kiubyxmd } = require("../commandHandler");
 
-bwmxmd({
+kiubyxmd({
   pattern: "toviewonce",
   aliases: ["tovo", "tovv"],
   description: "Send quoted media (image/video/audio) as view-once message",
@@ -228,7 +228,7 @@ bwmxmd({
   }
 });
 //========================================================================================================================
-/*bwmxmd({
+/*kiubyxmd({
   pattern: "menu",
   aliases: ["help", "commands"],
   category: "General",
@@ -268,7 +268,7 @@ async (from, client, { prefix, botPic, botname, author }) => {
 });*/
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "getdesc",
   aliases: ["getdescription"],
   category: "General",
@@ -286,7 +286,7 @@ async (from, client, { q, reply }) => {
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "getcategory",
   aliases: ["getcat"],
   category: "General",
@@ -303,7 +303,7 @@ async (from, client, { q, reply }) => {
   reply(`📂 Category for *${input}* is: *${category}*`);
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "getalias",
   category: "General",
   aliases: ["getaliases"],

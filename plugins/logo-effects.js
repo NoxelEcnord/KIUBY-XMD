@@ -1,4 +1,4 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const axios = require('axios');
 const fs = require('fs-extra');
 const path = require('path');
@@ -61,7 +61,7 @@ async function uploadToUguu(filePath) {
 //========================================================================================================================
 //========================================================================================================================
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "countryhouse",
   category: "photofunia",
   description: "Apply sketch effect to quoted image"
@@ -110,7 +110,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "musketeers",
   category: "photofunia",
   description: "Apply sketch effect to quoted image"
@@ -159,7 +159,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "jedi",
   category: "photofunia",
   description: "Apply sketch effect to quoted image"
@@ -208,7 +208,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "knight",
   category: "photofunia",
   description: "Apply sketch effect to quoted image"
@@ -257,7 +257,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "halloween",
   category: "photofunia",
   description: "Apply sketch effect to quoted image"
@@ -306,7 +306,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "admirer",
   category: "photofunia",
   description: "Apply sketch effect to quoted image"
@@ -355,7 +355,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "magic",
   category: "photofunia",
   description: "Apply sketch effect to quoted image"
@@ -404,7 +404,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "shopping",
   category: "photofunia",
   description: "Apply sketch effect to quoted image"
@@ -453,7 +453,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "interior",
   category: "photofunia",
   description: "Apply sketch effect to quoted image"
@@ -502,7 +502,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "shredder",
   category: "photofunia",
   description: "Apply sketch effect to quoted image"
@@ -551,7 +551,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "woods",
   category: "photofunia",
   description: "Apply sketch effect to quoted image"
@@ -600,7 +600,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "beach",
   category: "photofunia",
   description: "Apply sketch effect to quoted image"
@@ -649,7 +649,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "explorer",
   category: "photofunia",
   description: "Apply sketch effect to quoted image"
@@ -698,7 +698,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "sepia",
   category: "photofunia",
   description: "Apply sketch effect to quoted image"
@@ -747,7 +747,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "christmas",
   category: "photofunia",
   description: "Apply sketch effect to quoted image"
@@ -797,7 +797,7 @@ async (from, client, conText) => {
 });
 
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "sketch",
   category: "photofunia",
   description: "Apply sketch effect to quoted image"

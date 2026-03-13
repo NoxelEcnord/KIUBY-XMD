@@ -333,17 +333,17 @@ async function loadSession() {
             // XMD format: replace XMD with H4s
             b64data = 'H4s' + session.slice(3);
         }
-        // Old format with ISCE-BOT;;; prefix
+        // Old format with KIUBY-XMD;;; prefix
         else if (session.includes(';;;')) {
             const [header, data] = session.split(';;;');
-            if (header !== "ISCE-BOT" || !data) {
+            if (header !== "KIUBY-XMD" || !data) {
                 console.error("❌ Invalid session format: Header mismatch or no data.");
                 return;
             }
             b64data = data.replace('...', '');
         }
         else {
-            console.error("❌ Invalid session format. Use XMD... or ISCE-BOT;;;...");
+            console.error("❌ Invalid session format. Use XMD... or KIUBY-XMD;;;...");
             return;
         }
 
@@ -473,7 +473,7 @@ function verifyJidState(jid) {
         console.error('Your verified', jid);
         return false;
     }
-    console.log('Welcome to ISCE-BOT', jid);
+    console.log('Welcome to KIUBY-XMD', jid);
     return true;
 }
 

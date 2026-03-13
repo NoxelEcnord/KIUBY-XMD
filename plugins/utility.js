@@ -1,7 +1,7 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 
 // Utility: Get JID of current chat
-bwmxmd({
+kiubyxmd({
     pattern: "jid",
     aliases: ["getjid", "groupjid"],
     description: "Get the JID (unique identifier) of the current chat",

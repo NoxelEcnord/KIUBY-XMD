@@ -1,10 +1,10 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const axios = require('axios');
 const XMD = require('../core/xmd');
 
 const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, sender);
 
-bwmxmd({
+kiubyxmd({
   pattern: "fruit",
   aliases: ["fruitinfo", "nutrition"],
   description: "🍋 Get nutritional and botanical info about a fruit",
@@ -67,7 +67,7 @@ const examples = {
 
 const validOps = Object.keys(examples);
 
-bwmxmd({
+kiubyxmd({
   pattern: "math",
   aliases: ["calc", "solve"],
   description: "🧮 Perform math operations like simplify, derive, factor, etc.",
@@ -115,7 +115,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "poem",
   aliases: ["randompoem", "eduversefull"],
   description: "📖 Get the full educational poem",
@@ -140,7 +140,7 @@ bwmxmd({
   }
 });
 //=========================================
-bwmxmd({
+kiubyxmd({
   pattern: "dictionary",
   aliases: ["define", "meaning"],
   description: "Look up word definitions and phonetics",

@@ -1,4 +1,4 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const axios = require('axios');
 const fs = require('fs-extra');
 const path = require('path');
@@ -8,7 +8,7 @@ const XMD = require('../core/xmd');
 
 const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, sender);
 
-bwmxmd({
+kiubyxmd({
   pattern: "sora",
   aliases: ["text2video", "t2v"],
   category: "AI",
@@ -37,9 +37,9 @@ async (from, client, conText) => {
       contextInfo: {
         externalAdReply: {
           title: "AI Message Assistant",
-          body: "ISCE-BOT Bot Support",
+          body: "KIUBY-XMD Bot Support",
           thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
-          sourceUrl: "https://github.com/Bwmxmd254/ISCE-BOT-GO",
+          sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
           mediaType: 1,
           renderLargerThumbnail: false
         }
@@ -54,7 +54,7 @@ async (from, client, conText) => {
 
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "flux",
   aliases: ["fluxai", "imageai"],
   category: "ai",
@@ -82,9 +82,9 @@ async (from, client, conText) => {
       contextInfo: {
         externalAdReply: {
           title: "AI Message Assistant",
-          body: "ISCE-BOT Bot Support",
+          body: "KIUBY-XMD Bot Support",
           thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
-          sourceUrl: "https://github.com/Bwmxmd254/ISCE-BOT-GO",
+          sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
           mediaType: 1,
           renderLargerThumbnail: false
         }
@@ -101,7 +101,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "speechwriter",
   aliases: ["speech", "writer"],
   category: "ai",
@@ -142,7 +142,7 @@ async (from, client, conText) => {
 
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "muslimai",
   aliases: ["muslim", "quranai"],
   category: "ai",
@@ -181,7 +181,7 @@ async (from, client, conText) => {
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "wormgpt",
   aliases: ["wgpt", "evilgpt"],
   category: "ai",
@@ -211,7 +211,7 @@ async (from, client, conText) => {
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "bibleai",
   aliases: ["aibible", "scripture"],
   description: "Ask Bible-based questions and get answers with references",
@@ -244,9 +244,9 @@ bwmxmd({
       contextInfo: {
         externalAdReply: {
           title: "AI Message Assistant",
-          body: "ISCE-BOT Bot Support",
+          body: "KIUBY-XMD Bot Support",
           thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
-          sourceUrl: "https://github.com/Bwmxmd254/ISCE-BOT-GO",
+          sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
           mediaType: 1,
           renderLargerThumbnail: false
         }
@@ -362,7 +362,7 @@ async function uploadToUguu(filePath) {
   }
 }
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "removebg",
   aliases: ["rmbg", "bgremove"],
   description: "Remove background from quoted image",
@@ -404,9 +404,9 @@ bwmxmd({
       contextInfo: {
         externalAdReply: {
           title: "AI Message Assistant",
-          body: "ISCE-BOT Bot Support",
+          body: "KIUBY-XMD Bot Support",
           thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
-          sourceUrl: "https://github.com/Bwmxmd254/ISCE-BOT-GO",
+          sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
           mediaType: 1,
           renderLargerThumbnail: false
         }
@@ -426,7 +426,7 @@ bwmxmd({
 
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "vision",
   aliases: ["imgai", "analyze", "geminivision"],
   description: "Analyze quoted image using Gemini Vision AI",
@@ -457,9 +457,9 @@ bwmxmd({
       contextInfo: {
         externalAdReply: {
           title: "AI Message Assistant",
-          body: "ISCE-BOT Bot Support",
+          body: "KIUBY-XMD Bot Support",
           thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
-          sourceUrl: "https://github.com/Bwmxmd254/ISCE-BOT-GO",
+          sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
           mediaType: 1,
           renderLargerThumbnail: false
         }
@@ -478,7 +478,7 @@ bwmxmd({
 
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "transcribe",
   aliases: ["speech", "audio2text", "whisper"],
   description: "Transcribe quoted audio or video to text",
@@ -508,9 +508,9 @@ bwmxmd({
       contextInfo: {
         externalAdReply: {
           title: "AI Message Assistant",
-          body: "ISCE-BOT Bot Support",
+          body: "KIUBY-XMD Bot Support",
           thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
-          sourceUrl: "https://github.com/Bwmxmd254/ISCE-BOT-GO",
+          sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
           mediaType: 1,
           renderLargerThumbnail: false
         }
@@ -529,7 +529,7 @@ bwmxmd({
 
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "shazam",
   aliases: ["identify", "whatmusic", "whatsong"],
   description: "Identify music from quoted audio or video",
@@ -567,9 +567,9 @@ bwmxmd({
       contextInfo: {
         externalAdReply: {
           title: "AI Message Assistant",
-          body: "ISCE-BOT Bot Support",
+          body: "KIUBY-XMD Bot Support",
           thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
-          sourceUrl: "https://github.com/Bwmxmd254/ISCE-BOT-GO",
+          sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
           mediaType: 1,
           renderLargerThumbnail: false
         }

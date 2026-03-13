@@ -1,4 +1,4 @@
-const { bwmxmd } = require("../core/commandHandler");
+const { kiubyxmd } = require("../core/commandHandler");
 const moment = require("moment-timezone");
 const s = require(__dirname + "/../config");
 const XMD = require("../core/xmd");
@@ -6,109 +6,37 @@ const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
 const { exec } = require("child_process");
-const readMore = String.fromCharCode(8206).repeat(4000);
 
 const PREFIX = s.PREFIX || ".";
-const BOT_NAME = s.BOT || "ISCE-BOT";
-const MEDIA_URLS = s.BOT_URL || [];
-const MENU_TOP_LEFT = s.MENU_TOP_LEFT || "╔═════════════════════════════╗";
-const MENU_BOT_NAME_LINE = s.MENU_BOT_NAME_LINE || "║       ";
-const MENU_BOTTOM_LEFT = s.MENU_BOTTOM_LEFT || "╚═════════════════════════════╝";
-const MENU_GREETING_LINE = s.MENU_GREETING_LINE || " ┌──『 ";
-const MENU_DIVIDER = s.MENU_DIVIDER || " │  ";
-const MENU_USER_LINE = s.MENU_USER_LINE || " ├👤 ᴜsᴇʀ: ";
-const MENU_DATE_LINE = s.MENU_DATE_LINE || " ├📅 ᴅᴀᴛᴇ: ";
-const MENU_TIME_LINE = s.MENU_TIME_LINE || " ├⏰ ᴛɪᴍᴇ: ";
-const MENU_STATS_LINE = s.MENU_STATS_LINE || " ├⭐ sᴛᴀᴛs: ";
-const MENU_BOTTOM_DIVIDER = s.MENU_BOTTOM_DIVIDER || " └────────────────────────────┈❖";
+const BOT_NAME = s.BOT || "KIUBY";
 const WEB = XMD.WEB;
 const GURL = XMD.CHANNEL_URL;
-const getGlobalContextInfo = () => XMD.getContextInfo();
-const getContactMsg = (contactName, sender) =>
-    XMD.getContactMsg(contactName, sender);
+const readMore = String.fromCharCode(8206).repeat(4000);
 
-const randomMedia = () => {
-    // Priority: Local ISCE.png
-    const localPath = path.join(__dirname, "../core/public/isce.png");
-    if (fs.existsSync(localPath)) return localPath;
+// Global session tracking for menus
+if (!global.menuSessions) {
+    global.menuSessions = new Map();
+}
 
-    // Fallback: URLs
-    const combinedUrls = [...(MEDIA_URLS || [])];
-    const validUrls = combinedUrls.filter(url => typeof url === "string" && url.trim().startsWith("http"));
-    if (validUrls.length === 0) return XMD.BOT_LOGO;
-
-    return validUrls[Math.floor(Math.random() * validUrls.length)];
-};
-
-const getRandomAudio = async () => {
-    try {
-        const response = await axios.get(XMD.NCS_RANDOM, { timeout: 10000 });
-        if (response.data.status === "success" && response.data.data && response.data.data.length > 0) {
-            return response.data.data[0].links?.Bwm_stream_link || response.data.data[0].links?.stream || null;
-        }
-        if (response.data.result) {
-            return response.data.result;
-        }
-        return null;
-    } catch (error) {
-        console.error("Error fetching random audio:", error.message);
-        return null;
-    }
-};
-
-const convertToOpus = (inputPath, outputPath) => {
-    return new Promise((resolve, reject) => {
-        exec(
-            `ffmpeg -y -i "${inputPath}" -c:a libopus -b:a 64k -vbr on -compression_level 10 -frame_duration 60 -application voip "${outputPath}"`,
-            (error) => {
-                if (error) reject(error);
-                else resolve(outputPath);
-            },
-        );
-    });
-};
-
-const getWelcomeAudio = async (text) => {
-    try {
-        const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=en&client=tw-ob`;
-        const response = await axios({
-            method: "GET",
-            url: url,
-            responseType: "arraybuffer",
-            timeout: 10000,
-        });
-        const tempMp3 = path.join("/tmp", `welcome_${Date.now()}.mp3`);
-        const tempOgg = path.join("/tmp", `welcome_${Date.now()}.ogg`);
-        fs.writeFileSync(tempMp3, Buffer.from(response.data));
-        await convertToOpus(tempMp3, tempOgg);
-        const audioBuffer = fs.readFileSync(tempOgg);
-        try { fs.unlinkSync(tempMp3); } catch (e) { }
-        try { fs.unlinkSync(tempOgg); } catch (e) { }
-        return audioBuffer;
-    } catch (error) {
-        console.error("Error generating welcome audio:", error.message);
-        return null;
-    }
-};
-
-const fetchGitHubStats = async () => {
-    try {
-        const response = await axios.get(XMD.GITHUB_REPO_API, {
-            headers: { "User-Agent": "ISCE-BOT-BOT" },
-            timeout: 5000,
-        });
-        const forks = response.data.forks_count || 0;
-        const stars = response.data.stargazers_count || 0;
-        return forks * 2 + stars * 2;
-    } catch (error) {
-        return Math.floor(Math.random() * 1000) + 500;
-    }
+const categories = {
+    "1. AI MENU": ["ai", "gpt"],
+    "2. EPHOTO MENU": ["ephoto", "photofunia"],
+    "3. DOWNLOAD MENU": ["downloader", "search"],
+    "4. GROUP MENU": ["group"],
+    "5. SETTINGS MENU": ["settings", "owner"],
+    "6. FUN MENU": ["fun"],
+    "7. GENERAL MENU": ["general", "utility", "tools"],
+    "8. SPORTS MENU": ["sports"],
+    "9. STALKER MENU": ["stalker"],
+    "10. STICKER MENU": ["sticker"],
+    "11. SYSTEM MENU": ["system"],
+    "12. EDUCATION MENU": ["education"],
+    "13. SHORTENER MENU": ["shortener"],
 };
 
 const getpluginsCommands = () => {
     const commands = require("../core/commandHandler").commands;
     const pluginCmds = {};
-
     commands.forEach((cmd) => {
         if (cmd.filename && cmd.filename.includes("plugins")) {
             const category = (cmd.category || "General").toLowerCase();
@@ -116,377 +44,134 @@ const getpluginsCommands = () => {
             pluginCmds[category].push(cmd.pattern);
         }
     });
-
     return pluginCmds;
 };
 
-const categories = {
-    "1. 🤖 AI MENU": ["ai", "gpt"],
-    "2. 🎨 EPHOTO MENU": ["ephoto", "photofunia"],
-    "3. 📥 DOWNLOAD MENU": ["downloader", "search"],
-    "4. 👨‍👨‍👦‍👦 GROUP MENU": ["group"],
-    "5. ⚙️ SETTINGS MENU": ["settings", "owner"],
-    "6. 😂 FUN MENU": ["fun"],
-    "7. 🌍 GENERAL MENU": ["general", "utility", "tools"],
-    "8. ⚽ SPORTS MENU": ["sports"],
-    "9. 🔍 STALKER MENU": ["stalker"],
-    "10. 🖼️ STICKER MENU": ["sticker"],
-    "11. 🔧 SYSTEM MENU": ["system"],
-    "12. 📚 EDUCATION MENU": ["education"],
-    "13. 🔗 SHORTENER MENU": ["shortener"],
+const randomMedia = () => {
+    const localBg = path.join(__dirname, "../core/public/kiuby_bg.png");
+    const localLogo = path.join(__dirname, "../core/public/kiuby_logo.png");
+
+    // Randomly pick between bg and logo or use logo as default
+    const mediaPool = [localBg, localLogo].filter(p => fs.existsSync(p));
+    if (mediaPool.length > 0) return mediaPool[Math.floor(Math.random() * mediaPool.length)];
+
+    const combinedUrls = [...(s.BOT_URL || [])];
+    const validUrls = combinedUrls.filter(url => typeof url === "string" && url.trim().startsWith("http"));
+    return validUrls.length > 0 ? validUrls[Math.floor(Math.random() * validUrls.length)] : XMD.BOT_LOGO;
 };
 
-bwmxmd(
+const setupGlobalReplyHandler = (client) => {
+    if (global.menuReplyHandlerActive) return;
+
+    client.ev.on("messages.upsert", async (update) => {
+        const message = update.messages[0];
+        if (!message?.message) return;
+
+        const contextInfo = message.message.extendedTextMessage?.contextInfo;
+        const quotedStanzaId = contextInfo?.stanzaId;
+        if (!quotedStanzaId) return;
+
+        const session = global.menuSessions.get(quotedStanzaId);
+        if (!session) return;
+
+        const text = message.message.extendedTextMessage?.text?.trim() || message.message.conversation?.trim();
+        if (!text) return;
+
+        const index = parseInt(text);
+        if (isNaN(index)) return;
+
+        const { from, contactMessage, pluginCommands } = session;
+
+        const menuReactions = {
+            1: '🌐', 2: '🎵', 3: '📢', 4: '🤖', 5: '🎨', 6: '📥', 7: '👥',
+            8: '⚙️', 9: '😂', 10: '🌍', 11: '⚽', 12: '🔍', 13: '🖼️', 14: '🔧', 15: '📚', 16: '🔗'
+        };
+
+        try {
+            await client.sendMessage(from, { react: { text: menuReactions[index] || '📋', key: message.key } });
+
+            if (index === 1) {
+                await client.sendMessage(from, {
+                    text: `🌐 *${BOT_NAME} WEB PORTAL*\n\nExplore our mainframe via the web:\n${WEB}\n\n*Hacker Mode:* Enabled\n*Uplink:* Optimal`,
+                    contextInfo: XMD.getContextInfo('🌐 WEB PORTAL', 'Established Mainframe Connection')
+                }, { quoted: contactMessage });
+            } else if (index === 2) {
+                const songArr = await axios.get(XMD.API.DOWNLOAD.AUDIO(XMD.THEME_SONG_URL), { timeout: 15000 }).then(res => res.data?.result).catch(() => null);
+                if (songArr) {
+                    await client.sendMessage(from, {
+                        audio: { url: songArr }, mimetype: 'audio/mpeg', ptt: true,
+                        contextInfo: XMD.getContextInfo('🎵 CORE AUDIO', 'Transmitting Corazon...')
+                    }, { quoted: contactMessage });
+                }
+            } else if (index === 3) {
+                await client.sendMessage(from, {
+                    text: `📢 *${BOT_NAME} SATELLITE CHANNEL*\n\nJoin our neural network for updates:\n${GURL}`,
+                    contextInfo: XMD.getContextInfo('📢 CHANNEL AUTH', 'Satellite Link Active')
+                }, { quoted: contactMessage });
+            } else if (index >= 4 && index <= 16) {
+                const names = Object.keys(categories);
+                const catName = names[index - 4];
+                if (catName) {
+                    const keys = categories[catName];
+                    let list = [];
+                    const pCmds = pluginCommands;
+                    keys.forEach(k => { if (pCmds[k]) list = list.concat(pCmds[k].map(p => `• ${PREFIX}${p}`)); });
+                    await client.sendMessage(from, {
+                        text: `📋 *${catName}*\n\n${list.length > 0 ? list.join("\n") : "No modules found."}\n\n_Reply 0 to reset._`,
+                        contextInfo: XMD.getContextInfo(`📋 ${catName} MODULES`, 'Decrypting Sub-Systems...')
+                    }, { quoted: contactMessage });
+                }
+            }
+        } catch (e) {
+            console.error("Menu Session Error:", e);
+        }
+    });
+    global.menuReplyHandlerActive = true;
+};
+
+kiubyxmd(
     {
         pattern: "menu",
         category: "general",
-        description: "NextGen Interactive Menu",
+        description: "Interactive KIUBY Mainframe Menu",
     },
     async (from, client, conText) => {
-        const { mek, pushName, reply, sender, deviceMode } = conText;
-
+        const { mek, pushName, sender } = conText;
         try {
+            setupGlobalReplyHandler(client);
             const pluginCommands = getpluginsCommands();
+            const contactName = pushName || "User";
+            const contactMessage = XMD.getContactMsg(contactName, sender?.split("@")[0] || "0");
+            const greeting = moment().hour() < 12 ? "Dawn Breach" : moment().hour() < 18 ? "Core Access" : "Dusk Uplink";
 
-            moment.tz.setDefault(s.TZ || "Africa/Nairobi");
-            const date = moment().format("DD/MM/YYYY");
-            const time = moment().format("HH:mm:ss");
-            const contactName = pushName || "KIUBY User";
+            const options = `╭───『 KIUBY NEXTGEN 』───╮\n│\n│ 1. 🌐 WEB PORTAL    9. 😂 FUN MODULES\n│ 2. 🎵 AUDIO UPLINK  10. 🌍 GLOBAL UTIL\n│ 3. 📢 CHANNEL AUTH   11. ⚽ SPORT LIVE\n│ 4. 🤖 AI NEURALS    12. 🔍 STALKER VIEW\n│ 5. 🎨 EPHOTO LAB     13. 🖼️ STICKER FORGE\n│ 6. 📥 DATA SIPHON   14. 🔧 SYS MAINT\n│ 7. 👥 GROUP HUB      15. 📚 EDU ARCHIVE\n│ 8. ⚙️ SYS CONFIG     16. HOOK URL SHREDDER\n│\n╰─────────────────────╯\n💡 Reply with a number (1-16)`;
 
-            let contactMessage;
+            const header = `╭───────────────╮\n│ 🤖 Entity: KIUBY NEXTGEN\n│ 📊 Status: Optimal\n│ 🛰️ Uplink: Established\n│ 🦾 AI: NEURAL-X\n╰───────────────╯\n${greeting}, *${contactName}*! Welcome to the Mainframe.`;
+
+            const media = randomMedia();
+            const msg = await client.sendMessage(from, {
+                [media.match(/\.(mp4|gif)$/i) ? 'video' : 'image']: media.startsWith("http") ? { url: media } : fs.readFileSync(media),
+                caption: `${header}\n\n${readMore}\n${options}`,
+                contextInfo: XMD.getContextInfo('🛸 KIUBY NEXTGEN MAIN MENU', `Access: Granted | User: ${contactName}`)
+            }, { quoted: contactMessage });
+
+            global.menuSessions.set(msg.key.id, { from, contactMessage, pluginCommands });
+            setTimeout(() => global.menuSessions.delete(msg.key.id), 600000);
+
+            // Audio Greeting follow-up (Rephrased for Hacker Persona)
             try {
-                contactMessage = getContactMsg(contactName, sender?.split("@")[0] || "0");
-            } catch (e) {
-                contactMessage = mek;
-            }
-
-            const githubStats = await fetchGitHubStats().catch(() => 1337);
-
-            const hour = moment().hour();
-            let greeting = "🌙 Midnight Ops";
-            if (hour >= 5 && hour < 12) greeting = "🌅 Dawn Breach";
-            else if (hour >= 12 && hour < 18) greeting = "☀️ Core Access";
-            else if (hour >= 18 && hour < 22) greeting = "🌆 Dusk Uplink";
-
-            const menuOptions = `╭───『 ⚡ 𝐊𝐈𝐔𝐁𝐘 𝐍𝐄𝐗𝐓𝐆𝐄𝐍 』───╮
-│
-│ 𝟏. 🌐 ᴡᴇʙ ᴘᴏʀᴛᴀʟ
-│ 𝟐. 🎵 ᴄᴏʀᴀᴢᴏɴ ᴜᴘʟɪɴᴋ
-│ 𝟑. 📢 ᴄʜᴀɴɴᴇʟ ᴀᴜᴛʜ
-│ 𝟒. 🤖 ᴀɪ ɴᴇᴜʀᴀʟs
-│ 𝟓. 🎨 ᴇᴘʜᴏᴛᴏ ʟᴀʙ
-│ 𝟔. 📥 ᴅᴀᴛᴀ sɪᴘʜᴏɴ
-│ 𝟕. 👨‍👨‍👦‍👦 ɢʀᴏᴜᴘ ʜᴜʙ
-│ 𝟖. ⚙️ sʏs ᴄᴏɴғɪɢ
-│ 𝟗. 😂 ғᴜɴ ᴍᴏᴅᴜʟᴇs
-│ 𝟏𝟎. 🌍 ɢʟᴏʙᴀʟ ᴜᴛɪʟ
-│ 𝟏𝟏. ⚽ sᴘᴏʀᴛ ʟɪᴠᴇ
-│ 𝟏𝟐. 🔍 sᴛᴀʟᴋᴇʀ ᴠɪᴇᴡ
-│ 𝟏𝟑. 🖼️ sᴛɪᴄᴋᴇʀ ғᴏʀɢᴇ
-│ 𝟏𝟒. 🔧 sʏs ᴍᴀɪɴᴛ
-│ 𝟏𝟓. 📚 ᴇᴅᴜ ᴀʀᴄʜɪᴠᴇ
-│ 𝟏𝟔. 🔗 ᴜʀʟ sʜʀᴇᴅᴅᴇʀ
-│
-╰─────────────────────╯
-💡 𝐑𝐞𝐩𝐥𝐲 𝐰𝐢𝐭𝐡 𝐚 𝐧𝐮𝐦𝐛𝐞𝐫 (𝟏-𝟏𝟔)`;
-
-            const menuHeader = `╭───────────────╮
-│ 🤖 𝐄𝐧𝐭𝐢𝐭𝐲: 𝐊𝐈𝐔𝐁𝐘 𝐕𝟐
-│ 👤 𝐎𝐰𝐧𝐞𝐫: 𝐄𝐂𝐍𝐎𝐑𝐃
-│ 📅 𝐃𝐚𝐭𝐞: ${date}
-│ ⌚ 𝐓𝐢𝐦𝐞: ${time}
-│ 🚀 𝐒𝐭𝐚𝐭𝐮𝐬: ${XMD.getRandomHackerPhrase()}
-╰───────────────╯
-${greeting}, *${pushName}*! 🌐 Welcome to the Mainframe.`;
-
-            const fullMenuText = `${menuHeader}\n\n${readMore}\n${menuOptions}`;
-
-            const selectedMedia = randomMedia();
-
-            // Unified Message Sending with Channel Ad Reply
-            const contextInfo = XMD.getContextInfo(`🛸 𝐊𝐈𝐔𝐁𝐘 𝐍𝐄𝐗𝐓𝐆𝐄𝐍 𝐌𝐄𝐍𝐔`, `𝐔𝐬𝐞𝐫: ${contactName} | 𝐀𝐜𝐜𝐞𝐬𝐬: 𝐆𝐫𝐚𝐧𝐭𝐞𝐝`);
-
-            let mainMenuMsg;
-            if (selectedMedia) {
-                const isVideo = selectedMedia.match(/\.(mp4|gif)$/i);
-                try {
-                    mainMenuMsg = await client.sendMessage(
-                        from,
-                        {
-                            [isVideo ? 'video' : 'image']: selectedMedia.startsWith("http") ? { url: selectedMedia } : fs.readFileSync(selectedMedia),
-                            gifPlayback: isVideo,
-                            caption: fullMenuText,
-                            contextInfo: contextInfo
-                        },
-                        { quoted: contactMessage }
-                    );
-                } catch (mediaErr) {
-                    console.error("Menu media error:", mediaErr.message);
-                    mainMenuMsg = await client.sendMessage(
-                        from,
-                        { text: fullMenuText, contextInfo: contextInfo },
-                        { quoted: contactMessage }
-                    );
-                }
-            } else {
-                mainMenuMsg = await client.sendMessage(
-                    from,
-                    { text: fullMenuText, contextInfo: contextInfo },
-                    { quoted: contactMessage }
-                );
-            }
-
-            // Send Theme Song (Corazon)
-            try {
-                const songUrl = await axios.get(XMD.API.DOWNLOAD.AUDIO(XMD.THEME_SONG_URL), { timeout: 30000 })
-                    .then(res => res.data?.result)
-                    .catch(() => null);
-
-                if (songUrl) {
-                    await client.sendMessage(from, {
-                        audio: { url: songUrl },
-                        mimetype: 'audio/mpeg',
-                        ptt: true,
-                        contextInfo: getGlobalContextInfo()
-                    }, { quoted: mainMenuMsg || contactMessage });
-                }
-            } catch (e) {
-                console.error("Theme song send failed:", e.message);
-            }
-
-            const cleanup = () => {
-                client.ev.off("messages.upsert", handleReply);
-            };
-
-            const sendMainMenu = async (destChat) => {
-                const selectedMedia = randomMedia();
-                if (selectedMedia) {
-                    const mediaContent = selectedMedia.startsWith("http") ? { url: selectedMedia } : fs.readFileSync(selectedMedia);
-                    try {
-                        if (selectedMedia.match(/\.(mp4|gif)$/i)) {
-                            await client.sendMessage(
-                                destChat,
-                                {
-                                    video: mediaContent,
-                                    gifPlayback: true,
-                                    caption: fullMenuText,
-                                    contextInfo: getGlobalContextInfo(),
-                                },
-                                { quoted: contactMessage },
-                            );
-                        } else {
-                            await client.sendMessage(
-                                destChat,
-                                {
-                                    image: mediaContent,
-                                    caption: fullMenuText,
-                                    contextInfo: getGlobalContextInfo(),
-                                },
-                                { quoted: contactMessage },
-                            );
-                        }
-                    } catch (e) {
-                        await client.sendMessage(
-                            destChat,
-                            {
-                                text: fullMenuText,
-                                contextInfo: getGlobalContextInfo(),
-                            },
-                            { quoted: contactMessage },
-                        );
-                    }
-                } else {
-                    await client.sendMessage(
-                        destChat,
-                        {
-                            text: fullMenuText,
-                            contextInfo: getGlobalContextInfo(),
-                        },
-                        { quoted: contactMessage },
-                    );
-                }
-            };
-
-            const handleReply = async (update) => {
-                const message = update.messages[0];
-                if (!message?.message) return;
-
-                const quotedStanzaId =
-                    message.message.extendedTextMessage?.contextInfo?.stanzaId;
-                if (!quotedStanzaId) return;
-
-                if (quotedStanzaId !== mainMenuMsg.key.id) return;
-
-                const responseText =
-                    message.message.extendedTextMessage?.text?.trim() ||
-                    message.message.conversation?.trim();
-
-                if (!responseText) return;
-
-                const selectedIndex = parseInt(responseText);
-                if (isNaN(selectedIndex)) return;
-
-                const destChat = message.key.remoteJid;
-
-                const menuReactions = {
-                    0: '🔄', 1: '🌐', 2: '🎵', 3: '📢',
-                    4: '🤖', 5: '🎨', 6: '📥', 7: '👨‍👨‍👦‍👦',
-                    8: '⚙️', 9: '😂', 10: '🌍', 11: '⚽',
-                    12: '🔍', 13: '🖼️', 14: '🔧', 15: '📚',
-                    16: '🔗'
-                };
-
-                try {
-                    const reactEmoji = menuReactions[selectedIndex] || '📋';
-                    await client.sendMessage(destChat, { react: { text: reactEmoji, key: message.key } });
-                } catch (e) { }
-
-                try {
-                    if (selectedIndex === 0) {
-                        await sendMainMenu(destChat);
-                        return;
-                    }
-
-                    switch (selectedIndex) {
-                        case 1:
-                            await client.sendMessage(
-                                destChat,
-                                {
-                                    text: `🌐 *${BOT_NAME} WEB APP*\n\nVisit our official website here:\n${WEB}\n\n_Reply *0* to go back to main menu_\n\n▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`,
-                                    contextInfo: getGlobalContextInfo(),
-                                },
-                                { quoted: contactMessage },
-                            );
-                            break;
-
-
-                        case 2:
-                            // Corazon song logic via API
-                            try {
-                                const audioUrl = await axios.get(XMD.API.DOWNLOAD.AUDIO(XMD.THEME_SONG_URL), { timeout: 30000 }).then(res => res.data?.result);
-
-                                if (audioUrl) {
-                                    await client.sendMessage(destChat, {
-                                        audio: { url: audioUrl },
-                                        mimetype: 'audio/mpeg',
-                                        ptt: true,
-                                        contextInfo: getGlobalContextInfo()
-                                    }, { quoted: contactMessage });
-                                } else {
-                                    await client.sendMessage(destChat, { react: { text: "❌", key: contactMessage.key } });
-                                }
-                            } catch (error) {
-                                console.error("Menu song error:", error);
-                                await client.sendMessage(destChat, { react: { text: "❌", key: contactMessage.key } });
-                            }
-                            break;
-
-                        case 3:
-                            await client.sendMessage(
-                                destChat,
-                                {
-                                    text: `📢 *${BOT_NAME} UPDATES CHANNEL*\n\nJoin our official updates channel:\nhttps://${GURL}\n\n_Reply *0* to go back to main menu_\n\n▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`,
-                                    contextInfo: getGlobalContextInfo(),
-                                },
-                                { quoted: contactMessage },
-                            );
-                            break;
-
-                        case 4:
-                        case 5:
-                        case 6:
-                        case 7:
-                        case 8:
-                        case 9:
-                        case 10:
-                        case 11:
-                        case 12:
-                        case 13:
-                        case 14:
-                        case 15:
-                        case 16:
-                            const catIndex = selectedIndex - 4;
-                            const categoryNames = Object.keys(categories);
-                            const categoryName = categoryNames[catIndex];
-
-                            if (categoryName) {
-                                const catKeys = categories[categoryName] || [];
-                                let cmds = [];
-                                catKeys.forEach((key) => {
-                                    if (pluginCommands[key]) {
-                                        cmds = cmds.concat(
-                                            pluginCommands[key].map(
-                                                (c) => `• ${PREFIX}${c}`,
-                                            ),
-                                        );
-                                    }
-                                });
-
-                                if (cmds.length > 0) {
-                                    await client.sendMessage(
-                                        destChat,
-                                        {
-                                            text: `📋 *${categoryName}*\n\n${cmds.join("\n")}\n\n_Reply *0* to go back to main menu_\n\n▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`,
-                                            contextInfo: getGlobalContextInfo(),
-                                        },
-                                        { quoted: contactMessage },
-                                    );
-                                } else {
-                                    await client.sendMessage(
-                                        destChat,
-                                        {
-                                            text: `📋 *${categoryName}*\n\nNo commands available in this category\n\n_Reply *0* to go back to main menu_\n\n▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`,
-                                            contextInfo: getGlobalContextInfo(),
-                                        },
-                                        { quoted: contactMessage },
-                                    );
-                                }
-                            }
-                            break;
-
-                        default:
-                            await client.sendMessage(
-                                destChat,
-                                {
-                                    text: `*❌ Invalid number. Please select between 1-16.*\n\n_Reply *0* to go back to main menu_\n\n▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`,
-                                    contextInfo: getGlobalContextInfo(),
-                                },
-                                { quoted: contactMessage },
-                            );
-                            break;
-                    }
-                } catch (error) {
-                    console.error("Menu reply error:", error);
-                }
-            };
-
-            client.ev.on("messages.upsert", handleReply);
-            setTimeout(cleanup, 300000);
+                const greetingText = `Mainframe uplink established. Identity verified as ${contactName}. Accessing KIUBY NEXTGEN sub-systems. Neural link secure.`;
+                const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(greetingText)}&tl=en&client=tw-ob`;
+                await client.sendMessage(from, {
+                    audio: { url: ttsUrl },
+                    mimetype: 'audio/mp4',
+                    ptt: true,
+                    contextInfo: XMD.getContextInfo('🔊 NEURAL GREETING', 'Identity: Verified')
+                }, { quoted: msg });
+            } catch (e) { }
         } catch (err) {
-            console.error("Menu error:", err);
-            // Send a simple text menu as fallback
-            try {
-                const simpleMenu = `*📋 ${BOT_NAME} MENU*
-
-*1.* 🌐 OUR WEB
-*2.* 🎵 RANDOM SONG  
-*3.* 📢 UPDATES
-*4.* 🤖 AI MENU
-*5.* 🎨 EPHOTO MENU
-*6.* 📥 DOWNLOAD MENU
-*7.* 👨‍👨‍👦‍👦 GROUP MENU
-*8.* ⚙️ SETTINGS MENU
-*9.* 😂 FUN MENU
-*10.* 🌍 GENERAL MENU
-*11.* ⚽ SPORTS MENU
-*12.* 🔍 STALKER MENU
-*13.* 🖼️ STICKER MENU
-
-_Reply with a number (1-13)_`;
-                await client.sendMessage(from, { text: simpleMenu }, { quoted: mek });
-            } catch (fallbackErr) {
-                reply("Menu is temporarily unavailable. Try .help instead.");
-            }
+            console.error("Menu Error:", err);
+            client.sendMessage(from, { text: "Mainframe error. Try .help" });
         }
-    },
+    }
 );

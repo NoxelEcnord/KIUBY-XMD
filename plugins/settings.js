@@ -1,4 +1,4 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const { getAntiDeleteSettings, updateAntiDeleteSettings, syncAntiDeleteFromEnv } = require('../core/database/antidelete');
 const { getAntiLinkSettings, updateAntiLinkSettings, clearAllWarns, syncAntiLinkFromEnv } = require('../core/database/antilink');
 const { getAntiStatusMentionSettings, updateAntiStatusMentionSettings, clearAllStatusWarns, syncAntiStatusMentionFromEnv } = require('../core/database/antistatusmention');
@@ -17,9 +17,9 @@ const { getAntiCallSettings, updateAntiCallSettings, syncAntiCallFromEnv } = req
 //========================================================================================================================
 //========================================================================================================================
 //========================================================================================================================
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
-bwmxmd({
+kiubyxmd({
   pattern: "anticall",
   aliases: ["callset", "anticallsetting"],
   description: "Manage anti-call settings",
@@ -131,9 +131,9 @@ bwmxmd({
   }
 });
 //========================================================================================================================
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
-bwmxmd({
+kiubyxmd({
   pattern: "events",
   aliases: ["gevents", "groupevents"],
   category: "Settings",
@@ -240,7 +240,7 @@ bwmxmd({
     }
   });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "settings",
   aliases: ["config", "botconfig", "allsetting"],
   category: "Settings",
@@ -321,7 +321,7 @@ bwmxmd({
     }
   });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "syncsettings",
   aliases: ["syncenv", "resetsettings", "syncheroku"],
   category: "Settings",
@@ -420,7 +420,7 @@ bwmxmd({
     }
   });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "devicemode",
   aliases: ["iphonemode", "iphone", "android", "device"],
   category: "Settings",
@@ -485,7 +485,7 @@ bwmxmd({
     }
   });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "botname",
   aliases: ["setbotname"],
   category: "Settings",
@@ -526,7 +526,7 @@ bwmxmd({
   });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "author",
   aliases: ["setauthor"],
   category: "Settings",
@@ -567,7 +567,7 @@ bwmxmd({
   });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "packname",
   aliases: ["setpackname"],
   category: "Settings",
@@ -608,7 +608,7 @@ bwmxmd({
   });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "timezone",
   aliases: ["settimezone"],
   category: "Settings",
@@ -659,7 +659,7 @@ bwmxmd({
   });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "botpic",
   aliases: ["boturl", "botprofile"],
   category: "Settings",
@@ -707,7 +707,7 @@ bwmxmd({
   });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "boturl",
   aliases: ["setboturl", "seturl"],
   category: "Settings",
@@ -756,7 +756,7 @@ bwmxmd({
 //========================================================================================================================
 
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "mode",
   aliases: ["setmode"],
   category: "Settings",
@@ -800,7 +800,7 @@ bwmxmd({
   });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "prefix",
   aliases: ["setprefix"],
   category: "Settings",
@@ -837,9 +837,9 @@ bwmxmd({
     }
   });
 //========================================================================================================================
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
-bwmxmd({
+kiubyxmd({
   pattern: "presence",
   aliases: ["setpresence", "mypresence"],
   category: "Settings",
@@ -905,9 +905,9 @@ bwmxmd({
     reply(`✅ ${type === 'private' ? 'Private chat' : 'Group chat'} presence set to *${status}*` + subBotNote);
   });
 //========================================================================================================================
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
-bwmxmd({
+kiubyxmd({
   pattern: "greet",
   aliases: ["autoreply"],
   category: "Settings",
@@ -987,7 +987,7 @@ bwmxmd({
     }
   });
 //========================================================================================================================
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
 // Helper functions for media download
 async function downloadMedia(mediaUrl) {
@@ -1000,7 +1000,7 @@ async function downloadMedia(mediaUrl) {
   }
 }
 
-bwmxmd({
+kiubyxmd({
   pattern: "chatbot",
   aliases: ["chatai"],
   category: "Settings",
@@ -1214,9 +1214,9 @@ function getTypeIcon(type) {
   return icons[type] || '📝';
 }
 //========================================================================================================================
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
-bwmxmd({
+kiubyxmd({
   pattern: "autoviewstatus",
   aliases: ["viewstatus"],
   category: "Settings",
@@ -1263,9 +1263,9 @@ bwmxmd({
 //========================================================================================================================
 
 
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
-bwmxmd({
+kiubyxmd({
   pattern: "autoreplystatus",
   aliases: ["replystatus"],
   category: "Settings",
@@ -1326,9 +1326,9 @@ bwmxmd({
     reply("❌ Invalid input. Use `.autoreplystatus status` to view usage.");
   });
 //========================================================================================================================
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
-bwmxmd({
+kiubyxmd({
   pattern: "autoread",
   aliases: ["readmessages", "setread"],
   category: "Settings",
@@ -1413,9 +1413,9 @@ bwmxmd({
     }
   });
 //========================================================================================================================
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
-bwmxmd({
+kiubyxmd({
   pattern: "autolikestatus",
   aliases: ["likestatus"],
   category: "Settings",
@@ -1489,9 +1489,9 @@ bwmxmd({
     reply("❌ Invalid input. Use `.autolikestatus status` to view usage.");
   });
 //========================================================================================================================
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
-bwmxmd({
+kiubyxmd({
   pattern: "autobio",
   aliases: ["bio", "setbio"],
   category: "Settings",
@@ -1510,7 +1510,7 @@ bwmxmd({
 
     if (!subcommand) {
       const status = settings.status === 'on' ? '✅ ON' : '❌ OFF';
-      const currentBotName = botSettings.botname || 'ISCE-BOT';
+      const currentBotName = botSettings.botname || 'KIUBY-XMD';
       const currentTimezone = botSettings.timezone || 'Africa/Nairobi';
 
       return reply(
@@ -1569,9 +1569,9 @@ bwmxmd({
     }
   });
 //========================================================================================================================
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
-bwmxmd({
+kiubyxmd({
   pattern: "antistatusmention",
   aliases: ["antistatus", "statusguard"],
   category: "Settings",
@@ -1646,9 +1646,9 @@ bwmxmd({
     }
   });
 //========================================================================================================================
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
-bwmxmd({
+kiubyxmd({
   pattern: "antilink",
   aliases: ["linkguard"],
   category: "Settings",
@@ -1744,7 +1744,7 @@ bwmxmd({
   });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "antidelete",
   aliases: ["deleteset", "antideletesetting"],
   category: "Settings",
@@ -1866,7 +1866,7 @@ bwmxmd({
 //========================================================================================================================
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "allvar",
   react: "📊",
   aliases: ["getallvar", "vars", "listvars", "varlist", "allsettings"],
@@ -1899,7 +1899,7 @@ bwmxmd({
       const mins = Math.floor((uptime % 3600) / 60);
       const memUsage = Math.round(process.memoryUsage().heapUsed / 1024 / 1024);
 
-      let msg = `*ISCE-BOT ALL VARIABLES*\n`;
+      let msg = `*KIUBY-XMD ALL VARIABLES*\n`;
       msg += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
       msg += `*BOT CONFIG*\n`;
@@ -1947,7 +1947,7 @@ bwmxmd({
     }
   });
 
-bwmxmd({
+kiubyxmd({
   pattern: "getvar",
   react: "📋",
   aliases: ["var", "gv", "get"],
@@ -2035,7 +2035,7 @@ bwmxmd({
     }
   });
 
-bwmxmd({
+kiubyxmd({
   pattern: "setvar",
   react: "✏️",
   aliases: ["sv", "setv"],
@@ -2154,7 +2154,7 @@ bwmxmd({
     }
   });
 
-bwmxmd({
+kiubyxmd({
   pattern: "systeminfo",
   react: "📊",
   aliases: ["sysinfo", "botstatus", "runtime"],
@@ -2176,7 +2176,7 @@ bwmxmd({
     const heapTotal = Math.round(memUsage.heapTotal / 1024 / 1024);
     const rss = Math.round(memUsage.rss / 1024 / 1024);
 
-    let msg = `*ISCE-BOT SYSTEM INFO*\n`;
+    let msg = `*KIUBY-XMD SYSTEM INFO*\n`;
     msg += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
     msg += `*RUNTIME*\n`;
@@ -2190,7 +2190,7 @@ bwmxmd({
     msg += `└ RSS: ${rss}MB\n\n`;
 
     msg += `*BOT*\n`;
-    msg += `├ Name: ${botSettings?.botname || 'ISCE-BOT'}\n`;
+    msg += `├ Name: ${botSettings?.botname || 'KIUBY-XMD'}\n`;
     msg += `├ Mode: ${botSettings?.mode || 'public'}\n`;
     msg += `├ Device: ${botSettings?.deviceMode || 'Android'}\n`;
     msg += `└ Prefix: ${botSettings?.prefix || '.'}\n\n`;
@@ -2205,7 +2205,7 @@ bwmxmd({
 
 // --- Quick Settings Aliases ---
 
-bwmxmd({
+kiubyxmd({
   pattern: "autolike",
   description: "Toggle Auto-Like Status",
   category: "Settings",
@@ -2229,7 +2229,7 @@ bwmxmd({
   }
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "autorecord",
   description: "Set presence to Recording for all chats",
   category: "Settings",
@@ -2253,7 +2253,7 @@ bwmxmd({
   }
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "autotyping",
   description: "Set presence to Typing for all chats",
   category: "Settings",

@@ -1,4 +1,4 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const { sendButtons } = require('gifted-btns');
 const axios = require('axios');
 const moment = require("moment-timezone");
@@ -8,7 +8,7 @@ const { exec } = require("child_process");
 const s = require(__dirname + "/../config");
 const XMD = require('../core/xmd');
 
-const BOT_NAME = s.BOT || 'ISCE-BOT';
+const BOT_NAME = s.BOT || 'KIUBY-XMD';
 const MEDIA_URLS = s.BOT_URL || [];
 const getGlobalContextInfo = () => XMD.getContextInfo();
 const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, sender);
@@ -45,10 +45,10 @@ const convertToOpus = (inputPath, outputPath) => {
     });
 };
 
-bwmxmd({
+kiubyxmd({
   pattern: "bwmgift",
   aliases: ["bwmapk", "siteapk"],
-  description: "Send ISCE-BOT APK",
+  description: "Send KIUBY-XMD APK",
   category: "General",
   filename: __filename
 }, async (from, client, conText) => {
@@ -80,7 +80,7 @@ bwmxmd({
   }
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "pair",
   description: "Generate pairing code and copy it",
   category: "General",
@@ -141,7 +141,7 @@ bwmxmd({
   }
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "location",
   aliases: ["pinlocation", "getlocation"],
   category: "General",
@@ -184,7 +184,7 @@ bwmxmd({
   }
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "copy",
   aliases: ["copied", "cp"],
   description: "Copy quoted message text via button",
@@ -233,10 +233,10 @@ bwmxmd({
   }
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "repo",
   aliases: ["script", "sc", "git"],
-  description: "Send ISCE-BOT repo information with random audio",
+  description: "Send KIUBY-XMD repo information with random audio",
   category: "General",
   filename: __filename
 }, async (from, client, conText) => {
@@ -255,7 +255,7 @@ bwmxmd({
       day: "numeric", month: "short", year: "numeric"
     });
 
-    const repoUrl = 'github.com/Bwmxmd254/ISCE-BOT-GO';
+    const repoUrl = 'github.com/KIUBY-XMD254/KIUBY-XMD-GO';
 
     const messageText =
       `📌 *${BOT_NAME} REPO INFO*\n\n` +
@@ -266,7 +266,7 @@ bwmxmd({
       `👤 Owner: ${author}\n\n` +
       `🔗 Repo Url\n ${repoUrl}\n\n` +
       `_Reply *1* for random NCS audio_\n\n` +
-      `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+      `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
     const contextInfo = {
       forwardingScore: 1,

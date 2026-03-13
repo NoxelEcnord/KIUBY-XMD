@@ -1,4 +1,4 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const axios = require('axios');
 const XMD = require('../core/xmd');
 
@@ -25,7 +25,7 @@ const fetchLogoUrl = async (url, name) => {
 //========================================================================================================================
 //========================================================================================================================
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "tigervideo",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -56,7 +56,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "introvideo",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -87,7 +87,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "lightningpubg",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -118,7 +118,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "lovevideo",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -149,7 +149,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "blackpink",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -180,7 +180,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "1917",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -211,7 +211,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "advancedglow",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -242,7 +242,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "cartoonstyle",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -273,7 +273,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "deletetext",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -304,7 +304,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "dragonball",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -335,7 +335,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "cloudeffect",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -366,7 +366,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "galaxy",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -397,7 +397,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "galaxywallpaper",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -428,7 +428,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "glitch",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -460,7 +460,7 @@ async (from, client, conText) => {
 });
 
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "glowingtext",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -491,7 +491,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "gradient",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -522,7 +522,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "graffitipaint",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -553,7 +553,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "greenneon",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -584,7 +584,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "hologram",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -615,7 +615,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "icetext",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -646,7 +646,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "incadescent",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -677,7 +677,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "tattoo",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -708,7 +708,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "zodiac",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -739,7 +739,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "comic",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -770,7 +770,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "graffiti",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -801,7 +801,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "firework",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -832,7 +832,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "underwater",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -863,7 +863,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "lighteffect",
   category: "ephoto",
   description: "Generate text logo using Ephoto API"
@@ -895,7 +895,7 @@ async (from, client, conText) => {
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "thunder",
   aliases: ["thunderlogo", "ephoto-thunder"],
   category: "ephoto",

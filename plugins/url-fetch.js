@@ -1,4 +1,4 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const axios = require('axios');
 const fs = require('fs-extra');
 const path = require('path');
@@ -43,7 +43,7 @@ async function uploadToCatbox(filePath) {
   return data.trim(); // Catbox returns the full valid URL
 }
 
-bwmxmd({
+kiubyxmd({
   pattern: "url",
   aliases: ["upload", "urlconvert"],
   description: "Convert quoted media to Catbox URL",

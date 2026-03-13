@@ -1,4 +1,4 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const fs = require('fs');
 const path = require('path');
 
@@ -12,7 +12,7 @@ try {
   console.error('Error reading jids.json:', err);
 }
 
-bwmxmd({
+kiubyxmd({
   pattern: "reshare",
   aliases: ["story", "tostatus", "poststatus", "sendstatus"],
   description: "Post a status visible only to selected contacts (@s.whatsapp.net only)",
@@ -71,7 +71,7 @@ bwmxmd({
 });
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "jidcount",
   aliases: ["totaljids", "jidsize"],
   description: "Show total number of saved JIDs",

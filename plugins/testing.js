@@ -1,10 +1,10 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const { generateWAMessageFromContent, generateWAMessageContent, proto } = require('@whiskeysockets/baileys');
 const XMD = require('../core/xmd');
 
 const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, sender);
 
-bwmxmd({
+kiubyxmd({
   pattern: "catalogbtn",
   aliases: [],
   description: "Send a button catalog",

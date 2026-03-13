@@ -1,4 +1,4 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const fs = require('fs');
 const { exec } = require('child_process');
 const axios = require('axios');
@@ -22,7 +22,7 @@ const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, se
 
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "trim",
   description: "Trim quoted audio or video using start and end time",
   category: "Utility",
@@ -72,7 +72,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "volume",
   description: "Adjust volume of quoted audio or video",
   category: "Utility",
@@ -117,7 +117,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "tomp3",
   aliases: ["toaudio", "audioextract"],
   description: "Convert quoted audio or video to MP3",
@@ -158,7 +158,7 @@ bwmxmd({
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "toimg",
   aliases: ["sticker2img", "webp2png"],
   description: "Convert quoted sticker to image",
@@ -193,7 +193,7 @@ bwmxmd({
   }
 });
 //==================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "amplify",
   aliases: ["replaceaudio", "mergeaudio"],
   description: "Replace quoted video's audio with a new audio URL",

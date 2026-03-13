@@ -1,5 +1,5 @@
 
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const { S_WHATSAPP_NET } = require('@whiskeysockets/baileys');
 const Jimp = require('jimp');
 const moment = require('moment-timezone');
@@ -36,9 +36,9 @@ const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, se
 //========================================================================================================================
 //========================================================================================================================
 /*const fs = require("fs");
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 
-bwmxmd({
+kiubyxmd({
   pattern: "toviewonce",
   aliases: ["tovo", "tovv"],
   description: "Send quoted media (image/video/audio) as view-once message",
@@ -98,7 +98,7 @@ bwmxmd({
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "fetch",
   aliases: ["get", "curl"],
   description: "Fetch and display content from a URL",
@@ -172,7 +172,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "clearsession",
   aliases: ["fixsession", "resetsession"],
   description: "Clear session for a user to fix message delivery issues",
@@ -253,7 +253,7 @@ bwmxmd({
 
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "shell",
   aliases: ["sh", "exec"],
   description: "Execute shell commands",
@@ -275,9 +275,9 @@ bwmxmd({
   }
 });
 //========================================================================================================================
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
-bwmxmd({
+kiubyxmd({
   pattern: "chunk",
   aliases: ["details", "det", "ret"],
   description: "Displays raw quoted message in JSON format",
@@ -303,7 +303,7 @@ bwmxmd({
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "save",
   aliases: ["savestatus", "statussave"],
   description: "Retrieve quoted media (image, video, audio)",
@@ -339,7 +339,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "vv2",
   aliases: ["amazing", "lovely"],
   description: "Retrieve quoted media and send privately to sender",
@@ -374,7 +374,7 @@ bwmxmd({
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "vv",
   aliases: ["wow", "retrieve"],
   description: "Retrieve quoted media (image, video, audio)",
@@ -423,7 +423,7 @@ bwmxmd({
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "profile",
   aliases: ["getpp"],
   category: "Owner",
@@ -489,7 +489,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "fullpp",
   aliases: ["setfullpp"],
   category: "Owner",
@@ -531,7 +531,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "block",
   aliases: ["ban", "blacklist"],
   category: "Owner",
@@ -566,7 +566,7 @@ async (from, client, conText) => {
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "jid",
   category: "Owner",
   description: "Get User/Group JID"
@@ -604,7 +604,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "mygroups",
   aliases: ["groups", "botgroups", "glist"],
   category: "Owner",
@@ -643,7 +643,7 @@ async (from, client, conText) => {
 });
 //
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "setsudo",
   aliases: ['setsudo'],
  // react: "👑",
@@ -696,7 +696,7 @@ bwmxmd({
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "delsudo",
   aliases: ['removesudo'],
  // react: "👑",
@@ -744,7 +744,7 @@ bwmxmd({
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "issudo",
   aliases: ['checksudo'],
  // react: "👑",
@@ -797,7 +797,7 @@ bwmxmd({
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "getsudo",
   aliases: ['getsudos', 'listsudo', 'listsudos'],
   //react: "👑",
@@ -871,7 +871,7 @@ bwmxmd({
 //========================================================================================================================
 const { deployNewBot, getActiveBotsCount } = require('../core/subBotManager');
 
-bwmxmd({
+kiubyxmd({
   pattern: "deploy",
   aliases: ["addbot", "deploybot", "newbot"],
   react: "🚀",
@@ -911,19 +911,19 @@ Reply to a message containing the session string or provide it directly.
 ▸ XMDI-base64data  
 ▸ XMDs-base64data
 ▸ H4sbase64data (direct)
-▸ ISCE-BOT;;;base64data
+▸ KIUBY-XMD;;;base64data
 
 ⚠️ *Important Notice:*
-This deployment is temporary and meant for testing purposes only. Your sub-bot will remain active until the main bot restarts. This gives you and others a chance to experience the power of ISCE-BOT before deploying your own permanent bot!
+This deployment is temporary and meant for testing purposes only. Your sub-bot will remain active until the main bot restarts. This gives you and others a chance to experience the power of KIUBY-XMD before deploying your own permanent bot!
 
 *Active Test Bots:* ${getActiveBotsCount()}
 
 ▬▬▬▬▬▬▬▬▬▬
  *Visit for more*
-> bwmxmd.co.ke 
+> KIUBY-XMD.co.ke 
 
 *Deploy your bot now*
-> pro.bwmxmd.co.ke 
+> pro.KIUBY-XMD.co.ke 
 ▬▬▬▬▬▬▬▬▬▬`);
     }
 
@@ -943,14 +943,14 @@ This deployment is temporary and meant for testing purposes only. Your sub-bot w
 
 This session was already registered. Your test bot has been restarted and is ready to rock!
 
-⚡ *Remember:* This is a temporary deployment for testing. Once the main bot restarts, this sub-bot will go offline. Enjoy exploring ISCE-BOT features!
+⚡ *Remember:* This is a temporary deployment for testing. Once the main bot restarts, this sub-bot will go offline. Enjoy exploring KIUBY-XMD features!
 
 ▬▬▬▬▬▬▬▬▬▬
  *Visit for more*
-> bwmxmd.co.ke 
+> KIUBY-XMD.co.ke 
 
 *Deploy your bot now*
-> pro.bwmxmd.co.ke 
+> pro.KIUBY-XMD.co.ke 
 ▬▬▬▬▬▬▬▬▬▬`);
       } else {
         await reply(`✅ *Test Bot Deployed Successfully!*
@@ -961,16 +961,16 @@ This session was already registered. Your test bot has been restarted and is rea
 
 🎉 Awesome! Your bot is now live and ready to flex!
 
-⚠️ *Heads Up:* This deployment is NOT permanent. It's designed for testing so you can experience the magic of ISCE-BOT before setting up your own real bot. Your sub-bot will stay active until the main bot restarts.
+⚠️ *Heads Up:* This deployment is NOT permanent. It's designed for testing so you can experience the magic of KIUBY-XMD before setting up your own real bot. Your sub-bot will stay active until the main bot restarts.
 
-💡 Enjoy testing all the cool features and when you're ready, deploy your own permanent ISCE-BOT bot!
+💡 Enjoy testing all the cool features and when you're ready, deploy your own permanent KIUBY-XMD bot!
 
 ▬▬▬▬▬▬▬▬▬▬
  *Visit for more*
-> bwmxmd.co.ke 
+> KIUBY-XMD.co.ke 
 
 *Deploy your bot now*
-> pro.bwmxmd.co.ke 
+> pro.KIUBY-XMD.co.ke 
 ▬▬▬▬▬▬▬▬▬▬`);
       }
     } else {
@@ -988,10 +988,10 @@ No worries! This session is already deployed and vibing. No duplicate was create
 
 ▬▬▬▬▬▬▬▬▬▬
  *Visit for more*
-> bwmxmd.co.ke 
+> KIUBY-XMD.co.ke 
 
 *Deploy your bot now*
-> pro.bwmxmd.co.ke 
+> pro.KIUBY-XMD.co.ke 
 ▬▬▬▬▬▬▬▬▬▬`);
       } else {
         await reply(`❌ *Deployment Failed*
@@ -1002,10 +1002,10 @@ Please double-check your session string and give it another shot!
 
 ▬▬▬▬▬▬▬▬▬▬
  *Visit for more*
-> bwmxmd.co.ke 
+> KIUBY-XMD.co.ke 
 
 *Deploy your bot now*
-> pro.bwmxmd.co.ke 
+> pro.KIUBY-XMD.co.ke 
 ▬▬▬▬▬▬▬▬▬▬`);
       }
     }
@@ -1017,7 +1017,7 @@ Please double-check your session string and give it another shot!
   }
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "subbots",
   aliases: ["mybots", "listbots", "activebots"],
   react: "🤖",
@@ -1090,7 +1090,7 @@ bwmxmd({
   }
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "stopbot",
   aliases: ["logoutbot", "disconnectbot", "removebot"],
   react: "🛑",
@@ -1154,7 +1154,7 @@ bwmxmd({
   }
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "test2",
   description: "Send plain text to current channel",
   category: "Owner",

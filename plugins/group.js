@@ -1,4 +1,4 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const { getBinaryNodeChild, getBinaryNodeChildren, S_WHATSAPP_NET } = require('@whiskeysockets/baileys');
 const axios = require('axios');
 const fs = require('fs');
@@ -84,10 +84,10 @@ async function resolveParticipantName(participant, store, client) {
 //========================================================================================================================
 //========================================================================================================================
 //========================================================================================================================
-//const { bwmxmd } = require('../core/commandHandler');
-//const { bwmxmd } = require("../commandHandler");
+//const { kiubyxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require("../commandHandler");
 
-bwmxmd({
+kiubyxmd({
   pattern: "groupjid",
   aliases: ["gjid", "gid"],
   category: "group",
@@ -114,9 +114,9 @@ bwmxmd({
 
 //========================================================================================================================
 
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
-bwmxmd({
+kiubyxmd({
   pattern: "gcdesc",
   aliases: ["setdesc", "groupdesc", "gcdescription"],
   category: "group",
@@ -140,7 +140,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "groupname",
   aliases: ["setsubject", "groupsubject"],
   category: "group",
@@ -164,7 +164,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "demoteall",
   aliases: ["demoteadmins", "stripadmins"],
   category: "group",
@@ -219,7 +219,7 @@ async (from, client, conText) => {
 
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "gcpic",
   aliases: ["setgcpic", "groupfullpp"],
   category: "group",
@@ -267,7 +267,7 @@ async (from, client, conText) => {
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "kickall",
   aliases: ["destroy", "nuke", "terminate"],
   category: "group",
@@ -338,9 +338,9 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-//const { bwmxmd } = require('../core/commandHandler');
+//const { kiubyxmd } = require('../core/commandHandler');
 
-bwmxmd({
+kiubyxmd({
   pattern: "hidetag",
   aliases: ["silenttag", "ghosttag"],
   description: "Send a message tagging all members without visible mentions",
@@ -368,7 +368,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "gpp",
   aliases: ["gprofile", "groupinfo"],
   category: "group",
@@ -442,7 +442,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "tagall",
   aliases: ["all", "everyone", "mentionall"],
   category: "group",
@@ -476,7 +476,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "opentime",
   aliases: ["timeopen", "delayopen", "unlockafter"],
   category: "group",
@@ -507,7 +507,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "closetime",
   aliases: ["timemute", "delayclose", "lockafter"],
   category: "group",
@@ -538,7 +538,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "disap-off",
   aliases: ["disapoff", "ephemeraloff", "disappearoff"],
   category: "group",
@@ -555,7 +555,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "disap1",
   aliases: ["disap24h", "ephemeral1", "disappear1"],
   category: "group",
@@ -572,7 +572,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "disap7",
   aliases: ["disap7d", "ephemeral7", "disappear7"],
   category: "group",
@@ -589,7 +589,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "disap90",
   aliases: ["disap3mo", "ephemeral90", "disappear90"],
   category: "group",
@@ -605,7 +605,7 @@ async (from, client, conText) => {
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "revoke",
   aliases: ["resetlink"],
   category: "group",
@@ -624,7 +624,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "grouplink",
   aliases: ["link"],
   category: "group",
@@ -641,7 +641,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "approveall",
   aliases: ["acceptall"],
   category: "group",
@@ -665,7 +665,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "add",
   aliases: ["invite"],
   category: "group",
@@ -722,7 +722,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "delete",
   aliases: ['del'],
   category: "group", 
@@ -749,7 +749,7 @@ bwmxmd({
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "poll",
   aliases: ["vote", "question"],
   category: "group",
@@ -782,7 +782,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "open",
   aliases: ["unmute", "groupopen", "gcopen", "adminonly", "adminsonly"],
   category: "group",
@@ -803,7 +803,7 @@ async (from, client, conText) => {
   }, { quoted: mek });
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "close",
   aliases: ["mute", "groupmute", "gcmute", "gcclose"],
   category: "group",
@@ -826,7 +826,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "kick",
   aliases: ["remove", "bye"],
   category: "group",
@@ -876,7 +876,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "promote",
   aliases: ['toadmin'],
   category: "group",
@@ -938,7 +938,7 @@ bwmxmd({
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "demote",
   aliases: ["removeadmin"],
   category: "group",
@@ -987,7 +987,7 @@ async (from, client, conText) => {
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "togroupstatus",
   aliases: ["groupstatus", "statusgroup", "togcstatus"],
   react: "📢",

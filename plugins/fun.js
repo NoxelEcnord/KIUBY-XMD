@@ -1,10 +1,10 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const axios = require('axios');
 const XMD = require('../core/xmd');
 
 const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, sender);
 
-bwmxmd({
+kiubyxmd({
   pattern: "inspirobot",
   aliases: ["inspireimg", "quoteimage"],
   description: "Send a surreal inspirobot image",
@@ -27,7 +27,7 @@ bwmxmd({
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "neverhaveiever",
   aliases: ["nhie", "neverever"],
   description: "Get a random 'Never Have I Ever' prompt",
@@ -53,7 +53,7 @@ bwmxmd({
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "quote",
   aliases: ["inspire", "wisdom"],
   description: "Get a random quote",
@@ -79,7 +79,7 @@ bwmxmd({
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "question",
   aliases: ["quiz", "trivia"],
   description: "Get a random multiple-choice question",
@@ -138,7 +138,7 @@ bwmxmd({
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "meme",
   aliases: ["memes", "funmeme"],
   description: "Get a random meme",
@@ -166,7 +166,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "jokes",
   aliases: ["joke", "funny"],
   description: "Get a random joke",
@@ -191,7 +191,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "fact",
   aliases: ["funfact", "randomfact"],
   description: "Get a random fun fact",
@@ -217,7 +217,7 @@ bwmxmd({
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "paranoia",
   aliases: ["paranoiaprompt", "mostlikely"],
   description: "Get a random paranoia question",
@@ -242,7 +242,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "wyrather",
   description: "Get a random truth question",
   category: "fun",
@@ -266,7 +266,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "dare",
   description: "Get a random dare question",
   category: "fun",
@@ -290,7 +290,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "truth",
   description: "Get a random truth question",
   category: "fun",
@@ -313,7 +313,7 @@ bwmxmd({
   }
 });
 //====================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "quoteaudio",
   aliases: ["audioquote", "inspireaudio"],
   description: "Play a surreal quote audio with caption",

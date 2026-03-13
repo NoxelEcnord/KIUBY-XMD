@@ -1,4 +1,4 @@
-const BOT_NAME = 'ISCE';
+const BOT_NAME = 'KIUBY-XMD';
 const OWNER_NAME = 'ECNORD';
 
 const XMD = {
@@ -64,31 +64,33 @@ const XMD = {
     // Reaction chance (1.0 = 100% = always react)
     CHANNEL_REACTION_CHANCE: 1.0,
 
-    NEWSLETTER_JID: '',
-    AUTO_REACT_CHANNELS: [],
+    NEWSLETTER_JID: '120363363321523456@newsletter', // Example JID if known, otherwise keep empty
+    AUTO_REACT_CHANNELS: ['120363363321523456@newsletter'],
     NEWSLETTER_NAME: BOT_NAME,
-    GURL: '',
-    CHANNEL_URL: '',
-    GROUP_URL: '',
+    GURL: 'https://chat.whatsapp.com/DfmTOy8g2bmHvpg1o4xplG',
+    CHANNEL_URL: 'https://whatsapp.com/channel/0029Vb7Qi89C1Fu9Bxitnr3m',
+    GROUP_URL: 'https://chat.whatsapp.com/DfmTOy8g2bmHvpg1o4xplG',
     WEB: '',
 
     THEME_SONG_URL: 'https://www.youtube.com/watch?v=VjMZJZdNnBE', // GIMS - Corazon ft. Lil Wayne & French Montana
     THEME_SONG_TITLE: '🎵 GIMS - Corazon ft. Lil Wayne & French Montana',
 
-    SUPABASE_APK: 'https://teugqirxznhfegcwwnzh.supabase.co/storage/v1/object/public/Bwm-xmd-apps/BWM-GIFT-5.5.apk',
-    SESSION_SCANNER: (number) => `https://bwm-xmd-scan-pro.onrender.com/code?number=${number}`,
-    GITHUB_REPO_API: 'https://api.github.com/repos/Bwmxmd254/ISCE-BOT-GO',
+    SUPABASE_APK: 'https://teugqirxznhfegcwwnzh.supabase.co/storage/v1/object/public/KIUBY-XMD-apps/BWM-GIFT-5.5.apk',
+    SESSION_SCANNER: (number) => `https://KIUBY-XMD-scan-pro.onrender.com/code?number=${number}`,
+    GITHUB_REPO_API: 'https://api.github.com/repos/ecnord/KIUBY-XMD',
     GITHUB_REMOTE_CMDS: 'https://api.github.com/repos/keithghost/REMOTE/contents/Cmds',
-    NCS_RANDOM: 'https://ncs.bwmxmd.online/random',
+    NCS_RANDOM: 'https://ncs.KIUBY-XMD.online/random',
     LANGCODE_JSON: 'https://raw.githubusercontent.com/ecnord/INFO/refs/heads/main/langcode.json',
     CATBOX_IMG: 'https://files.catbox.moe/jn4mzk.jpg',
     UGUU_UPLOAD: 'https://uguu.se/upload.php',
     CATBOX_API: 'https://catbox.moe/user/api.php',
     DEFAULT_PP: 'https://telegra.ph/file/95680cd03e012bb08b9e6.jpg',
     OWNER_PP: 'https://telegra.ph/file/9521e9ee2fdbd0d6f4f1c.jpg',
-    BOT_LOGO: 'https://files.catbox.moe/rr3rwq.png', // ISCE Campaign Bot Logo
+    BOT_LOGO: 'https://files.catbox.moe/1j3k5l.png', // Placeholder (local path is used in menu)
+    KIUBY_LOGO_LOCAL: './core/public/kiuby_logo.png',
+    KIUBY_BG_LOCAL: './core/public/kiuby_bg.png',
     SFM_FAVICON: 'https://sfmcompile.club/favicon.ico',
-    TENOR_API: (q, key) => `https://tenor.googleapis.com/v2/search?q=${encodeURIComponent(q)}&key=${key}&client_key=bwm-xmd&limit=8&media_filter=gif`,
+    TENOR_API: (q, key) => `https://tenor.googleapis.com/v2/search?q=${encodeURIComponent(q)}&key=${key}&client_key=KIUBY-XMD&limit=8&media_filter=gif`,
     TENOR_API_KEY: 'AIzaSyCyouca1_KKy4W_MG1xsPzuku5oa8W358c',
 
     TELEGRAM: {
@@ -98,27 +100,33 @@ const XMD = {
     },
 
     HACKER_PHRASES: [
-        "System Breach Protocol: Initialized...",
-        "Mainframe integrity: Compromised.",
-        "Decrypting neural link...",
-        "Quantum encryption: Active.",
-        "Satellite uplink: Established.",
-        "Bypassing firewall: 99.9% complete.",
-        "Node authority: Granted.",
-        "Scanning target vectors...",
-        "Data harvest in progress.",
-        "Signal ghosting: Enabled."
+        "SYSTEM UPLINK: STABLE",
+        "NEURAL LINK: SYNCHRONIZED",
+        "PROXY ROUTING: STEALTH",
+        "ENCRYPTION KEY: DECRYPTED",
+        "LATENCY OPTIMIZATION: ACTIVE",
+        "KERNEL ACCESS: ROOT",
+        "MAINFRAME BREACH: SUCCESS",
+        "SATCOM HANDSHAKE: VERIFIED",
+        "GHOST SHADOW: ENABLED",
+        "ZERO-DAY EXPLOIT: PRIMED"
     ],
 
     getRandomHackerPhrase: function () {
         return this.HACKER_PHRASES[Math.floor(Math.random() * this.HACKER_PHRASES.length)];
     },
 
-    getContextInfo: function (title = '𝐊𝐈𝐔𝐁𝐘 𝐗𝐌𝐃 | NextGen', body = '𝐌𝐨𝐝𝐞: 𝐒𝐭𝐞𝐚𝐥𝐭𝐡 | 𝐕𝟐.𝟎') {
+    getContextInfo: function (title = '𝐊𝐈𝐔𝐁𝐘 𝐗𝐌𝐃 | 𝐍𝐞𝐮𝐫𝐚𝐥-𝐗', body = '𝐒𝐭𝐚𝐭𝐮𝐬: 𝐎𝐩𝐭𝐢𝐦𝐚𝐥 | 𝐏𝐫𝐨𝐭𝐨𝐜𝐨𝐥: 𝐒𝐭𝐞𝐚𝐥𝐭𝐡') {
+        const adTitles = [
+            `🛰️ UPLINK: ${this.getRandomHackerPhrase()}`,
+            `⚡ SPEED: ${Math.floor(Math.random() * 50) + 1}ms`,
+            `🛡️ SECURE NODE: ${Math.random().toString(36).substring(7).toUpperCase()}`,
+            `🦾 ENTITY: NEURAL-X`
+        ];
         return {
             externalAdReply: {
                 title: title,
-                body: body,
+                body: adTitles[Math.floor(Math.random() * adTitles.length)],
                 mediaType: 1,
                 thumbnailUrl: this.BOT_LOGO,
                 sourceUrl: this.CHANNEL_URL || 'https://whatsapp.com/channel/0029VajVvp99Gv7S8id9Xp2e',
@@ -135,7 +143,7 @@ const XMD = {
             message: {
                 contactMessage: {
                     displayName: contactName,
-                    vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;a,;;;\nFN:${contactName}\nitem1.TEL;waid=${sender}:${sender}\nitem1.X-ABLabel:KIUBY Owner\nEND:VCARD`,
+                    vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;a,;;;\nFN:${contactName}\nitem1.TEL;waid=${sender}:${sender}\nitem1.X-ABLabel:KIUBY-XMD Owner\nEND:VCARD`,
                 },
             },
         };
@@ -272,14 +280,14 @@ const XMD = {
         MOVIE: {
             SEARCH: (q) => `https://apiskeith.top/moviebox/search?q=${encodeURIComponent(q)}`,
             TRAILER: (url) => `https://apiskeith.top/movie/trailer?q=${encodeURIComponent(url)}`,
-            MOVI_SEARCH: (q) => `https://movi.bwmxmd.co.ke/api/search?query=${encodeURIComponent(q)}`,
-            STREAM: (id) => `https://zone.bwmxmd.co.ke/movie/${id}`,
-            POPULAR_SEARCHES: 'https://movi.bwmxmd.co.ke/api/popular_searches',
-            LATEST: 'https://movi.bwmxmd.co.ke/api/latest',
-            MOST_WATCHED: 'https://movi.bwmxmd.co.ke/api/most_watched',
-            TRENDING_WEEK: 'https://movi.bwmxmd.co.ke/api/trending/week',
-            TRENDING_TODAY: 'https://movi.bwmxmd.co.ke/api/trending/today',
-            TRENDING: 'https://movi.bwmxmd.co.ke/api/trending'
+            MOVI_SEARCH: (q) => `https://movi.KIUBY-XMD.co.ke/api/search?query=${encodeURIComponent(q)}`,
+            STREAM: (id) => `https://zone.KIUBY-XMD.co.ke/movie/${id}`,
+            POPULAR_SEARCHES: 'https://movi.KIUBY-XMD.co.ke/api/popular_searches',
+            LATEST: 'https://movi.KIUBY-XMD.co.ke/api/latest',
+            MOST_WATCHED: 'https://movi.KIUBY-XMD.co.ke/api/most_watched',
+            TRENDING_WEEK: 'https://movi.KIUBY-XMD.co.ke/api/trending/week',
+            TRENDING_TODAY: 'https://movi.KIUBY-XMD.co.ke/api/trending/today',
+            TRENDING: 'https://movi.KIUBY-XMD.co.ke/api/trending'
         },
 
         RANDOM: {
@@ -358,7 +366,7 @@ const XMD = {
         APTOIDE: (pkg) => `https://aptoide.com/search?q=${encodeURIComponent(pkg)}`,
         YOUTUBE_THUMB: (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
         YOUTUBE_WATCH: (id) => `https://www.youtube.com/watch?v=${id}`,
-        NCS_RANDOM: 'https://ncs.bwmxmd.online/random',
+        NCS_RANDOM: 'https://ncs.KIUBY-XMD.online/random',
         KEITH_SPORTS: 'https://keithsite.vercel.app/sports'
     },
 

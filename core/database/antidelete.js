@@ -9,7 +9,7 @@ const AntiDeleteDB = database.define('antidelete', {
     },
     notification: {
         type: DataTypes.STRING,
-        defaultValue: '🗑️ *ISCE-BOT AntiDelete*',
+        defaultValue: '🗑️ *KIUBY-XMD AntiDelete*',
         allowNull: false
     },
     includeGroupInfo: {
@@ -54,7 +54,7 @@ async function getAntiDeleteSettings() {
             
             settings = await AntiDeleteDB.create({
                 status: initialStatus,
-                notification: '🗑️ *ISCE-BOT AntiDelete*',
+                notification: '🗑️ *KIUBY-XMD AntiDelete*',
                 includeGroupInfo: true,
                 sendToOwner: true,
                 includeMedia: true
@@ -64,7 +64,7 @@ async function getAntiDeleteSettings() {
         // Database values take priority (commands override env vars)
         return {
             status: settings.status,
-            notification: settings.notification || '🗑️ *ISCE-BOT AntiDelete*',
+            notification: settings.notification || '🗑️ *KIUBY-XMD AntiDelete*',
             includeGroupInfo: settings.includeGroupInfo ?? true,
             sendToOwner: settings.sendToOwner ?? true,
             includeMedia: settings.includeMedia ?? true
@@ -74,7 +74,7 @@ async function getAntiDeleteSettings() {
         const envStatus = process.env.ANTI_DELETE;
         return { 
             status: envStatus ? (envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true') : true, 
-            notification: '🗑️ *ISCE-BOT AntiDelete*',
+            notification: '🗑️ *KIUBY-XMD AntiDelete*',
             includeGroupInfo: true,
             sendToOwner: true,
             includeMedia: true

@@ -1,16 +1,16 @@
 const axios = require('axios');
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const s = require(__dirname + "/../config");
 const XMD = require('../core/xmd');
 
-const BOT_NAME = s.BOT || 'ISCE-BOT';
+const BOT_NAME = s.BOT || 'KIUBY-XMD';
 
 const extractVideoId = (url) => {
   const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
   return match ? match[1] : null;
 };
 
-bwmxmd({
+kiubyxmd({
   pattern: "play",
   aliases: ["song", "music", "yta"],
   category: "Downloader",
@@ -246,7 +246,7 @@ _Reply *0* to cancel_`;
     }
   });
 
-bwmxmd({
+kiubyxmd({
   pattern: "video",
   aliases: ["ytmp4", "ytv", "vid"],
   category: "Downloader",

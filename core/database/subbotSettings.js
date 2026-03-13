@@ -25,7 +25,7 @@ const SubBotSettingsDB = database.define('subbot_settings', {
     },
     gurl: {
         type: DataTypes.TEXT,
-        defaultValue: "https://github.com/Bwmxmd254/ISCE-BOT-GO",
+        defaultValue: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
         allowNull: false
     },
     timezone: {
@@ -35,12 +35,12 @@ const SubBotSettingsDB = database.define('subbot_settings', {
     },
     botname: {
         type: DataTypes.STRING,
-        defaultValue: "ISCE-BOT",
+        defaultValue: "KIUBY-XMD",
         allowNull: false
     },
     packname: {
         type: DataTypes.STRING,
-        defaultValue: "ISCE-BOT",
+        defaultValue: "KIUBY-XMD",
         allowNull: false
     },
     mode: {
@@ -50,7 +50,7 @@ const SubBotSettingsDB = database.define('subbot_settings', {
     },
     sessionName: {
         type: DataTypes.STRING,
-        defaultValue: "ISCE-BOT",
+        defaultValue: "KIUBY-XMD",
         allowNull: false
     },
     // Antilink settings
@@ -216,12 +216,12 @@ async function getSubBotSettings(botId) {
                 prefix: mainSettings.prefix || '.',
                 author: mainSettings.author || 'ecnord',
                 url: mainSettings.url || './core/public/bot-image.jpg',
-                gurl: mainSettings.gurl || 'https://github.com/Bwmxmd254/ISCE-BOT-GO',
+                gurl: mainSettings.gurl || 'https://github.com/KIUBY-XMD254/KIUBY-XMD-GO',
                 timezone: mainSettings.timezone || 'Africa/Nairobi',
-                botname: mainSettings.botname || 'ISCE-BOT',
-                packname: mainSettings.packname || 'ISCE-BOT',
+                botname: mainSettings.botname || 'KIUBY-XMD',
+                packname: mainSettings.packname || 'KIUBY-XMD',
                 mode: mainSettings.mode || 'public',
-                sessionName: mainSettings.sessionName || 'ISCE-BOT'
+                sessionName: mainSettings.sessionName || 'KIUBY-XMD'
             });
         }
         return settings.toJSON();
@@ -242,12 +242,12 @@ async function updateSubBotSettings(botId, newSettings) {
                 prefix: mainSettings.prefix || '.',
                 author: mainSettings.author || 'ecnord',
                 url: mainSettings.url || './core/public/bot-image.jpg',
-                gurl: mainSettings.gurl || 'https://github.com/Bwmxmd254/ISCE-BOT-GO',
+                gurl: mainSettings.gurl || 'https://github.com/KIUBY-XMD254/KIUBY-XMD-GO',
                 timezone: mainSettings.timezone || 'Africa/Nairobi',
-                botname: mainSettings.botname || 'ISCE-BOT',
-                packname: mainSettings.packname || 'ISCE-BOT',
+                botname: mainSettings.botname || 'KIUBY-XMD',
+                packname: mainSettings.packname || 'KIUBY-XMD',
                 mode: mainSettings.mode || 'public',
-                sessionName: mainSettings.sessionName || 'ISCE-BOT'
+                sessionName: mainSettings.sessionName || 'KIUBY-XMD'
             });
         }
         

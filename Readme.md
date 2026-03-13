@@ -14,13 +14,13 @@
 
 ---
 
-## 📌 **How to Connect ISCE-BOT Bot**
+## 📌 **How to Connect KIUBY-XMD Bot**
 
 ### **Step 1: Get Session ID**
 Click the button below to quickly generate your WhatsApp session ID:
 
 <p align="center">
-  <a href="https://main.bwmxmd.online/scanner" target="_blank">
+  <a href="https://main.KIUBY-XMD.online/scanner" target="_blank">
     <img src="https://img.shields.io/badge/🔑_GET_SESSION-000000?style=for-the-badge&color=FF0000" width="260" height="50"/>
   </a>
 </p>
@@ -35,10 +35,10 @@ Before deployment, configure your bot:
 Deploy the bot on your preferred platform.
 
 <p align="center">
-  <a href="https://pro.bwmxmd.co.ke" target="_blank">
+  <a href="https://pro.KIUBY-XMD.co.ke" target="_blank">
     <img src="https://img.shields.io/badge/🚀_BWM_XMD_PRO-000000?style=for-the-badge&color=FF00F" width="200" height="45"/>
   </a>
-   <a href="https://main.bwmxmd.co.ke/Deploy" target="_blank">
+   <a href="https://main.KIUBY-XMD.co.ke/Deploy" target="_blank">
     <img src="https://img.shields.io/badge/🚀_HEROKU-000000?style=for-the-badge&color=FF00FF" width="200" height="45"/>
   </a>
   <a href="https://render.com" target="_blank">
@@ -82,7 +82,7 @@ Once configured, your bot will be ready to use!
 ## 🔧 **Additional Resources**
 
 <p align="center">
-  <a href="https://main.bwmxmd.online/Panel_files" target="_blank">
+  <a href="https://main.KIUBY-XMD.online/Panel_files" target="_blank">
     <img src="https://img.shields.io/badge/📁_PANEL_FILES-000000?style=for-the-badge&color=FFA500" width="260" height="50"/>
   </a>
 </p>
@@ -96,8 +96,8 @@ Once configured, your bot will be ready to use!
     <img src="https://img.shields.io/badge/📢_WHATSAPP_CHANNEL-25d366?style=for-the-badge&logo=whatsapp" width="300" height="50"/>
   </a>
   <br>
-  <a href="https://bwmxmd.co.ke" target="_blank">
-    <img src="https://img.shields.io/badge/🌐_WEBSITE-bwmxmd.co.ke-000000?style=for-the-badge" width="300" height="50"/>
+  <a href="https://KIUBY-XMD.co.ke" target="_blank">
+    <img src="https://img.shields.io/badge/🌐_WEBSITE-KIUBY-XMD.co.ke-000000?style=for-the-badge" width="300" height="50"/>
   </a>
 </p>
 
@@ -106,8 +106,8 @@ Once configured, your bot will be ready to use!
 ## 📊 **Stats**
 
 <p align="center">
-  <img src="https://komarev.com/ghpvc/?username=Bwmxmd254&label=Profile+Views&color=FF0000&style=for-the-badge" alt="Views"/>
-  <img src="https://img.shields.io/github/followers/Bwmxmd254?label=GitHub+Followers&style=for-the-badge&color=00FF00" alt="Followers"/>
+  <img src="https://komarev.com/ghpvc/?username=KIUBY-XMD254&label=Profile+Views&color=FF0000&style=for-the-badge" alt="Views"/>
+  <img src="https://img.shields.io/github/followers/KIUBY-XMD254?label=GitHub+Followers&style=for-the-badge&color=00FF00" alt="Followers"/>
 </p>
 
 ---
@@ -115,7 +115,7 @@ Once configured, your bot will be ready to use!
 ## 🟢 **Status**
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Bwmxmd254/Bwmxmd254/main/assets/statusbar.gif" height="25">
+  <img src="https://raw.githubusercontent.com/KIUBY-XMD254/KIUBY-XMD254/main/assets/statusbar.gif" height="25">
   <br>
   <span style="font-size:1.2em; color:#00FF00;">Status: <b>🟢 ONLINE</b></span>
 </p>
@@ -128,5 +128,5 @@ Once configured, your bot will be ready to use!
 </p>
 
 <p align="center">
-  <strong>ISCE-BOT PRO © 2026 | Developed by ecnord</strong>
+  <strong>KIUBY-XMD PRO © 2026 | Developed by ecnord</strong>
 </p>

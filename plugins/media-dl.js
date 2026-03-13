@@ -1,12 +1,12 @@
 const axios = require('axios');
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const XMD = require('../core/xmd');
 
 const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, sender);
 
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "hentaivid",
   aliases: ["nsfwvideo", "nsfwvid"],
   category: "Downloader",
@@ -53,7 +53,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "facebook",
   aliases: ["fbdl", "fb"],
   category: "Downloader",
@@ -83,7 +83,7 @@ async (from, client, conText) => {
 //======================================================================================================================== 
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "apk",
   aliases: ["aptoide", "apkdl"],
   category: "Downloader",
@@ -133,7 +133,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "porn", 
   aliases: ["xvideo", "xvid"],
   category: "Downloader",
@@ -185,7 +185,7 @@ async (from, client, conText) => {
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "pinterest",
   aliases: ["pindl", "pin"],
   category: "downloader",
@@ -228,7 +228,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "spotify",
   aliases: ["spot", "spdl"],
   category: "Downloader",
@@ -287,7 +287,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "instagram",
   aliases: ["insta", "igdl", "ig"],
   category: "Downloader",
@@ -327,7 +327,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "mfire",
   aliases: ["mediafire", "mf"],
   category: "Downloader",
@@ -372,7 +372,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "twitter",
   aliases: ["tw", "twt"],
   category: "Downloader",
@@ -405,7 +405,7 @@ async (from, client, conText) => {
 
 
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "Soundcloud",
   aliases: ["scdl", "sc"],
   category: "Downloader",
@@ -474,7 +474,7 @@ async (from, client, conText) => {
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "tiktok",
   aliases: ["ttdl", "tt"],
   category: "Downloader",

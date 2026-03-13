@@ -1,4 +1,4 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const { Sticker, StickerTypes } = require('wa-sticker-formatter');
 const axios = require('axios');
 const XMD = require('../core/xmd');
@@ -23,7 +23,7 @@ const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, se
 
 const TG_API = `https://api.telegram.org/bot${XMD.TELEGRAM.BOT_TOKEN}`;
 
-bwmxmd({
+kiubyxmd({
   pattern: "tgs",
   aliases: ["telesticker"],
   description: "Import Telegram sticker set or search stickers and convert to WhatsApp",
@@ -120,7 +120,7 @@ bwmxmd({
 });
 /*const TG_API = `https://api.telegram.org/bot${XMD.TELEGRAM.BOT_TOKEN}`;
 
-bwmxmd({
+kiubyxmd({
   pattern: "tgs",
   aliases: ["telesticker"],
   description: "Import Telegram sticker set and convert to WhatsApp stickers",
@@ -175,7 +175,7 @@ bwmxmd({
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "stickersearch",
   aliases: ["ssearch"],
   description: "Search Tenor and send animated stickers",
@@ -199,7 +199,7 @@ bwmxmd({
         author: author,
         type: StickerTypes.FULL,
         categories: ["🤩", "🎉"],
-        id: "bwm-xmd",
+        id: "KIUBY-XMD",
         quality: 60,
         background: "transparent"
       });
@@ -213,7 +213,7 @@ bwmxmd({
   }
 });
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "take",
   aliases: ["restick", "grabsticker"],
   description: "Quote a sticker and resend it with your packname and author",
@@ -249,7 +249,7 @@ bwmxmd({
 });
 //========================================================================================================================
 //=======================
-bwmxmd({
+kiubyxmd({
   pattern: "sticker",
   aliases: ["stik", "s", "stikpack"],
   description: "Create sticker from quoted image or video",

@@ -22,11 +22,11 @@ files.forEach(file => {
     }
 });
 
-// 2. Remove isce.png and bot-image.jpg if they exist
+// 2. Remove KIUBY.png and bot-image.jpg if they exist
 const toRemove = [
-    path.join(publicDir, 'isce.png'),
+    path.join(publicDir, 'KIUBY.png'),
     path.join(publicDir, 'bot-image.jpg'),
-    path.join(__dirname, 'assets/isce.png')
+    path.join(__dirname, 'assets/KIUBY.png')
 ];
 
 toRemove.forEach(filePath => {

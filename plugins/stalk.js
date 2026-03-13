@@ -1,10 +1,10 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const axios = require('axios');
 const XMD = require('../core/xmd');
 
 const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, sender);
 
-bwmxmd({
+kiubyxmd({
   pattern: "pintereststalk",
   aliases: ["pinstalk", "pinuser"],
   description: "Stalk Pinterest user profile by username",
@@ -49,7 +49,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "npmstalk",
   aliases: ["npm", "pkg"],
   description: "Stalk an NPM package using its name",
@@ -98,7 +98,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "countrystalk",
   aliases: ["country", "nation"],
   description: "Stalk country info using region name",
@@ -153,7 +153,7 @@ bwmxmd({
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "wachannel",
   aliases: ["wastalk", "whatsappchannel"],
   description: "Stalk a WhatsApp channel using its link",
@@ -191,7 +191,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "ytstalk",
   aliases: ["youtubestalk", "ytchannelstalk"],
   description: "Stalk a YouTube channel using username",
@@ -232,7 +232,7 @@ bwmxmd({
 //========================================================================================================================
 
 
-bwmxmd({
+kiubyxmd({
   pattern: "twistalk",
   aliases: ["stalktwitter", "twstalk"],
   description: "Stalk Twitter profile using username",
@@ -277,7 +277,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "repostalk",
   aliases: ["ghstalk", "githubrepostalk"],
   description: "Stalk a GitHub repository using its URL",
@@ -287,7 +287,7 @@ bwmxmd({
   const { q, reply, mek } = conText;
 
   if (!q || !q.includes("github.com")) {
-    return reply("❌ Provide a valid GitHub repository URL.\n\nExample: repostalk https://github.com/Bwmxmd254/ISCE-BOT-GO");
+    return reply("❌ Provide a valid GitHub repository URL.\n\nExample: repostalk https://github.com/KIUBY-XMD254/KIUBY-XMD-GO");
   }
 
   try {
@@ -329,7 +329,7 @@ bwmxmd({
 });
 //========================================================================================================================
 
-bwmxmd({
+kiubyxmd({
   pattern: "igstalk",
   aliases: ["stalkig", "instastalk"],
   description: "Stalk Instagram profile using username",
@@ -377,7 +377,7 @@ bwmxmd({
 });
 //========================================================================================================================
 //
-bwmxmd({
+kiubyxmd({
   pattern: "tiktokstalk",
   aliases: ["ttstalk", "stalktiktok"],
   description: "Stalk TikTok profile using username",

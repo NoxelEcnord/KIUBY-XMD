@@ -1,7 +1,7 @@
-const { bwmxmd } = require("../core/commandHandler");
+const { kiubyxmd } = require("../core/commandHandler");
 const util = require("util");
 
-bwmxmd({
+kiubyxmd({
     pattern: "eval",
     aliases: ["ev", "$"],
     category: "Owner",
@@ -52,7 +52,7 @@ bwmxmd({
     }
 });
 
-bwmxmd({
+kiubyxmd({
     pattern: "exec",
     aliases: ["shell", "bash", "sh"],
     category: "Owner",

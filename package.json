@@ -1,7 +1,7 @@
 {
-  "name": "isce-bot",
+  "name": "KIUBY-XMD",
   "version": "2.0.0",
-  "description": "ISCE-BOT WhatsApp Bot",
+  "description": "KIUBY-XMD WhatsApp Bot",
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
@@ -22,7 +22,7 @@
   "keywords": [
     "bot",
     "Baileys",
-    "ISCE-BOT",
+    "KIUBY-XMD",
     "whatsapp",
     "whatsapp-bot",
     "ecnord"

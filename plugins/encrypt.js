@@ -1,4 +1,4 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const axios = require('axios');
 const fs = require('fs-extra');
 const path = require('path');
@@ -23,7 +23,7 @@ const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, se
 //========================================================================================================================
 //========================================================================================================================
 //========================================================================================================================
-bwmxmd({
+kiubyxmd({
   pattern: "encrypt2",
   aliases: ["byte", "obfuscate3", "enc2", "obfu2", "obf2"],
   description: "Encrypt JavaScript code via API",
@@ -74,7 +74,7 @@ bwmxmd({
 });
 //========================================================================================================================
 //
-bwmxmd({
+kiubyxmd({
   pattern: "encrypt",
   aliases: ["preemptive", "obfuscate", "enc", "obfu", "obf"],
   description: "Encrypt JavaScript code via API",

@@ -1,13 +1,13 @@
 npm error code ENOENT
 npm error syscall open
-npm error path /home/bard/Desktop/BWM-XMD-GO/package.json
+npm error path /home/bard/Desktop/KIUBY-XMD-GO/package.json
 npm error errno -2
-npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open '/home/bard/Desktop/BWM-XMD-GO/package.json'
+npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open '/home/bard/Desktop/KIUBY-XMD-GO/package.json'
 npm error enoent This is related to npm not being able to find a file.
 npm error enoent
 npm error A complete log of this run can be found in: /home/bard/.npm/_logs/2026-02-13T23_15_54_126Z-debug-0.log
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -29,7 +29,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -51,7 +51,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -73,7 +73,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -95,7 +95,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -117,7 +117,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -139,7 +139,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -161,7 +161,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -183,7 +183,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -205,7 +205,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -227,7 +227,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -249,7 +249,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -271,7 +271,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -293,7 +293,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -315,7 +315,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -337,7 +337,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -359,7 +359,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -381,7 +381,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -403,7 +403,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -425,7 +425,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -447,7 +447,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -469,7 +469,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -491,7 +491,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -500,7 +500,7 @@ Sudo table ready
 Settings table ready
 Chatbot tables ready
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 AntiDelete table ready
@@ -509,7 +509,7 @@ AntiDelete table ready
 ✅ [SUCCESS] Plugin Files Loaded
 
 ⏳ ═══════════════════════════════════════════════════
-   🔄 ISCE-BOT is establishing connection...
+   🔄 KIUBY-XMD is establishing connection...
    ⚙️  Initializing WhatsApp protocols...
 ⏳ ═══════════════════════════════════════════════════
 
@@ -547,15 +547,15 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
-┃ 🔥 ISCE-BOT IS NOW ONLINE AND READY! 🔥            ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
 ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
-✅ [SUCCESS] ✅ ISCE-BOT is active, enjoy 😀
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
 SubBots table ready
 AutoStatus table ready
 [SubBotManager] Found 0 active sub-bots to start
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 AutoRead table ready
@@ -583,10 +583,10 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 GroupEvents table ready
-✅ [SUCCESS] 🗿ISCE-BOT is connected to Whatsapp and active💥
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
 [DEBUG] Sending startup to DM: 254726498682@s.whatsapp.net
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 AntiCall table ready
@@ -612,7 +612,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 SubBot Settings table ready
@@ -639,7 +639,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -661,7 +661,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -683,7 +683,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -705,7 +705,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -727,7 +727,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -749,7 +749,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -771,7 +771,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite
@@ -793,7 +793,7 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
 
-> isce-bot@2.0.0 start
+> KIUBY-XMD@2.0.0 start
 > node index.js
 
 [DATABASE] Using: SQLite

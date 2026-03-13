@@ -1,4 +1,4 @@
-const { bwmxmd } = require("../core/commandHandler");
+const { kiubyxmd } = require("../core/commandHandler");
 const axios = require("axios");
 const XMD = require("../core/xmd");
 
@@ -75,7 +75,7 @@ async function monitorPayment(checkoutId, session, client, message, onSuccess, o
     }, 5000);
 }
 
-bwmxmd({
+kiubyxmd({
     pattern: "buydata",
     aliases: ["data", "bundle", "bundles"],
     category: "Payment",
@@ -86,7 +86,7 @@ bwmxmd({
     const contactName = pushName || "User";
 
     try {
-        const menuMessage = `📱 *ISCE-BOT DATA SOLUTIONS*
+        const menuMessage = `📱 *KIUBY-XMD DATA SOLUTIONS*
 
 Welcome ${contactName}!
 Cash in, Connect Out 💙
@@ -300,7 +300,7 @@ async function processPayingPhone(phoneInput, sessionId, session, client, messag
 
 📱 Check phone ${validatedPhone} for M-Pesa prompt
 
-> © ISCE-BOT DATA SOLUTIONS`
+> © KIUBY-XMD DATA SOLUTIONS`
             }, { quoted: message });
 
             monitorPayment(
@@ -355,7 +355,7 @@ ${formattedDate ? `📅 Date: ${formattedDate}\n` : ''}━━━━━━━━�
 
 🎉 Your data bundle will be sent shortly!
 
-*ISCE-BOT DATA SOLUTIONS*
+*KIUBY-XMD DATA SOLUTIONS*
 _Cash in, Connect Out!_ 💙`;
 
         await client.sendMessage(session.dest, {
@@ -395,7 +395,7 @@ ${session.checkoutId ? `🔖 Checkout ID: ${session.checkoutId}\n` : ''}📱 Pho
     }
 }
 
-bwmxmd({
+kiubyxmd({
     pattern: "pay",
     aliases: ["mpesa", "stk"],
     category: "Payment",
@@ -405,7 +405,7 @@ bwmxmd({
     const { mek, pushName, reply, q } = conText;
 
     if (!q) {
-        return reply(`💳 *ISCE-BOT DIRECT PAYMENT*
+        return reply(`💳 *KIUBY-XMD DIRECT PAYMENT*
 
 Usage: .pay <amount>
 Example: .pay 100
@@ -553,7 +553,7 @@ ${formattedDate ? `📅 Date: ${formattedDate}\n` : ''}━━━━━━━━�
 
 🎉 Thank you for your payment!
 
-*ISCE-BOT*`;
+*KIUBY-XMD*`;
 
     await client.sendMessage(session.dest, {
         text: confirmationMessage,

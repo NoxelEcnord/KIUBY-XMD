@@ -40,7 +40,7 @@ function getRandomEmoji() {
 }
 
 
-function bwmxmd(obj, functions) {
+function kiubyxmd(obj, functions) {
     let infoComs = obj;
 
     if (!obj.category) infoComs.category = "General"; 
@@ -62,6 +62,6 @@ function bwmxmd(obj, functions) {
     return infoComs;
 }
 
-module.exports = { bwmxmd, commands, evt, getRandomEmoji };
+module.exports = { kiubyxmd, commands, evt, getRandomEmoji };
 
 evt.commands = commands;

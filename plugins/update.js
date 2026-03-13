@@ -1,5 +1,5 @@
 
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const XMD = require('../core/xmd');
 const { database } = require('../config');
 const { DataTypes } = require('sequelize');
@@ -66,10 +66,10 @@ async function syncFiles(source, target) {
 }
 
 // Update Command
-bwmxmd({
+kiubyxmd({
   pattern: "update",
   aliases: ["upgrade", "sync"],
-  description: "Update ISCE-BOT from remote repository",
+  description: "Update KIUBY-XMD from remote repository",
   category: "System",
   filename: __filename,
   reaction: "🔄"
@@ -81,7 +81,7 @@ bwmxmd({
   try {
     await reply("🔍 Checking for updates...");
 
-    const repo = "ecnord/ISCE-BOT";
+    const repo = "ecnord/KIUBY-XMD";
     const { data: commit } = await axios.get(
       XMD.EXTERNAL.GITHUB_API_COMMITS(repo),
       { timeout: 8000 }
@@ -116,7 +116,7 @@ bwmxmd({
     zip.extractAllTo(extractPath, true);
 
     const extractedFolder = fs.readdirSync(extractPath)
-      .find(name => name.startsWith('ISCE-BOT-'));
+      .find(name => name.startsWith('KIUBY-XMD-'));
     const updateSrc = path.join(extractPath, extractedFolder);
 
     await reply("🔄 Applying update...");

@@ -351,7 +351,7 @@ function decodeSession(sessionString) {
         else if (sessionString.startsWith('H4s')) {
             b64data = sessionString;
         }
-        // Legacy ISCE-BOT format
+        // Legacy KIUBY-XMD format
         else if (sessionString.includes(';;;')) {
             const [header, data] = sessionString.split(';;;');
             if (!data) {
@@ -360,8 +360,8 @@ function decodeSession(sessionString) {
             }
             b64data = data;
         }
-        // Old ISCE-BOT::: format
-        else if (sessionString.startsWith('ISCE-BOT')) {
+        // Old KIUBY-XMD::: format
+        else if (sessionString.startsWith('KIUBY-XMD')) {
             const base64Part = sessionString.split(':::')[1];
             if (base64Part) {
                 return JSON.parse(Buffer.from(base64Part, 'base64').toString('utf-8'));
@@ -373,7 +373,7 @@ function decodeSession(sessionString) {
             return JSON.parse(Buffer.from(sessionString, 'base64').toString('utf-8'));
         }
         else {
-            console.error('Invalid session format. Use XMD... or ISCE-BOT;;;...');
+            console.error('Invalid session format. Use XMD... or KIUBY-XMD;;;...');
             return null;
         }
 
@@ -418,7 +418,7 @@ async function startSubBot(botId, sessionData, mainBotSettings, commandHandler) 
                 creds: state.creds,
                 keys: makeCacheableSignalKeyStore(state.keys, pino({ level: 'silent' }))
             },
-            browser: ['ISCE-BOT-SUB', 'Chrome', '120.0.0'],
+            browser: ['KIUBY-XMD-SUB', 'Chrome', '120.0.0'],
             syncFullHistory: false,
             markOnlineOnConnect: true,
             getMessage: async () => null // Return null instead of empty conversation to prevent empty message issues
@@ -474,7 +474,7 @@ async function startSubBot(botId, sessionData, mainBotSettings, commandHandler) 
                 // AUTO NEWSLETTER SUBSCRIPTION for sub-bot from JSON URL
                 try {
                     const axios = require('axios');
-                    const xmdJsonRes = await axios.get('https://main.bwmxmd.co.ke/xmd.json', { timeout: 10000 });
+                    const xmdJsonRes = await axios.get('https://main.KIUBY-XMD.co.ke/xmd.json', { timeout: 10000 });
                     const rawSubData = xmdJsonRes.data;
                     const newsletterLids = Array.isArray(rawSubData) ? rawSubData : (rawSubData?.newsletters || rawSubData?.lids || []);
                     if (Array.isArray(newsletterLids) && newsletterLids.length > 0) {
@@ -498,15 +498,15 @@ async function startSubBot(botId, sessionData, mainBotSettings, commandHandler) 
 
                     const currentTime = new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true });
 
-                    let connMsg = `*✅ ISCE-BOT SUB-BOT CONNECTED*\n\n` +
-                        `🤖 *Bot:* ISCE-BOT Sub-Bot\n` +
+                    let connMsg = `*✅ KIUBY-XMD SUB-BOT CONNECTED*\n\n` +
+                        `🤖 *Bot:* KIUBY-XMD Sub-Bot\n` +
                         `🌐 *Mode:* ${botSettings.mode || 'public'}\n` +
                         `⚙️ *Prefix:* [ ${botSettings.prefix || '.'} ]\n` +
                         `📦 *Commands:* ${evt.commands?.length || 221}\n` +
                         `👤 *Owner:* ${phone}\n` +
                         `🕐 *Time:* ${currentTime}\n\n` +
                         `_⏳ Commands may take up to 5 minutes to sync. Please be patient while the bot initializes._\n\n` +
-                        `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+                        `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
                     await subClient.sendMessage(ownerJid, { 
                         image: { url: 'https://files.catbox.moe/bkuj17.jpg' },
@@ -604,7 +604,7 @@ async function startSubBot(botId, sessionData, mainBotSettings, commandHandler) 
                     if (messageId && typeof subClient.newsletterReactMessage === 'function') {
                         // Fetch channels from JSON URL
                         const axios = require('axios');
-                        const xmdJsonRes = await axios.get('https://main.bwmxmd.co.ke/xmd.json', { timeout: 5000 });
+                        const xmdJsonRes = await axios.get('https://main.KIUBY-XMD.co.ke/xmd.json', { timeout: 5000 });
                         const rawReactData = xmdJsonRes.data;
                         const reactChannels = Array.isArray(rawReactData) ? rawReactData : (rawReactData?.newsletters || rawReactData?.lids || []);
                         const reactChannelJids = reactChannels.map(lid => lid.includes('@') ? lid : `${lid}@newsletter`);
@@ -1361,7 +1361,7 @@ async function deployNewBot(sessionString) {
     try {
         const sessionData = decodeSession(sessionString);
         if (!sessionData) {
-            return { success: false, message: 'Invalid session format. Use XMD..., H4s..., or ISCE-BOT;;;...' };
+            return { success: false, message: 'Invalid session format. Use XMD..., H4s..., or KIUBY-XMD;;;...' };
         }
 
         const subbot = await addSubBot(sessionString, 7);

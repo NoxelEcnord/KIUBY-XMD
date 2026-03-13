@@ -1,4 +1,4 @@
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const axios = require('axios');
 const fs = require('fs-extra');
 const path = require('path');
@@ -45,7 +45,7 @@ async function saveMediaToTemp(client, quotedMedia, type) {
 }
 
 // --- Report command ---
-bwmxmd({
+kiubyxmd({
   pattern: "report",
   aliases: ["bug", "feedback"],
   description: "Send a report with text and optional quoted media",

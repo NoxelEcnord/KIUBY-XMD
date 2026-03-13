@@ -1,12 +1,12 @@
 const axios = require('axios');
-const { bwmxmd } = require('../core/commandHandler');
+const { kiubyxmd } = require('../core/commandHandler');
 const s = require(__dirname + "/../config");
 const XMD = require('../core/xmd');
 
-const BOT_NAME = s.BOT || 'ISCE-BOT';
+const BOT_NAME = s.BOT || 'KIUBY-XMD';
 const getGlobalContextInfo = () => XMD.getContextInfo();
 
-bwmxmd({
+kiubyxmd({
   pattern: "movie",
   aliases: ["trailer", "movietrailer", "filmtrailer", "preview", "film"],
   category: "Movie",
@@ -55,7 +55,7 @@ async (from, client, conText) => {
     if (streamLink) {
       caption += `Stream/Download:\n${streamLink}\n\n`;
     }
-    caption += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+    caption += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
     const sendOptions = deviceMode === 'iPhone' ? {} : { quoted: mek };
     const msgContent = { video: { url: trailer.result.trailerUrl }, caption: caption };
@@ -70,7 +70,7 @@ async (from, client, conText) => {
   }
 });
 
-bwmxmd({
+kiubyxmd({
   pattern: "movietable",
   aliases: ["mtable", "movies", "movielist"],
   category: "Movie",
@@ -121,7 +121,7 @@ async (from, client, conText) => {
       tableText += `━━━━━━━━━━━━━━━━━━━━\n`;
       tableText += `📝 *Reply with number (1-${displayItems.length}) to get details*\n\n`;
       tableText += `_Categories: popular, latest, watched, week, today, trending_\n\n`;
-      tableText += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+      tableText += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
       const firstPoster = displayItems[0]?.poster || displayItems[0]?.thumbnail;
       
@@ -176,7 +176,7 @@ async (from, client, conText) => {
       
       tableText += `\n━━━━━━━━━━━━━━━━━━━━\n`;
       tableText += `Use: .movie <title> to search\n\n`;
-      tableText += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+      tableText += `▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
       await client.sendMessage(from, { text: tableText }, deviceMode === 'iPhone' ? {} : { quoted: mek });
     }
@@ -221,7 +221,7 @@ async function sendMovieDetails(client, from, movie, quotedMsg, deviceMode) {
       caption += `\n📝 *Description:*\n${description.substring(0, 500)}${description.length > 500 ? '...' : ''}\n`;
     }
     caption += `\n🔗 *Stream/Download:*\n${streamLink}\n`;
-    caption += `\n▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> bwmxmd.co.ke \n\n*Deploy your bot now*\n> pro.bwmxmd.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
+    caption += `\n▬▬▬▬▬▬▬▬▬▬\n *Visit for more*\n> KIUBY-XMD.co.ke \n\n*Deploy your bot now*\n> pro.KIUBY-XMD.co.ke \n▬▬▬▬▬▬▬▬▬▬`;
 
     if (trailerUrl) {
       const msgContent = { video: { url: trailerUrl }, caption: caption };
