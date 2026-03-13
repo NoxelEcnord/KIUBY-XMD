@@ -1,7 +1,7 @@
 {
-  "name": "KIUBY-XMD",
+  "name": "kiuby-xmd",
   "version": "2.0.0",
-  "description": "KIUBY-XMD WhatsApp Bot",
+  "description": "KIUBY-XMD NextGen WhatsApp Bot",
   "main": "index.js",
   "type": "commonjs",
   "scripts": {

@@ -814,3 +814,1136 @@ UNCAUGHT EXCEPTION: Error: listen EADDRINUSE: address already in use 0.0.0.0:500
 🔄 [AUTO-RECOVERY] Critical Reboot Triggered: Uncaught Exception: listen EADDRINUSE: address already in use 0.0.0.0:5000
 🚀 [AUTO-RECOVERY] Starting new process and exiting current one...
 
+
+> KIUBY-XMD@2.0.0 start
+> node index.js
+
+[DATABASE] Using: SQLite
+Settings table ready
+Sudo table ready
+Error initializing Chatbot tables: Error
+    at Database.<anonymous> (/home/bard/KIUBY-XMD/node_modules/sequelize/lib/dialects/sqlite/query.js:185:27)
+    at /home/bard/KIUBY-XMD/node_modules/sequelize/lib/dialects/sqlite/query.js:183:50
+    at new Promise (<anonymous>)
+    at Query.run (/home/bard/KIUBY-XMD/node_modules/sequelize/lib/dialects/sqlite/query.js:183:12)
+    at /home/bard/KIUBY-XMD/node_modules/sequelize/lib/sequelize.js:315:28
+    at async SQLiteQueryInterface.changeColumn (/home/bard/KIUBY-XMD/node_modules/sequelize/lib/dialects/sqlite/query-interface.js:43:7)
+    at async chatbot_conversations.sync (/home/bard/KIUBY-XMD/node_modules/sequelize/lib/model.js:984:11)
+    at async initChatbotDB (/home/bard/KIUBY-XMD/core/database/chatbot.js:80:9) {
+  name: 'SequelizeDatabaseError',
+  parent: [Error: SQLITE_IOERR: disk I/O error] {
+    errno: 10,
+    code: 'SQLITE_IOERR',
+    sql: 'DROP TABLE `chatbot_conversations_backup`;'
+  },
+  original: [Error: SQLITE_IOERR: disk I/O error] {
+    errno: 10,
+    code: 'SQLITE_IOERR',
+    sql: 'DROP TABLE `chatbot_conversations_backup`;'
+  },
+  sql: 'DROP TABLE `chatbot_conversations_backup`;',
+  parameters: {}
+}
+❌ Failed to initialize Chatbot database: Error
+    at Database.<anonymous> (/home/bard/KIUBY-XMD/node_modules/sequelize/lib/dialects/sqlite/query.js:185:27)
+    at /home/bard/KIUBY-XMD/node_modules/sequelize/lib/dialects/sqlite/query.js:183:50
+    at new Promise (<anonymous>)
+    at Query.run (/home/bard/KIUBY-XMD/node_modules/sequelize/lib/dialects/sqlite/query.js:183:12)
+    at /home/bard/KIUBY-XMD/node_modules/sequelize/lib/sequelize.js:315:28
+    at async SQLiteQueryInterface.changeColumn (/home/bard/KIUBY-XMD/node_modules/sequelize/lib/dialects/sqlite/query-interface.js:43:7)
+    at async chatbot_conversations.sync (/home/bard/KIUBY-XMD/node_modules/sequelize/lib/model.js:984:11)
+    at async initChatbotDB (/home/bard/KIUBY-XMD/core/database/chatbot.js:80:9) {
+  name: 'SequelizeDatabaseError',
+  parent: [Error: SQLITE_IOERR: disk I/O error] {
+    errno: 10,
+    code: 'SQLITE_IOERR',
+    sql: 'DROP TABLE `chatbot_conversations_backup`;'
+  },
+  original: [Error: SQLITE_IOERR: disk I/O error] {
+    errno: 10,
+    code: 'SQLITE_IOERR',
+    sql: 'DROP TABLE `chatbot_conversations_backup`;'
+  },
+  sql: 'DROP TABLE `chatbot_conversations_backup`;',
+  parameters: {}
+}
+Error initializing AntiDelete table: Error
+    at Database.<anonymous> (/home/bard/KIUBY-XMD/node_modules/sequelize/lib/dialects/sqlite/query.js:185:27)
+    at /home/bard/KIUBY-XMD/node_modules/sequelize/lib/dialects/sqlite/query.js:183:50
+    at new Promise (<anonymous>)
+    at Query.run (/home/bard/KIUBY-XMD/node_modules/sequelize/lib/dialects/sqlite/query.js:183:12)
+    at /home/bard/KIUBY-XMD/node_modules/sequelize/lib/sequelize.js:315:28
+    at async SQLiteQueryInterface.changeColumn (/home/bard/KIUBY-XMD/node_modules/sequelize/lib/dialects/sqlite/query-interface.js:43:7)
+    at async antidelete.sync (/home/bard/KIUBY-XMD/node_modules/sequelize/lib/model.js:984:11)
+    at async initAntiDeleteDB (/home/bard/KIUBY-XMD/core/database/antidelete.js:36:9)
+    at async initializeDatabases (/home/bard/KIUBY-XMD/index.js:294:9) {
+  name: 'SequelizeDatabaseError',
+  parent: [Error: SQLITE_IOERR: disk I/O error] {
+    errno: 10,
+    code: 'SQLITE_IOERR',
+    sql: "CREATE TABLE IF NOT EXISTS `antideletes` (`id` INTEGER PRIMARY KEY, `status` TINYINT(1) NOT NULL DEFAULT 1, `notification` VARCHAR(255) NOT NULL DEFAULT '🗑️ *KIUBY-XMD AntiDelete*', `includeGroupInfo` TINYINT(1) NOT NULL DEFAULT 1, `sendToOwner` TINYINT(1) NOT NULL DEFAULT 1, `includeMedia` TINYINT(1) NOT NULL DEFAULT 1, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL);"
+  },
+  original: [Error: SQLITE_IOERR: disk I/O error] {
+    errno: 10,
+    code: 'SQLITE_IOERR',
+    sql: "CREATE TABLE IF NOT EXISTS `antideletes` (`id` INTEGER PRIMARY KEY, `status` TINYINT(1) NOT NULL DEFAULT 1, `notification` VARCHAR(255) NOT NULL DEFAULT '🗑️ *KIUBY-XMD AntiDelete*', `includeGroupInfo` TINYINT(1) NOT NULL DEFAULT 1, `sendToOwner` TINYINT(1) NOT NULL DEFAULT 1, `includeMedia` TINYINT(1) NOT NULL DEFAULT 1, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL);"
+  },
+  sql: "CREATE TABLE IF NOT EXISTS `antideletes` (`id` INTEGER PRIMARY KEY, `status` TINYINT(1) NOT NULL DEFAULT 1, `notification` VARCHAR(255) NOT NULL DEFAULT '🗑️ *KIUBY-XMD AntiDelete*', `includeGroupInfo` TINYINT(1) NOT NULL DEFAULT 1, `sendToOwner` TINYINT(1) NOT NULL DEFAULT 1, `includeMedia` TINYINT(1) NOT NULL DEFAULT 1, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL);",
+  parameters: {}
+}
+Error initializing databases: Error
+    at Database.<anonymous> (/home/bard/KIUBY-XMD/node_modules/sequelize/lib/dialects/sqlite/query.js:185:27)
+    at /home/bard/KIUBY-XMD/node_modules/sequelize/lib/dialects/sqlite/query.js:183:50
+    at new Promise (<anonymous>)
+    at Query.run (/home/bard/KIUBY-XMD/node_modules/sequelize/lib/dialects/sqlite/query.js:183:12)
+    at /home/bard/KIUBY-XMD/node_modules/sequelize/lib/sequelize.js:315:28
+    at async SQLiteQueryInterface.changeColumn (/home/bard/KIUBY-XMD/node_modules/sequelize/lib/dialects/sqlite/query-interface.js:43:7)
+    at async antidelete.sync (/home/bard/KIUBY-XMD/node_modules/sequelize/lib/model.js:984:11)
+    at async initAntiDeleteDB (/home/bard/KIUBY-XMD/core/database/antidelete.js:36:9)
+    at async initializeDatabases (/home/bard/KIUBY-XMD/index.js:294:9) {
+  name: 'SequelizeDatabaseError',
+  parent: [Error: SQLITE_IOERR: disk I/O error] {
+    errno: 10,
+    code: 'SQLITE_IOERR',
+    sql: "CREATE TABLE IF NOT EXISTS `antideletes` (`id` INTEGER PRIMARY KEY, `status` TINYINT(1) NOT NULL DEFAULT 1, `notification` VARCHAR(255) NOT NULL DEFAULT '🗑️ *KIUBY-XMD AntiDelete*', `includeGroupInfo` TINYINT(1) NOT NULL DEFAULT 1, `sendToOwner` TINYINT(1) NOT NULL DEFAULT 1, `includeMedia` TINYINT(1) NOT NULL DEFAULT 1, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL);"
+  },
+  original: [Error: SQLITE_IOERR: disk I/O error] {
+    errno: 10,
+    code: 'SQLITE_IOERR',
+    sql: "CREATE TABLE IF NOT EXISTS `antideletes` (`id` INTEGER PRIMARY KEY, `status` TINYINT(1) NOT NULL DEFAULT 1, `notification` VARCHAR(255) NOT NULL DEFAULT '🗑️ *KIUBY-XMD AntiDelete*', `includeGroupInfo` TINYINT(1) NOT NULL DEFAULT 1, `sendToOwner` TINYINT(1) NOT NULL DEFAULT 1, `includeMedia` TINYINT(1) NOT NULL DEFAULT 1, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL);"
+  },
+  sql: "CREATE TABLE IF NOT EXISTS `antideletes` (`id` INTEGER PRIMARY KEY, `status` TINYINT(1) NOT NULL DEFAULT 1, `notification` VARCHAR(255) NOT NULL DEFAULT '🗑️ *KIUBY-XMD AntiDelete*', `includeGroupInfo` TINYINT(1) NOT NULL DEFAULT 1, `sendToOwner` TINYINT(1) NOT NULL DEFAULT 1, `includeMedia` TINYINT(1) NOT NULL DEFAULT 1, `createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL);",
+  parameters: {}
+}
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+GPT Conversations table ready
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+✅ Message sent → 254762263909
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+✅ Message sent → 254762263909
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+⚠️ [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+⚠️ [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+⚠️ [WARNING] Connection closed due to: 408
+⚠️ [WARNING] Connection lost from server, reconnecting...
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+Closing session: SessionEntry {
+  _chains: {
+    BaGl0MdnI2Zl9NVORMlCCEZCsT3UzBPwleFSVdNz5vcR: { chainKey: [Object], chainType: 1, messageKeys: {} }
+  },
+  registrationId: 142,
+  currentRatchet: {
+    ephemeralKeyPair: {
+      pubKey: <Buffer 05 a1 a5 d0 c7 67 23 66 65 f4 d5 4e 44 c9 42 08 46 42 b1 3d d4 cc 13 f0 95 e1 52 55 d3 73 e6 f7 11>,
+      privKey: <Buffer 18 8b 14 7d 72 79 58 fb c3 aa cb 84 98 04 b8 cb 12 af 55 e7 92 cb 27 11 5a 27 b3 4f a2 43 1d 67>
+    },
+    lastRemoteEphemeralKey: <Buffer 05 03 14 c6 49 c5 59 f6 ca 74 5e f2 18 45 8c cd 1b b3 fa 96 21 e4 84 6b 2a 59 c2 2e 60 c4 b7 7f 26>,
+    previousCounter: 0,
+    rootKey: <Buffer 02 32 8b 3c c6 f1 7b 10 22 fb 10 18 32 fa e8 ed aa 7f 63 c9 37 08 6b 63 b3 43 e7 a3 12 6e e9 91>
+  },
+  indexInfo: {
+    baseKey: <Buffer 05 f4 d2 de 70 00 93 30 2b 46 05 ef 44 b7 e7 79 8d 89 13 a5 db fc 82 5f 65 5d 9c 5d 70 55 41 3a 4e>,
+    baseKeyType: 1,
+    closed: -1,
+    used: 1773361365767,
+    created: 1773361365767,
+    remoteIdentityKey: <Buffer 05 9b 32 4d 58 f5 35 25 93 0f d0 9d 47 c2 41 e0 2b 2f 40 23 23 5e 71 df ad 18 bf 51 a8 84 3f 39 1d>
+  },
+  pendingPreKey: {
+    signedKeyId: 1,
+    baseKey: <Buffer 05 f4 d2 de 70 00 93 30 2b 46 05 ef 44 b7 e7 79 8d 89 13 a5 db fc 82 5f 65 5d 9c 5d 70 55 41 3a 4e>,
+    preKeyId: 48
+  }
+}
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+Closing session: SessionEntry {
+  _chains: {
+    'BUMgpxEIJf8ucpWahJwePwE2d3WOUXZPY+zT/AsLtu8T': { chainKey: [Object], chainType: 1, messageKeys: {} }
+  },
+  registrationId: 142,
+  currentRatchet: {
+    ephemeralKeyPair: {
+      pubKey: <Buffer 05 43 20 a7 11 08 25 ff 2e 72 95 9a 84 9c 1e 3f 01 36 77 75 8e 51 76 4f 63 ec d3 fc 0b 0b b6 ef 13>,
+      privKey: <Buffer f0 52 00 b8 fe ac c8 f4 17 e9 5f 94 fc d4 48 1c b1 dd ff 66 96 05 40 0b 28 79 98 a4 56 d5 9d 71>
+    },
+    lastRemoteEphemeralKey: <Buffer 05 03 14 c6 49 c5 59 f6 ca 74 5e f2 18 45 8c cd 1b b3 fa 96 21 e4 84 6b 2a 59 c2 2e 60 c4 b7 7f 26>,
+    previousCounter: 0,
+    rootKey: <Buffer f5 a3 53 06 7f 64 96 8d a5 0b 3a b8 e7 65 8a 9b 53 23 0c a1 51 4c 43 f2 a0 a4 ae 03 42 70 fa cb>
+  },
+  indexInfo: {
+    baseKey: <Buffer 05 30 15 d4 5a bb d3 3b 00 dc 40 f6 4c c0 25 1f 4a 0f e8 03 52 41 56 4f 44 4e c2 02 7d 91 4f 6c 61>,
+    baseKeyType: 1,
+    closed: -1,
+    used: 1773361367979,
+    created: 1773361367978,
+    remoteIdentityKey: <Buffer 05 9b 32 4d 58 f5 35 25 93 0f d0 9d 47 c2 41 e0 2b 2f 40 23 23 5e 71 df ad 18 bf 51 a8 84 3f 39 1d>
+  },
+  pendingPreKey: {
+    signedKeyId: 1,
+    baseKey: <Buffer 05 30 15 d4 5a bb d3 3b 00 dc 40 f6 4c c0 25 1f 4a 0f e8 03 52 41 56 4f 44 4e c2 02 7d 91 4f 6c 61>,
+    preKeyId: 59
+  }
+}
+Closing session: SessionEntry {
+  _chains: {
+    'Ba5u/slzwxqZ+/9rQ+n2j3a6LYldVOxASvQCGJKajDkK': { chainKey: [Object], chainType: 1, messageKeys: {} }
+  },
+  registrationId: 142,
+  currentRatchet: {
+    ephemeralKeyPair: {
+      pubKey: <Buffer 05 ae 6e fe c9 73 c3 1a 99 fb ff 6b 43 e9 f6 8f 76 ba 2d 89 5d 54 ec 40 4a f4 02 18 92 9a 8c 39 0a>,
+      privKey: <Buffer 68 44 49 14 db 9b 1b c0 3e ff 04 86 9d 5b 2f 7c c2 7d f4 51 a9 0c 9a 24 66 e7 f9 9a 5f b4 7f 4c>
+    },
+    lastRemoteEphemeralKey: <Buffer 05 03 14 c6 49 c5 59 f6 ca 74 5e f2 18 45 8c cd 1b b3 fa 96 21 e4 84 6b 2a 59 c2 2e 60 c4 b7 7f 26>,
+    previousCounter: 0,
+    rootKey: <Buffer a2 ab 1b 88 bd 1d 07 0f 04 52 8e 13 63 87 ad 6c 90 70 73 8d 0f 7b c6 65 35 38 15 ea dc fd 5a 78>
+  },
+  indexInfo: {
+    baseKey: <Buffer 05 8f 5f 21 49 24 5e 88 10 0e f5 f1 fe c1 f1 40 5e f2 57 0e cc ec 71 2e 03 c1 31 ae e4 b7 27 92 12>,
+    baseKeyType: 1,
+    closed: -1,
+    used: 1773361368862,
+    created: 1773361368862,
+    remoteIdentityKey: <Buffer 05 9b 32 4d 58 f5 35 25 93 0f d0 9d 47 c2 41 e0 2b 2f 40 23 23 5e 71 df ad 18 bf 51 a8 84 3f 39 1d>
+  },
+  pendingPreKey: {
+    signedKeyId: 1,
+    baseKey: <Buffer 05 8f 5f 21 49 24 5e 88 10 0e f5 f1 fe c1 f1 40 5e f2 57 0e cc ec 71 2e 03 c1 31 ae e4 b7 27 92 12>,
+    preKeyId: 60
+  }
+}
+Closing session: SessionEntry {
+  _chains: {
+    'BV+kdyOlLEZXfq4AKJsqcBmzl7V+dLVW35mH8o57v7dN': { chainKey: [Object], chainType: 1, messageKeys: {} }
+  },
+  registrationId: 142,
+  currentRatchet: {
+    ephemeralKeyPair: {
+      pubKey: <Buffer 05 5f a4 77 23 a5 2c 46 57 7e ae 00 28 9b 2a 70 19 b3 97 b5 7e 74 b5 56 df 99 87 f2 8e 7b bf b7 4d>,
+      privKey: <Buffer d8 44 55 21 1e 1e 1d 3c fc 02 91 81 58 d6 30 71 fb 19 dd 96 9f 54 bf f5 ac d6 9f fe 56 8b c2 67>
+    },
+    lastRemoteEphemeralKey: <Buffer 05 03 14 c6 49 c5 59 f6 ca 74 5e f2 18 45 8c cd 1b b3 fa 96 21 e4 84 6b 2a 59 c2 2e 60 c4 b7 7f 26>,
+    previousCounter: 0,
+    rootKey: <Buffer 99 57 a3 01 94 a2 b6 12 ff e8 e3 23 9f fd c5 35 63 af c4 eb 98 a6 17 25 9e 5c 37 10 48 7a 29 65>
+  },
+  indexInfo: {
+    baseKey: <Buffer 05 16 c6 0f 4b 3c 5b 82 ed 06 92 92 4e 35 57 c4 b5 20 df 8b 4f e3 ac 7b b2 08 84 6e af 92 91 29 46>,
+    baseKeyType: 1,
+    closed: -1,
+    used: 1773361369401,
+    created: 1773361369401,
+    remoteIdentityKey: <Buffer 05 9b 32 4d 58 f5 35 25 93 0f d0 9d 47 c2 41 e0 2b 2f 40 23 23 5e 71 df ad 18 bf 51 a8 84 3f 39 1d>
+  },
+  pendingPreKey: {
+    signedKeyId: 1,
+    baseKey: <Buffer 05 16 c6 0f 4b 3c 5b 82 ed 06 92 92 4e 35 57 c4 b5 20 df 8b 4f e3 ac 7b b2 08 84 6e af 92 91 29 46>,
+    preKeyId: 57
+  }
+}
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+✅ Message sent → 254762263909
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+⚠️ [WARNING] Connection closed due to: 408
+⚠️ [WARNING] Connection lost from server, reconnecting...
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+Closing session: SessionEntry {
+  _chains: {
+    'BYPGV0gaKxMROSPtTsYmhn/vlp/gP+Z1iWSptOwOX6oO': { chainKey: [Object], chainType: 1, messageKeys: {} }
+  },
+  registrationId: 142,
+  currentRatchet: {
+    ephemeralKeyPair: {
+      pubKey: <Buffer 05 83 c6 57 48 1a 2b 13 11 39 23 ed 4e c6 26 86 7f ef 96 9f e0 3f e6 75 89 64 a9 b4 ec 0e 5f aa 0e>,
+      privKey: <Buffer 48 ae 9e d7 95 54 9d ef d9 31 64 3c c4 76 8a 9c bf 0d 62 5f e2 00 c6 20 d6 d9 21 95 7b ee 9d 4c>
+    },
+    lastRemoteEphemeralKey: <Buffer 05 03 14 c6 49 c5 59 f6 ca 74 5e f2 18 45 8c cd 1b b3 fa 96 21 e4 84 6b 2a 59 c2 2e 60 c4 b7 7f 26>,
+    previousCounter: 0,
+    rootKey: <Buffer 0f 91 42 cf 65 06 22 cb f3 f6 12 86 07 74 12 7e 3b 8f 28 41 05 a6 5e 2d ce 1c 23 70 d7 0f 89 61>
+  },
+  indexInfo: {
+    baseKey: <Buffer 05 36 7d 7e fb dc e2 2f e5 53 2d 68 7e 05 a3 3a 29 a3 67 d4 0a 36 e2 ed d2 17 ae da df 1e 8c 94 39>,
+    baseKeyType: 1,
+    closed: -1,
+    used: 1773361400405,
+    created: 1773361400405,
+    remoteIdentityKey: <Buffer 05 9b 32 4d 58 f5 35 25 93 0f d0 9d 47 c2 41 e0 2b 2f 40 23 23 5e 71 df ad 18 bf 51 a8 84 3f 39 1d>
+  },
+  pendingPreKey: {
+    signedKeyId: 1,
+    baseKey: <Buffer 05 36 7d 7e fb dc e2 2f e5 53 2d 68 7e 05 a3 3a 29 a3 67 d4 0a 36 e2 ed d2 17 ae da df 1e 8c 94 39>,
+    preKeyId: 47
+  }
+}
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+⚠️ [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+✅ Message sent → 254762263909
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+(node:32521) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 SIGINT listeners added to [process]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:32521) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 SIGTERM listeners added to [process]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+✅ Message sent → 254762263909
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+✅ Message sent → 254762263909
+
+❌ [CRASH HANDLER] Unhandled Rejection at: Promise {
+  <rejected> Error: Timed Out
+      at /home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Utils/generics.js:152:32 {
+    data: {
+      stack: 'Error\n' +
+        '    at promiseTimeout (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Utils/generics.js:147:19)\n' +
+        '    at waitForMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:119:61)\n' +
+        '    at query (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:45)\n' +
+        '    at getAvailablePreKeysOnServer (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:180:30)\n' +
+        '    at uploadPreKeysToServerIfRequired (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:204:35)\n' +
+        '    at WebSocketClient.<anonymous> (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:508:15)\n' +
+        '    at WebSocketClient.emit (node:events:519:28)\n' +
+        '    at /home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:235:35\n' +
+        '    at Object.decodeFrame (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Utils/noise-handler.js:144:17)\n' +
+        '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)'
+    },
+    isBoom: true,
+    isServer: false,
+    output: { statusCode: 408, payload: [Object], headers: {} }
+  }
+}
+Reason: Timed Out
+
+⚠️ [AUTO-RECOVERY] Bot encountered an issue: Unhandled promise rejection
+🔄 [AUTO-RECOVERY] Attempting internal restart in 5 seconds...
+
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+⚠️ [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+⚠️ [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+✅ Message sent → 254762263909
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+⚠️ [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+⚠️ [WARNING] Reconnection attempt 2/50 in 10000ms...
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+⚠️ [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+✅ Message sent → 254762263909
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+⚠️ [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at /home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:509:19
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Object.transaction (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:26)
+    at async relayMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:9)
+    at async Object.sendMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:17)
+    at async client.sendMessage (/home/bard/KIUBY-XMD/core/lib/antiBan.js:215:24)
+    at async Timeout._onTimeout (/home/bard/KIUBY-XMD/index.js:2742:25)
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+⚠️ [WARNING] Reconnection attempt 2/50 in 10000ms...
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+⚠️ [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+⚠️ [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+✅ Session File Loaded
+✅ [SUCCESS] Bot settings loaded from database
+✅ [SUCCESS] Plugin Files Loaded
+
+⏳ ═══════════════════════════════════════════════════
+   🔄 KIUBY-XMD is establishing connection...
+   ⚙️  Initializing WhatsApp protocols...
+⏳ ═══════════════════════════════════════════════════
+
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
+║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
+║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
+║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
+║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
+║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║                                                               ║
+║                  Powered by KIUBY Engine                      ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ ⚡ CONNECTION ESTABLISHED SUCCESSFULLY ⚡        ┃
+┃ 🔥 KIUBY-XMD IS NOW ONLINE AND READY! 🔥            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+✅ [SUCCESS] ✅ KIUBY-XMD is active, enjoy 😀
+SubBots table ready
+[SubBotManager] Found 0 active sub-bots to start
+⚠️ [WARNING] Connection closed due to: 440
+⚠️ [WARNING] Connection replaced, waiting 10s before retry...
+✅ [SUCCESS] 🗿KIUBY-XMD is connected to Whatsapp and active💥
+[KIUBY-XMD] Sending startup notification to: 254762263909@s.whatsapp.net
+⚠️ [ERROR] Post-connection setup error:
+Error: Connection Closed
+    at sendRawMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:60:19)
+    at sendNode (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:79:16)
+    at query (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/socket.js:142:79)
+    at Object.executeUSyncQuery (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/usync.js:57:30)
+    at getUSyncDevices (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:148:35)
+    at /home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:418:57
+    at Object.transaction (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Utils/auth-utils.js:134:32)
+    at relayMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:296:30)
+    at Object.sendMessage (/home/bard/KIUBY-XMD/node_modules/@whiskeysockets/baileys/lib/Socket/messages-send.js:764:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+⚠️ [WARNING] Reconnection attempt 1/50 in 5000ms...
+
+🛑 [SHUTDOWN] Received SIGTERM, gracefully shutting down...
+Terminated

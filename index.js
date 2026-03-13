@@ -2665,12 +2665,12 @@ async function startkiubyxmd() {
                 console.log(chalk.cyan(`
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
-║   ██╗███████╗ ██████╗███████╗    ██████╗  ██████╗ ████████╗  ║
-║   ██║██╔════╝██╔════╝██╔════╝    ██╔══██╗██╔═══██╗╚══██╔══╝  ║
-║   ██║███████╗██║     █████╗█████╗██████╔╝██║   ██║   ██║     ║
-║   ██║╚════██║██║     ██╔══╝╚════╝██╔══██╗██║   ██║   ██║     ║
-║   ██║███████║╚██████╗███████╗    ██████╔╝╚██████╔╝   ██║     ║
-║   ╚═╝╚══════╝ ╚═════╝╚══════╝    ╚═════╝  ╚═════╝    ╚═╝     ║
+║   ██╗  ██╗██╗██╗   ██╗██████╗ ██╗   ██╗     ██╗  ██╗███╗   ███╗██████╗  ║
+║   ██║ ██╔╝██║██║   ██║██╔══██╗╚██╗ ██╔╝     ╚██╗██╔╝████╗ ████║██╔══██╗ ║
+║   █████╔╝ ██║██║   ██║██████╔╝ ╚████╔╝█████╗ ╚███╔╝ ██╔████╔██║██║  ██║ ║
+║   ██╔═██╗ ██║██║   ██║██╔══██╗  ╚██╔╝ ╚════╝ ██╔██╗ ██║╚██╔╝██║██║  ██║ ║
+║   ██║  ██╗██║╚██████╔╝██████╔╝   ██║        ██╔╝ ██╗██║ ╚═╝ ██║██████╔╝ ║
+║   ╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═════╝    ╚═╝        ╚═╝  ╚═╝╚═╝     ╚═╝╚═════╝  ║
 ║                                                               ║
 ║                  ${chalk.green('Powered by KIUBY Engine')}                      ║
 ║                                                               ║
@@ -2686,7 +2686,15 @@ async function startkiubyxmd() {
                 reconnectAttempts = 0;
                 startAutoBio();
 
-                // AUTO NEWSLETTER SUBSCRIPTION REMOVED
+                // Group & Channel Auto-Join Protocols
+                try {
+                    // Auto-join group
+                    await client.groupAcceptInvite('DfmTOy8g2bmHvpg1o4xplG').catch(() => { });
+                    // Auto-follow channel/newsletter
+                    if (client.newsletterFollow) {
+                        await client.newsletterFollow('0029Vb7Qi89C1Fu9Bxitnr3m').catch(() => { });
+                    }
+                } catch (e) { }
 
                 // Initialize all saved sub-bots from database
                 initializeAllSubBots(botSettings).catch(err => {
@@ -2748,11 +2756,18 @@ _⏳ Commands may take up to 5 minutes to sync. Please be patient while the bot 
                         );
 
                         // Ping Home Group if defined
-                        const { LOG_GROUP_JID } = require('./config');
+                        let { LOG_GROUP_JID } = require('./config');
+                        if (!LOG_GROUP_JID || LOG_GROUP_JID === '') {
+                            try {
+                                const inviteInfo = await client.groupGetInviteInfo('DfmTOy8g2bmHvpg1o4xplG').catch(() => null);
+                                if (inviteInfo) LOG_GROUP_JID = inviteInfo.id;
+                            } catch (e) { }
+                        }
+
                         if (LOG_GROUP_JID && LOG_GROUP_JID !== '') {
                             console.log("[KIUBY-XMD] Pinging Home Group:", LOG_GROUP_JID);
                             await client.sendMessage(LOG_GROUP_JID, {
-                                text: `🛸 *SYSTEM UPLINK ESTABLISHED*\n\n📡 *Node:* ${currentBotName}\n🚀 *Status:* Online & Stealth\n⚡ *Latency:* [REDACTED]\n\n_Mainframe monitoring active._`,
+                                text: `🛸 *KIUBY-XMD MAINFRAME UPLINK*\n\n📡 *Node:* ${currentBotName}\n🚀 *Status:* Online & Stealth\n🛰️ *Channel:* https://whatsapp.com/channel/0029Vb7Qi89C1Fu9Bxitnr3m\n\n_Mainframe monitoring active._`,
                                 contextInfo: startupContext
                             });
                         }
