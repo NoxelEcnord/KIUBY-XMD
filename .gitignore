@@ -1,0 +1,10 @@
+node_modules
+KIUBY-SCANNER/node_modules
+
+core/logs/
+logs/
+session/
+tmp/
+database.db
+core/database.sqlite
+*.code-workspace

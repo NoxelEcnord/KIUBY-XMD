@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KIUBY | NEXTGEN SCANNER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --accent: #f093fb;
+            --accent-low: rgba(240, 147, 251, 0.2);
+            --bg: #03060a;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --neon-glow: 0 0 15px rgba(0, 242, 254, 0.3);
+            --text-glow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: url('assets/bg-premium.png') center/cover no-repeat;
+            filter: brightness(0.4) saturate(1.2);
+            animation: bgZoom 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes bgZoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, transparent 0%, var(--bg) 90%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+            perspective: 1000px;
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 35px;
+            padding: 40px 30px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            text-align: center;
+            transform-style: preserve-3d;
+            animation: cardEnter 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes cardEnter {
+            from { opacity: 0; transform: translateY(50px) rotateX(-10deg); }
+            to { opacity: 1; transform: translateY(0) rotateX(0); }
+        }
+
+        .logo {
+            width: 180px;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 15px rgba(240, 147, 251, 0.4));
+            animation: logoPulse 3s infinite ease-in-out;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(240, 147, 251, 0.4)); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(0, 242, 254, 0.6)); }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 35px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .tab-switcher {
+            display: flex;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 5px;
+            border-radius: 18px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            box-shadow: 0 10px 20px rgba(0, 242, 254, 0.2);
+        }
+
+        .input-box {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 18px 25px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            color: #fff;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: var(--neon-glow);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+            letter-spacing: 0;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 18px;
+            color: #000;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-action:hover {
+            transform: scale(1.03) translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 242, 254, 0.3);
+        }
+
+        .btn-action:active {
+            transform: scale(0.98);
+        }
+
+        .btn-action::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: 0.5s;
+            pointer-events: none;
+        }
+
+        .btn-action:hover::after {
+            left: 100%;
+        }
+
+        .result-section {
+            margin-top: 35px;
+            display: none;
+            animation: resultPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes resultPop {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .code-display {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            letter-spacing: 8px;
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(0, 242, 254, 0.2);
+            position: relative;
+        }
+
+        .copy-chip {
+            display: inline-flex;
+            align-items: center;
+            background: var(--accent-low);
+            padding: 8px 15px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: var(--accent);
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid rgba(240, 147, 251, 0.2);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .copy-chip:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        #qr-box {
+            background: #fff;
+            padding: 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: qrShow 0.5s ease-out;
+        }
+
+        @keyframes qrShow {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .loader-ring {
+            display: none;
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(0, 242, 254, 0.1);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            margin: 40px auto;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .guide-text {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.3);
+            margin-top: 25px;
+            line-height: 1.5;
+        }
+
+        .guide-text span {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Particles */
+        canvas#vfx-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-container"></div>
+    <div class="overlay"></div>
+    <canvas id="vfx-canvas"></canvas>
+
+    <div class="container">
+        <div class="glass-card">
+            <img src="assets/logo-premium.png" alt="KIUBY" class="logo">
+            <h1>NextGen Session</h1>
+            <p class="subtitle">Securely link your WhatsApp account</p>
+
+            <div class="tab-switcher">
+                <div class="tab active" id="tab-code" onclick="setMode('code')">Code</div>
+                <div class="tab" id="tab-qr" onclick="setMode('qr')">QR</div>
+            </div>
+
+            <div id="input-container">
+                <div class="input-box">
+                    <input type="text" id="phone" placeholder="2547XXXXXXXX" autocomplete="off">
+                </div>
+                <button class="btn-action" id="btn-submit" onclick="generate()">Initialize</button>
+            </div>
+
+            <div class="loader-ring" id="loader"></div>
+
+            <div class="result-section" id="results">
+                <div id="code-result">
+                    <p class="subtitle" style="margin-bottom: 5px;">Pairing Code:</p>
+                    <div class="code-display" id="code-text">J3IJLQI6</div>
+                    <div class="copy-chip" onclick="copyResult()">Copy Unique Code</div>
+                </div>
+
+                <div id="qr-result" style="display: none;">
+                    <div id="qr-box"></div>
+                    <p class="guide-text" style="margin-top: 15px;">Scan with <span>Linked Devices</span> on WhatsApp</p>
+                </div>
+
+                <p class="guide-text" id="confirm-msg">Please authorize the connection on your phone</p>
+            </div>
+
+            <p class="guide-text">Developed with ❤️ by KIUBY-XMD Team</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        let mode = 'code';
+        const phone = document.getElementById('phone');
+        const loader = document.getElementById('loader');
+        const results = document.getElementById('results');
+        const submitBtn = document.getElementById('btn-submit');
+        const codeText = document.getElementById('code-text');
+        const qrBox = document.getElementById('qr-box');
+
+        function setMode(newMode) {
+            mode = newMode;
+            document.getElementById('tab-code').classList.toggle('active', mode === 'code');
+            document.getElementById('tab-qr').classList.toggle('active', mode === 'qr');
+            document.getElementById('phone').style.display = mode === 'code' ? 'block' : 'none';
+            results.style.display = 'none';
+        }
+
+        async function generate() {
+            let num = phone.value.replace(/\D/g, '');
+            if (mode === 'code' && num.length < 10) {
+                alert('Input a valid International Number');
+                return;
+            }
+
+            loader.style.display = 'block';
+            submitBtn.style.display = 'none';
+            results.style.display = 'none';
+
+            try {
+                const api = mode === 'code' ? `/api/pair?number=${num}` : `/api/qr`;
+                const res = await fetch(api);
+                const data = await res.json();
+
+                loader.style.display = 'none';
+                
+                if (data.status === 'success') {
+                    results.style.display = 'block';
+                    if (mode === 'code') {
+                        document.getElementById('code-result').style.display = 'block';
+                        document.getElementById('qr-result').style.display = 'none';
+                        codeText.innerText = data.code;
+                    } else {
+                        document.getElementById('code-result').style.display = 'none';
+                        document.getElementById('qr-result').style.display = 'block';
+                        qrBox.innerHTML = '';
+                        new QRCode(qrBox, { text: data.qr, width: 180, height: 180 });
+                    }
+                } else {
+                    alert(data.message);
+                    submitBtn.style.display = 'block';
+                }
+            } catch (e) {
+                alert('Connectivity error. Try again.');
+                loader.style.display = 'none';
+                submitBtn.style.display = 'block';
+            }
+        }
+
+        function copyResult() {
+            navigator.clipboard.writeText(codeText.innerText);
+            const chip = document.querySelector('.copy-chip');
+            chip.innerText = 'COPIED!';
+            setTimeout(() => chip.innerText = 'COPY UNIQUE CODE', 2000);
+        }
+
+        // --- VFX Canvas (Matrix/Particle blend) ---
+        const canvas = document.getElementById('vfx-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        for(let i=0; i<50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2 + 1,
+                speedX: Math.random() * 1 - 0.5,
+                speedY: Math.random() * 1 - 0.5,
+                color: Math.random() > 0.5 ? '#00f2fe22' : '#f093fb22'
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if(p.x > canvas.width) p.x = 0;
+                if(p.x < 0) p.x = canvas.width;
+                if(p.y > canvas.height) p.y = 0;
+                if(p.y < 0) p.y = canvas.height;
+
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        window.onresize = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+    </script>
+</body>
+</html>
