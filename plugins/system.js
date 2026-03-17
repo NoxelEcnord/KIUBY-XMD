@@ -282,7 +282,7 @@ kiubyxmd({
 kiubyxmd({
   pattern: "restart",
   aliases: ["reboot", "startbot"],
-  description: "Bot restart",
+  description: "Bot restart (kills all node processes first)",
   category: "System",
   filename: __filename
 }, async (from, client, conText) => {
@@ -293,10 +293,16 @@ kiubyxmd({
   }
 
   try {
-    await reply("*🚀 Rebooting KIUBY-XMD System...*");
+    await reply("*🚀 Rebooting KIUBY-XMD System...*\n_Killing all node processes and restarting..._");
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     try {
+      // Kill all other node processes before restart
+      const { execSync } = require('child_process');
+      try {
+        execSync('bash kill.sh 2>/dev/null || pkill -f node 2>/dev/null', { cwd: __dirname + '/..', timeout: 5000 });
+      } catch (e) { /* expected — we're killing ourselves too */ }
+
       if (global.fullReboot) {
         global.fullReboot("Manual Reboot from Command");
       } else {

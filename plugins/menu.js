@@ -43,21 +43,18 @@ const getpluginsCommands = () => {
 };
 
 const randomMedia = () => {
-    const localBg = path.join(__dirname, "../core/public/kiuby_bg.png");
+    const localMenu = path.join(__dirname, "../core/public/kiuby_menu.png");
     const localLogo = path.join(__dirname, "../core/public/kiuby_logo.png");
+    const localBg = path.join(__dirname, "../core/public/kiuby_bg.png");
 
-    // Check if local files exist
-    if (fs.existsSync(localBg) || fs.existsSync(localLogo)) {
-        const mediaPool = [localBg, localLogo].filter(p => fs.existsSync(p));
+    const mediaPool = [localMenu, localLogo, localBg].filter(p => fs.existsSync(p));
+
+    if (mediaPool.length > 0) {
         return mediaPool[Math.floor(Math.random() * mediaPool.length)];
     }
 
-    // High-quality fallbacks if local files are missing
-    const fallbacks = [
-        'https://files.catbox.moe/5i88b8.png',
-        'https://files.catbox.moe/ak48ct.png'
-    ];
-    return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+    // Absolute last resort — should never reach here
+    return localMenu;
 };
 
 const setupGlobalReplyHandler = (client) => {
