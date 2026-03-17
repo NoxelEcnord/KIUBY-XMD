@@ -239,7 +239,7 @@ async function processSubBotCommand(subClient, ms, botId) {
 
         // Define helper functions like main bot does
         const reply = (teks) => {
-            subClient.sendMessage(from, { text: teks, contextInfo: XMD.getContextInfo() }, { quoted: ms });
+            return subClient.sendMessage(from, { text: teks, contextInfo: XMD.getContextInfo() }, { quoted: ms });
         };
 
         const react = async (emoji) => {
