@@ -231,36 +231,53 @@ kiubyxmd({
   description: "Choose a fancy font for all your outgoing messages"
 },
   async (from, client, conText) => {
-    const { reply, sender, react } = conText;
+    const { reply, sender, react, q, args } = conText;
+    const { fontLabels } = require('../core/lib/fontStyles');
+    const { setFontPreference } = require('../core/database/fonts');
 
-    const fonts = [
-      "Normal", "𝔉𝔞𝔫𝔠𝔶 𝔉𝔬𝔫𝔱", "𝓕𝓪𝓷𝓬𝔂 𝓕𝓸𝓷𝓽", "𝓯𝓪𝓷𝓬𝔂 𝓯𝓸𝓷𝓽", "𝔽𝕒𝕟𝕔𝕪 𝔽𝕠𝕟𝕥", "ғᴀɴᴄʏ ғᴏɴᴛ", "ꜰᴀɴᴄʏ ꜰᴏɴᴛ", "ℱ𝒶𝓃𝒸𝓎 ℱℴ𝓃𝓉", "🄵🄰🄽🄲🅈 🄵🄾🄽🅃", "Ⓕⓐⓝⓒⓨ Ⓕⓞⓝⓣ", "fαиcy fσит", "⨍αɳƈყ ⨍σɳƚ", "ʄąŋƈყ ʄơŋɬ", "fthncth fthnt", "fαи¢у fσит", "₣₳₦₵Ɏ ₣Ø₦₮", "千卂几匚ㄚ 千ㄖ几ㄒ", "fancч fσnt", "FΛПCY FӨПT", "ₘY Fₒₙₜ"
-    ];
+    // If argument provided (e.g., .setfont 5), set directly
+    if (q && !isNaN(parseInt(q))) {
+      const num = parseInt(q);
+      if (num < 0 || num >= fontLabels.length) {
+        return reply(`❌ Invalid font number. Please choose between 0 and ${fontLabels.length - 1}.`);
+      }
+      await setFontPreference(sender, num);
+      await react("✅");
+      return reply(`✅ Font updated to style #${num} (${fontLabels[num]}). Your outgoing texts will now be auto-styled.`);
+    }
 
+    // Otherwise show list and wait for reply
     let caption = `✨ *KIUBY-XMD FONT SELECTOR*\n\n`;
-    fonts.forEach((f, i) => {
+    fontLabels.forEach((f, i) => {
       caption += `${i}. ${f}\n`;
     });
-    caption += `\n📌 Reply with the font number to select it.`;
+    caption += `\n📌 *Usage:* \`.setfont <number>\` or reply with a number to this message.`;
 
     const sent = await reply(caption);
     const messageId = sent.key.id;
 
+    // Listener for reply
     client.ev.on("messages.upsert", async (update) => {
-      const msg = update.messages[0];
-      if (!msg.message) return;
-      const responseText = msg.message.conversation || msg.message.extendedTextMessage?.text;
-      const isReply = msg.message.extendedTextMessage?.contextInfo?.stanzaId === messageId;
-      if (!isReply) return;
+      try {
+        const msg = update.messages[0];
+        if (!msg.message || msg.key.fromMe) return;
 
-      const num = parseInt(responseText.trim());
-      if (isNaN(num) || num < 0 || num >= fonts.length) {
-        return reply("❌ Invalid font number.");
+        const responseText = msg.message.conversation || msg.message.extendedTextMessage?.text;
+        const contextInfo = msg.message.extendedTextMessage?.contextInfo;
+        const isReply = contextInfo?.stanzaId === messageId;
+
+        if (!isReply) return;
+
+        const num = parseInt(responseText?.trim());
+        if (isNaN(num) || num < 0 || num >= fontLabels.length) {
+          return client.sendMessage(msg.key.remoteJid, { text: "❌ Invalid font number." }, { quoted: msg });
+        }
+
+        await setFontPreference(sender, num);
+        await client.sendMessage(msg.key.remoteJid, { react: { key: msg.key, text: "✅" } });
+        await client.sendMessage(msg.key.remoteJid, { text: `✅ Font updated to style #${num} (${fontLabels[num]}).` }, { quoted: msg });
+      } catch (e) {
+        console.error("setfont listener error:", e);
       }
-
-      const { setFontPreference } = require('../core/database/fonts');
-      await setFontPreference(sender, num);
-      await react("✅");
-      await reply(`✅ Font updated to style #${num}. All your messages will now be edited to this font.`);
     });
   });

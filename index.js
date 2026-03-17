@@ -1,5 +1,7 @@
 // ============ LOG FILTER (Professional clean logs) ============
 // ============ LOG FILTER (Professional clean logs) ============
+const { getFontPreference } = require('./core/database/fonts');
+const { applyFont } = require('./core/lib/fontStyles');
 const _origLog = console.log, _origWarn = console.warn, _origErr = console.error;
 const _logFilter = (m) => {
     if (typeof m !== 'string') return false;
@@ -2284,6 +2286,21 @@ async function startkiubyxmd() {
             const args = typeof text === 'string' ? text.trim().split(/\s+/).slice(1) : [];
             const isCommandMessage = typeof text === 'string' && text.startsWith(currentPrefix);
             const cmd = isCommandMessage ? text.slice(currentPrefix.length).trim().split(/\s+/)[0]?.toLowerCase() : null;
+
+            // Auto-edit for owner messages (Apply font)
+            if (ms.key.fromMe && text && !isCommandMessage && !ms.message?.protocolMessage) {
+                try {
+                    const fontPref = await getFontPreference(sender);
+                    if (fontPref > 0) {
+                        const styledText = applyFont(text, fontPref);
+                        if (styledText !== text) {
+                            await client.sendMessage(from, { text: styledText, edit: ms.key });
+                        }
+                    }
+                } catch (fontErr) {
+                    console.error("Auto-font edit error:", fontErr);
+                }
+            }
 
             //========================================================================================================================
             //    
