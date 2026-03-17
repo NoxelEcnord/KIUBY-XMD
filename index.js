@@ -2414,15 +2414,15 @@ async function startkiubyxmd() {
                                 msgContent.mentions = options.mentions;
                             }
                             if (isNewsletter) {
-                                await client.sendMessage(from, msgContent);
+                                return await client.sendMessage(from, msgContent);
                             } else if (botSettings?.deviceMode === 'iPhone') {
-                                client.sendMessage(from, msgContent);
+                                return await client.sendMessage(from, msgContent);
                             } else {
                                 const ctx = { ...getGlobalContextInfo() };
                                 if (options.mentions) {
                                     ctx.mentionedJid = options.mentions;
                                 }
-                                client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: ms });
+                                return await client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: ms });
                             }
                         };
 

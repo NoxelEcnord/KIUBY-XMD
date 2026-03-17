@@ -254,6 +254,7 @@ kiubyxmd({
     caption += `\n📌 *Usage:* \`.setfont <number>\` or reply with a number to this message.`;
 
     const sent = await reply(caption);
+    if (!sent || !sent.key) return;
     const messageId = sent.key.id;
 
     // Listener for reply
