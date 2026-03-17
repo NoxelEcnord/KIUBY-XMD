@@ -19,19 +19,14 @@ if (!global.menuSessions) {
 }
 
 const categories = {
-    "1. KIUBY AI": ["ai", "gpt"],
-    "2. PHOTO FORGE": ["ephoto", "photofunia"],
-    "3. DATA SIPHON": ["downloader", "search"],
-    "4. NODE HUB": ["group"],
-    "5. CORE CONFIG": ["settings", "owner"],
-    "6. CHAOS LAB": ["fun"],
-    "7. SYS UTILS": ["general", "utility", "tools"],
-    "8. ARENA LIVE": ["sports"],
-    "9. STALKER NET": ["stalker"],
-    "10. FORGE STICK": ["sticker"],
-    "11. KERNEL INFO": ["system"],
-    "12. ARCHIVE-X": ["education"],
-    "13. LINK SHRED": ["shortener"],
+    "🤖 NEURAL CORE": ["ai", "gpt", "ai-tools"],
+    "📥 DOWNLINK HUB": ["downloader", "search", "media-dl", "play"],
+    "🎨 SYNTHETIC FORGE": ["sticker", "logo-effects", "photo", "video-effects"],
+    "👥 NODE CONTROL": ["group", "general", "utility"],
+    "🎮 CHAOS ROOM": ["fun", "games", "economy", "levels"],
+    "🔍 STALKER NET": ["stalker", "system", "movie", "sports"],
+    "🛠️ QUANTUM TOOLS": ["tools", "text-tools", "audio-tools", "encrypt", "url"],
+    "⚙️ MAIN FRAME": ["settings", "owner", "update", "repo"]
 };
 
 const getpluginsCommands = () => {
@@ -62,7 +57,7 @@ const randomMedia = () => {
         'https://files.catbox.moe/5i88b8.png',
         'https://files.catbox.moe/ak48ct.png'
     ];
-    return { url: fallbacks[Math.floor(Math.random() * fallbacks.length)] };
+    return fallbacks[Math.floor(Math.random() * fallbacks.length)];
 };
 
 const setupGlobalReplyHandler = (client) => {
@@ -113,7 +108,7 @@ const setupGlobalReplyHandler = (client) => {
                     text: `📢 *${BOT_NAME} SATELLITE CHANNEL*\n\nJoin our neural network for updates:\n${GURL}`,
                     contextInfo: XMD.getContextInfo('📢 CHANNEL AUTH', 'Satellite Link Active')
                 }, { quoted: contactMessage });
-            } else if (index >= 4 && index <= 16) {
+            } else if (index >= 4 && index <= 11) {
                 const names = Object.keys(categories);
                 const catName = names[index - 4];
                 if (catName) {
@@ -155,23 +150,18 @@ kiubyxmd(
 ║  1. 🌐 WEB PORTAL             ║
 ║  2. 🎵 AUDIO UPLINK           ║
 ║  3. 📢 CHANNEL AUTH           ║
-║  4. 🤖 NEURAL AI              ║
-║  5. 🎨 PHOTO FORGE            ║
-║  6. 📥 DATA SIPHON            ║
-║  7. 👥 NODE HUB               ║
-║  8. ⚙️ CORE CONFIG            ║
-║  9. 😂 CHAOS LAB              ║
-║ 10. 🌍 SYS UTILS              ║
-║ 11. ⚽ ARENA LIVE             ║
-║ 12. 🔍 STALKER NET            ║
-║ 13. 🖼️ FORGE STICK            ║
-║ 14. 🔧 KERNEL INFO            ║
-║ 15. 📚 ARCHIVE-X              ║
-║ 16. 🔗 LINK SHRED             ║
+║  4. 🤖 NEURAL CORE            ║
+║  5. 📥 DOWNLINK HUB           ║
+║  6. 🎨 SYNTHETIC FORGE        ║
+║  7. 👥 NODE CONTROL           ║
+║  8. 🎮 CHAOS ROOM             ║
+║  9. 🔍 STALKER NET            ║
+║ 10. 🛠️ QUANTUM TOOLS          ║
+║ 11. ⚙️ MAIN FRAME             ║
 ║                               ║
 ╚═══════════════════════════════╝
-💡 *STAY TUNED:* Bugs Menu & Advanced Exploits in next uplink...
-💡 Reply with a number (1-16) to access a sub-system.`;
+💡 *STAY TUNED:* Advanced Exploits in next uplink...
+💡 Reply with a number (1-11) to access a sub-system.`;
 
             const header = `╭───────────────────────────────╮
 │ 🛰️ MAINFRAME: KIUBY NEXTGEN
@@ -191,6 +181,7 @@ ${greeting}, Agent *${contactName}*. Identity verified.`;
                 contextInfo: XMD.getContextInfo('🛸 KIUBY NEXTGEN MAIN MENU', `Access: Granted | User: ${contactName}`)
             }, { quoted: contactMessage });
 
+            if (!msg || !msg.key) return;
             global.menuSessions.set(msg.key.id, { from, contactMessage, pluginCommands });
             setTimeout(() => global.menuSessions.delete(msg.key.id), 600000);
 
