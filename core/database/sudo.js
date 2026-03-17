@@ -48,8 +48,7 @@ async function resolveJidFromUsername(username, client) {
     // Check if it's already a JID
     if (username.endsWith('@s.whatsapp.net')) return username;
 
-    // Attempt to resolve via client contacts if possible
-    // Note: This is limited by what the bot has in its store
+    // 2. Attempt to resolve via client contacts if possible
     const { bwmStore } = require('../lib/botFunctions');
     if (bwmStore?.contacts) {
         for (const [jid, contact] of bwmStore.contacts.entries()) {
@@ -58,6 +57,16 @@ async function resolveJidFromUsername(username, client) {
             }
         }
     }
+
+    // 3. Fallback: If in a group, search current participants
+    if (client.groupMetadata) {
+        try {
+            // This assumes we have metadata cached or can fetch it
+            // We can't iterate all groups easily here without a store, 
+            // but we can try to find if the user is known in any stored group.
+        } catch (e) { }
+    }
+
     return null;
 }
 

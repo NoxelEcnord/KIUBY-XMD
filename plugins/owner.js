@@ -657,10 +657,19 @@ kiubyxmd({
     return reply("❌ Owner Only Command!");
   }
 
-  let target = q || quotedUser;
+  let target = null;
+
+  if (mentionedJid && mentionedJid.length > 0) {
+    target = mentionedJid[0];
+  } else if (quotedUser) {
+    target = quotedUser;
+  } else if (q) {
+    target = q.trim();
+  }
+
   if (!target) {
     await react("❌");
-    return reply("❌ Please reply to a user or provide a number/username!");
+    return reply("❌ Please reply to a user, mention them (@user), or provide a number/username!");
   }
 
   try {
