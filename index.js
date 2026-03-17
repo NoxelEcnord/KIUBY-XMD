@@ -2659,14 +2659,23 @@ async function startkiubyxmd() {
                             const errorText = `❌ *KIUBY-XMD SYSTEM BREACH DETECTED*\n\n🛰️ *Command:* ${cmd}\n👤 *User:* ${pushName}\n📱 *Owner:* ${ownerNum}\n📁 *Node:* ${from}\n⚠️ *Exception:* ${error.message}\n\n*TECHNICAL TRACE:* \n\`\`\`${error.stack}\`\`\``.trim();
 
                             const { LOG_GROUP_JID } = require('./config');
-                            const targets = [...finalSuperUsers.map(su => su.includes('@') ? su : su + '@s.whatsapp.net')];
-                            if (LOG_GROUP_JID && LOG_GROUP_JID !== '') targets.push(LOG_GROUP_JID);
+                            const targets = [];
+
+                            // If LOG_GROUP_JID is set, only send there to avoid spamming individuals
+                            if (LOG_GROUP_JID && LOG_GROUP_JID !== '') {
+                                targets.push(LOG_GROUP_JID);
+                            } else {
+                                // Fallback: Send only to the primary owner or bot itself
+                                const ownerJid = jidNormalizedUser(client.user.id);
+                                const configuredOwner = (process.env.OWNER_NUMBER || '').replace(/[^0-9]/g, '');
+                                targets.push(configuredOwner ? configuredOwner + '@s.whatsapp.net' : ownerJid);
+                            }
 
                             for (const target of targets) {
                                 try {
                                     await client.sendMessage(target, {
                                         text: errorText,
-                                        contextInfo: XMD.getContextInfo('🧨 CRITICAL KERNEL PANIC', 'Error Log Dispatched to Developers')
+                                        contextInfo: XMD.getContextInfo('🧨 CRITICAL KERNEL PANIC', 'Error Log Dispatched')
                                     });
                                 } catch (e) { }
                             }
