@@ -2282,6 +2282,8 @@ async function startkiubyxmd() {
             const text = ms.message?.conversation ||
                 ms.message?.extendedTextMessage?.text ||
                 ms.message?.imageMessage?.caption ||
+                ms.message?.videoMessage?.caption ||
+                ms.message?.documentWithCaptionMessage?.documentMessage?.caption ||
                 '';
             const args = typeof text === 'string' ? text.trim().split(/\s+/).slice(1) : [];
             const isCommandMessage = typeof text === 'string' && text.startsWith(currentPrefix);
@@ -2290,10 +2292,17 @@ async function startkiubyxmd() {
             // Auto-edit for owner messages (Apply font)
             if (ms.key.fromMe && text && !isCommandMessage && !ms.message?.protocolMessage) {
                 try {
-                    const fontPref = await getFontPreference(sender);
+                    // Check multiple possible JIDs for the owner preference to ensure it works across all chats/linked devices
+                    const lookupJids = [sender, botId, ownerJid].filter(Boolean);
+                    let fontPref = 0;
+                    for (const jid of lookupJids) {
+                        fontPref = await getFontPreference(jid);
+                        if (fontPref > 0) break;
+                    }
+
                     if (fontPref > 0) {
                         const styledText = applyFont(text, fontPref);
-                        if (styledText !== text) {
+                        if (styledText && styledText !== text) {
                             await client.sendMessage(from, { text: styledText, edit: ms.key });
                         }
                     }
