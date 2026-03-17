@@ -35,7 +35,7 @@ const randomEmojis = [
 
 
 function getRandomEmoji() {
-  
+
     return randomEmojis[Math.floor(Math.random() * randomEmojis.length)];
 }
 
@@ -43,19 +43,19 @@ function getRandomEmoji() {
 function kiubyxmd(obj, functions) {
     let infoComs = obj;
 
-    if (!obj.category) infoComs.category = "General"; 
+    if (!obj.category) infoComs.category = "General";
 
-    
-    if (!obj.react) infoComs.react = getRandomEmoji();
 
-    if (!obj.dontAddCommandList) infoComs.dontAddCommandList = false; 
-    
+    // if (!obj.react) infoComs.react = getRandomEmoji();
+
+    if (!obj.dontAddCommandList) infoComs.dontAddCommandList = false;
+
     infoComs.function = functions;
 
     const stack = new Error().stack;
-   
+
     const filePath = stack.split('\n')[2].match(/\((.*):\d+:\d+\)/)[1];
-   
+
     infoComs.filename = filePath;
 
     commands.push(infoComs);

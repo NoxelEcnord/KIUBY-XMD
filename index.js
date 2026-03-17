@@ -178,6 +178,7 @@ async function loadBotSettings() {
 }
 
 let isRestarting = false;
+let startupNotificationSent = false;
 
 function fullReboot(reason = 'Unknown') {
     if (isRestarting) return;
@@ -541,9 +542,6 @@ async function handleChatbot(client, message, from, sender, isGroup, isSuperUser
 
         if (!text) return;
 
-        // Add processing reaction for immediate feedback
-        await client.sendMessage(from, { react: { key: (quoted || message).key || message.key, text: "🧠" } }).catch(() => { });
-
         // Check trigger and determine response type
         let shouldRespond = false;
         let responseType = settings.default_response;
@@ -573,7 +571,6 @@ async function handleChatbot(client, message, from, sender, isGroup, isSuperUser
         }
 
         if (!shouldRespond || !cleanMessage) {
-            await client.sendMessage(from, { react: { key: (quoted || message).key || message.key, text: "❓" } }).catch(() => { });
             return;
         }
 
@@ -592,9 +589,6 @@ async function handleChatbot(client, message, from, sender, isGroup, isSuperUser
                 await handleTextResponse(client, from, sender, cleanMessage, quoted || message);
                 break;
         }
-
-        // Success reaction
-        await client.sendMessage(from, { react: { key: (quoted || message).key || message.key, text: "⚡" } }).catch(() => { });
 
     } catch (error) {
         console.error('Chatbot handler error:', error);
@@ -2772,6 +2766,11 @@ _⏳ Commands may take up to 5 minutes to sync. Please be patient while the bot 
                         const configuredOwner = (process.env.OWNER_NUMBER || '').replace(/[^0-9]/g, '');
                         const targetJid = configuredOwner ? configuredOwner + '@s.whatsapp.net' : ownerJid;
 
+                        if (startupNotificationSent) {
+                            reconnectAttempts = 0;
+                            return;
+                        }
+
                         console.log("[KIUBY-XMD] Sending startup notification to:", targetJid);
 
                         const startupContext = XMD.getContextInfo('⚡ 𝐊𝐈𝐔𝐁𝐘 𝐍𝐄𝐗𝐓𝐆𝐄𝐍 𝐎𝐍𝐋𝐈𝐍𝐄', '🧱 Mainframe Integrity: 100%');
@@ -2783,6 +2782,7 @@ _⏳ Commands may take up to 5 minutes to sync. Please be patient while the bot 
                                 contextInfo: startupContext
                             }
                         );
+                        startupNotificationSent = true;
 
                         // Ping Home Group if defined
                         let { LOG_GROUP_JID } = require('./config');
