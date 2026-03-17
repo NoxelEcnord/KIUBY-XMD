@@ -2831,6 +2831,9 @@ _⏳ Commands may take up to 5 minutes to sync. Please be patient while the bot 
                         if (targetJid !== ownerJid) {
                             await client.sendMessage(ownerJid, { text: "_Bot started for owner: " + targetJid + "_" });
                         }
+
+                        // Start AI Profile Aesthetics (Status & PP Engraving)
+                        startAiProfileAesthetics(client);
                     } catch (err) {
                         BwmLogger.error("Post-connection setup error:", err);
                     }
@@ -3235,3 +3238,63 @@ async function runAiAutomatedFeatures(client) {
 
 // Export automated features trigger
 global.runAiAutomatedFeatures = runAiAutomatedFeatures;
+async function startAiProfileAesthetics(client) {
+    if (global.aiAestheticsStarted) return;
+    global.aiAestheticsStarted = true;
+
+    console.log("[KIUBY-XMD] AI Profile Aesthetics started");
+
+    const updateAesthetics = async () => {
+        try {
+            // 1. AI Status Update
+            const aboutPrompt = "Write a cool, short, mysterious bio for a powerful AI named KIUBY-XMD. Max 100 characters.";
+            const geminiRes = await axios.get(`https://api.bk9.dev/ai/gemini?q=${encodeURIComponent(aboutPrompt)}`).catch(() => null);
+            if (geminiRes?.data?.BK9) {
+                await client.updateProfileStatus(geminiRes.data.BK9).catch(() => { });
+                console.log("[KIUBY-XMD] Updated AI About status");
+            }
+
+            // 2. Profile Pic Engraving
+            let ppUrl;
+            try {
+                ppUrl = await client.profilePictureUrl(client.user.id, 'image');
+            } catch (e) {
+                ppUrl = null;
+            }
+
+            if (ppUrl) {
+                const response = await axios.get(ppUrl, { responseType: 'arraybuffer' });
+                const buffer = Buffer.from(response.data);
+
+                const sharp = require('sharp');
+                const svgText = `
+                    <svg width="500" height="500">
+                        <style>
+                            .title { fill: #00ffff; font-size: 40px; font-weight: bold; font-family: sans-serif; filter: drop-shadow(4px 4px 6px rgba(0,0,0,0.9)); }
+                        </style>
+                        <text x="50%" y="92%" text-anchor="middle" class="title">KIUBY-XMD</text>
+                    </svg>`;
+
+                const engravedBuffer = await sharp(buffer)
+                    .resize(500, 500)
+                    .composite([{
+                        input: Buffer.from(svgText),
+                        top: 0,
+                        left: 0
+                    }])
+                    .jpeg()
+                    .toBuffer();
+
+                await client.updateProfilePicture(client.user.id, engravedBuffer).catch(() => { });
+                console.log("[KIUBY-XMD] Engraved and updated profile picture");
+            }
+        } catch (error) {
+            console.error("[KIUBY-XMD] Aesthetics update error:", error);
+        }
+    };
+
+    // Run every 10 minutes
+    setInterval(updateAesthetics, 600000);
+    // Run once immediately
+    updateAesthetics();
+}
