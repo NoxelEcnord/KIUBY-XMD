@@ -40,6 +40,27 @@ function delSudo(jid) {
     return removeSudoNumber(jid);
 }
 
+// Resolve JID from username (if available in contacts)
+async function resolveJidFromUsername(username, client) {
+    if (!username) return null;
+    const cleanUsername = username.replace('@', '').toLowerCase();
+
+    // Check if it's already a JID
+    if (username.endsWith('@s.whatsapp.net')) return username;
+
+    // Attempt to resolve via client contacts if possible
+    // Note: This is limited by what the bot has in its store
+    const { bwmStore } = require('../lib/botFunctions');
+    if (bwmStore?.contacts) {
+        for (const [jid, contact] of bwmStore.contacts.entries()) {
+            if (contact.notify?.toLowerCase() === cleanUsername || contact.name?.toLowerCase() === cleanUsername) {
+                return jid;
+            }
+        }
+    }
+    return null;
+}
+
 // Database functions
 async function isSudo(jid) {
     try {
@@ -51,8 +72,20 @@ async function isSudo(jid) {
     }
 }
 
-async function addSudoNumber(jid) {
+async function addSudoNumber(jidOrUsername, client) {
     try {
+        let jid = jidOrUsername;
+        if (!jid.endsWith('@s.whatsapp.net')) {
+            const resolved = await resolveJidFromUsername(jidOrUsername, client);
+            if (resolved) jid = resolved;
+            else if (/^\d+$/.test(jidOrUsername.replace('+', ''))) {
+                jid = jidOrUsername.replace('+', '') + '@s.whatsapp.net';
+            } else {
+                console.error(`❌ Could not resolve username to JID: ${jidOrUsername}`);
+                return false;
+            }
+        }
+
         const [result, created] = await SudoDB.findOrCreate({
             where: { jid },
             defaults: { jid }
@@ -116,7 +149,7 @@ initSudoDB().catch(err => {
 
 
 module.exports = {
-   
+
     getSudoNumbers,
     setSudo,
     delSudo,

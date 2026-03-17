@@ -51,11 +51,11 @@ module.exports = {
     TZ: process.env.TZ || 'Africa/Nairobi',
 
     BOT_URL: process.env.BOT_URL ? process.env.BOT_URL.split(',') : [
-        'https://o.uguu.se/aeSEwgao.png',
-        'https://d.uguu.se/mtTUslGu.png',
-        'https://n.uguu.se/XkXKcEsa.png',
-        'https://o.uguu.se/ybENyCwC.png',
-        'https://d.uguu.se/XrGLrjEj.png'
+        'https://files.catbox.moe/5i88b8.png',
+        'https://files.catbox.moe/ak48ct.png',
+        'https://files.catbox.moe/q9v77i.png',
+        'https://files.catbox.moe/e8q9cs.png',
+        'https://files.catbox.moe/h2ojq2.png'
     ],
 
     MENU_TOP_LEFT: process.env.MENU_TOP_LEFT || "╔═════════════════════════════╗",

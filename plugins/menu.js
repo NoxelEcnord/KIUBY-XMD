@@ -19,7 +19,7 @@ if (!global.menuSessions) {
 }
 
 const categories = {
-    "1. NEURAL AI": ["ai", "gpt"],
+    "1. KIUBY AI": ["ai", "gpt"],
     "2. PHOTO FORGE": ["ephoto", "photofunia"],
     "3. DATA SIPHON": ["downloader", "search"],
     "4. NODE HUB": ["group"],

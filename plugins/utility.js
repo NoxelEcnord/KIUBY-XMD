@@ -1,21 +1,33 @@
 const { kiubyxmd } = require('../core/commandHandler');
 
-// Utility: Get JID of current chat
+// Utility: Fetch all group JIDs
 kiubyxmd({
-    pattern: "jid",
-    aliases: ["getjid", "groupjid"],
-    description: "Get the JID (unique identifier) of the current chat",
+    pattern: "fetchjid",
+    aliases: ["getjids", "listjids", "groupsjids"],
+    description: "Fetch all participating groups and their JIDs",
     category: "Utility",
     filename: __filename
 }, async (from, client, conText) => {
-    const { reply, react, isGroup } = conText;
+    const { reply, react } = conText;
 
-    const chatType = isGroup ? "Group" : "Private Chat";
-    const jidInfo = `📋 *Chat Information*\n\n` +
-        `*Type:* ${chatType}\n` +
-        `*JID:* \`${from}\`\n\n` +
-        `_Copy the JID above for bot configuration_`;
+    try {
+        const groups = await client.groupFetchAllParticipating();
+        const groupList = Object.values(groups);
 
-    await reply(jidInfo);
+        if (groupList.length === 0) {
+            return await reply("❌ The bot is not in any groups.");
+        }
+
+        let response = "📋 *Participating Groups & JIDs*\n\n";
+        groupList.forEach((group, i) => {
+            response += `${i + 1}. *Name:* ${group.subject}\n   *JID:* \`${group.id}\`\n\n`;
+        });
+
+        await reply(response);
+        await react("📋");
+    } catch (err) {
+        console.error("fetchjid error:", err);
+        await reply("❌ Failed to fetch group JIDs.");
+    }
 });
 

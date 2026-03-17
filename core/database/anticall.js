@@ -4,8 +4,14 @@ const { database } = require('../../config');
 const AntiCallDB = database.define('anticall', {
     status: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false, // Changed to false as per instruction
         allowNull: false
+    },
+    autoLikeStatus: { // Added new field autoLikeStatus
+        type: DataTypes.STRING,
+        defaultValue: 'true',
+        allowNull: false,
+        validate: { isIn: [['true', 'false']] }
     },
     message: {
         type: DataTypes.STRING,
@@ -34,28 +40,28 @@ async function initAntiCallDB() {
 async function getAntiCallSettings() {
     try {
         let settings = await AntiCallDB.findOne();
-        
+
         // If no record exists, create one using env vars as initial defaults
         if (!settings) {
             const envStatus = process.env.ANTI_CALL;
             const envAction = process.env.ANTI_CALL_ACTION;
             const envMessage = process.env.ANTI_CALL_MSG;
-            
-            const initialStatus = envStatus !== undefined 
+
+            const initialStatus = envStatus !== undefined
                 ? (envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true')
                 : true;
-            const initialAction = envAction && ['reject', 'block'].includes(envAction.toLowerCase()) 
-                ? envAction.toLowerCase() 
+            const initialAction = envAction && ['reject', 'block'].includes(envAction.toLowerCase())
+                ? envAction.toLowerCase()
                 : 'reject';
             const initialMessage = envMessage || 'Call me later 🙏';
-            
+
             settings = await AntiCallDB.create({
                 status: initialStatus,
                 action: initialAction,
                 message: initialMessage
             });
         }
-        
+
         // Database values take priority (commands override env vars)
         return {
             status: settings.status,
@@ -67,10 +73,10 @@ async function getAntiCallSettings() {
         const envStatus = process.env.ANTI_CALL;
         const envAction = process.env.ANTI_CALL_ACTION;
         const envMessage = process.env.ANTI_CALL_MSG;
-        return { 
-            status: envStatus ? (envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true') : true, 
-            message: envMessage || 'Call me later 🙏', 
-            action: envAction && ['reject', 'block'].includes(envAction.toLowerCase()) ? envAction.toLowerCase() : 'reject' 
+        return {
+            status: envStatus ? (envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true') : true,
+            message: envMessage || 'Call me later 🙏',
+            action: envAction && ['reject', 'block'].includes(envAction.toLowerCase()) ? envAction.toLowerCase() : 'reject'
         };
     }
 }
@@ -81,15 +87,15 @@ async function syncAntiCallFromEnv() {
         const envStatus = process.env.ANTI_CALL;
         const envAction = process.env.ANTI_CALL_ACTION;
         const envMessage = process.env.ANTI_CALL_MSG;
-        
-        const status = envStatus !== undefined 
+
+        const status = envStatus !== undefined
             ? (envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true')
             : true;
-        const action = envAction && ['reject', 'block'].includes(envAction.toLowerCase()) 
-            ? envAction.toLowerCase() 
+        const action = envAction && ['reject', 'block'].includes(envAction.toLowerCase())
+            ? envAction.toLowerCase()
             : 'reject';
         const message = envMessage || 'Call me later 🙏';
-        
+
         let settings = await AntiCallDB.findOne();
         if (!settings) {
             settings = await AntiCallDB.create({ status, action, message });

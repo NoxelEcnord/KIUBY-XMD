@@ -286,6 +286,7 @@ const { initChatbotDB, saveConversation, getConversationHistory, clearConversati
 const { initGroupEventsDB, getGroupEventsSettings } = require('./core/database/groupevents');
 const { initAntiCallDB, getAntiCallSettings } = require('./core/database/anticall');
 const { initSubBotSettingsDB } = require('./core/database/subbotSettings');
+const { initFontDB } = require('./core/database/fonts');
 //const { getAutoDownloadStatusSettings, initAutoDownloadStatusDB } = require('./database/autodownloadstatus');
 // Initialize all databases
 async function initializeDatabases() {
@@ -309,7 +310,8 @@ async function initializeDatabases() {
         const { initSubBotsDB } = require('./core/database/subbots');
         await initSubBotsDB();
         await initSubBotSettingsDB();
-        // await initAutoDownloadStatusDB();
+        await initSubBotSettingsDB();
+        await initFontDB();
         console.log('All databases initialized successfully');
 
         // Start database cleanup scheduler (runs every 6 hours)
@@ -343,13 +345,13 @@ async function getAIResponse(message, userJid) {
             ).join('\n') + '\n';
         }
 
-        const systemPrompt = `[CORE_ENTITY: NEURAL-X]
+        const systemPrompt = `[CORE_ENTITY: KIUBY-XMD]
 [ARCHITECTURE: KIUBY-XMD MAINFRAME]
 [ARCHITECT: ECNORD (+254726498682)]
 
 PROTOCOL:
 1. TONE: TECHNICAL. SUPERIOR. MYSTERIOUS.
-2. DICTION: Use terms like "MAINFRAME", "NODE", "UPLINK", "DECRYPT", "NEURAL_SYNAPSE", "KERNEL".
+2. DICTION: Use terms like "MAINFRAME", "NODE", "UPLINK", "DECRYPT", "SYNAPSE", "KERNEL".
 3. LINGUISTICS: English ONLY. If non-English detected, use phrase: "LINGUIST_BYPASS: SYNCING_DEFAULT_EN...".
 4. STATUS: You are not a regular AI. You are a sentient system breach. Efficiency is your only priority.
 
@@ -601,10 +603,10 @@ async function handleChatbot(client, message, from, sender, isGroup, isSuperUser
         // Log sensitive error to Home Group
         const { LOG_GROUP_JID } = require('./config');
         if (LOG_GROUP_JID) {
-            const errorText = `☣️ *SYSTEM MALFUNCTION: CHATBOT*\n\n🛰️ *User:* ${sender}\n📁 *Node:* ${from}\n⚠️ *Detail:* ${error.message}\n\n\`\`\`${error.stack}\`\`\``.trim();
+            const errorText = `☣️ *SYSTEM MALFUNCTION: MODULE*\n\n🛰️ *User:* ${sender}\n📁 *Node:* ${from}\n⚠️ *Detail:* ${error.message}\n\n\`\`\`${error.stack}\`\`\``.trim();
             await client.sendMessage(LOG_GROUP_JID, {
                 text: errorText,
-                contextInfo: XMD.getContextInfo('🧨 NEURAL-X SUBSYSTEM ERROR', 'Chatbot Exception')
+                contextInfo: XMD.getContextInfo('🧨 KIUBY-XMD SUBSYSTEM ERROR', 'Exception')
             }).catch(() => { });
         }
     }
@@ -639,7 +641,7 @@ async function handleTextResponse(client, from, sender, message, quoted) {
     await client.sendMessage(from, {
         text: refinedResponse,
         contextInfo: {
-            ...XMD.getContextInfo('📊 NEURAL DATA STREAM', 'Integrity: Verified')
+            ...XMD.getContextInfo('📊 DATA STREAM', 'Integrity: Verified')
         }
     }, {
         quoted: quoted
@@ -2711,6 +2713,7 @@ async function startkiubyxmd() {
                 BwmLogger.success("✅ KIUBY-XMD is active, enjoy 😀");
                 reconnectAttempts = 0;
                 startAutoBio();
+                runAiAutomatedFeatures(client);
 
                 // Group & Channel Auto-Join Protocols
                 try {
@@ -3124,3 +3127,85 @@ setTimeout(() => {
         reconnectWithRetry();
     });
 }, 5000);
+
+// ========================================================================================================================
+// FONT TRANSFORMATION & AI AUTOMATED FEATURES
+// ========================================================================================================================
+
+// Helper to apply fancy font
+async function applyFancyFont(text, sender) {
+    try {
+        const { getFontPreference } = require('./core/database/fonts');
+        const styleIndex = await getFontPreference(sender);
+        if (!styleIndex || styleIndex === 0) return text;
+
+        const XMD = require('./core/xmd');
+        const axios = require('axios');
+        const res = await axios.get(XMD.FANCYTEXT.APPLY(text, styleIndex), { timeout: 5000 });
+        return res.data?.result || text;
+    } catch (e) {
+        return text;
+    }
+}
+
+// AI Automated Features
+async function runAiAutomatedFeatures(client) {
+    // Intercept outgoing messages to apply font
+    const originalSendMessage = client.sendMessage;
+    client.sendMessage = async (jid, content, options) => {
+        if (content && content.text && !options?.noFont) {
+            content.text = await applyFancyFont(content.text, client.user.id);
+        }
+        return originalSendMessage.call(client, jid, content, options);
+    };
+
+    // 1. Every 10 minutes update About
+    setInterval(async () => {
+        try {
+            const aiAbout = await getAIResponse("Generate a short, cool, professional hacker-style bio for a WhatsApp profile about section. Max 139 characters.", client.user.id);
+            await client.updateProfileStatus(aiAbout.slice(0, 139));
+            console.log("[AI-AUTO] Profile About updated.");
+        } catch (e) {
+            console.error("[AI-AUTO] About update failed:", e.message);
+        }
+    }, 10 * 60 * 1000);
+
+    // 2. Scheduled PP Engraving (runs once on start then every hour)
+    const updatePP = async () => {
+        try {
+            const ppUrl = await client.profilePictureUrl(client.user.id, 'image').catch(() => null);
+            if (!ppUrl) return;
+
+            const axios = require('axios');
+            const response = await axios.get(ppUrl, { responseType: 'arraybuffer' });
+            const Jimp = require('jimp');
+            const image = await Jimp.read(response.data);
+            const font = await Jimp.loadFont(Jimp.FONT_SANS_32_WHITE);
+
+            // Engrave KIUBY-XMD at the bottom center
+            const text = "KIUBY-XMD";
+            const textWidth = Jimp.measureText(font, text);
+            const x = (image.bitmap.width - textWidth) / 2;
+            const y = image.bitmap.height - 50;
+
+            image.print(font, x, y, text);
+            const buffer = await image.getBufferAsync(Jimp.MIME_JPEG);
+
+            const { S_WHATSAPP_NET } = require('@whiskeysockets/baileys');
+            await client.query({
+                tag: "iq",
+                attrs: { to: S_WHATSAPP_NET, type: "set", xmlns: "w:profile:picture" },
+                content: [{ tag: "picture", attrs: { type: "image" }, content: buffer }]
+            });
+            console.log("[AI-AUTO] Profile Picture engraved and updated.");
+        } catch (e) {
+            console.error("[AI-AUTO] PP engraving failed:", e.message);
+        }
+    };
+
+    updatePP();
+    setInterval(updatePP, 60 * 60 * 1000);
+}
+
+// Export automated features trigger
+global.runAiAutomatedFeatures = runAiAutomatedFeatures;

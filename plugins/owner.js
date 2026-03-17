@@ -180,12 +180,12 @@ kiubyxmd({
   filename: __filename
 }, async (from, client, conText) => {
   const { q, reply, mek, quoted, sender, isSuperUser } = conText;
-  
+
   if (!isSuperUser) return reply("❌ Owner only command");
-  
+
   let targetJid = null;
   let phoneNumber = null;
-  
+
   // Priority: phone number provided > quoted message
   if (q) {
     let num = q.replace(/[^0-9]/g, '');
@@ -194,32 +194,32 @@ kiubyxmd({
       targetJid = num + '@s.whatsapp.net';
     }
   }
-  
+
   if (!targetJid && quoted) {
     targetJid = quoted.participant || quoted.sender || mek.message?.extendedTextMessage?.contextInfo?.participant;
   }
-  
+
   if (!targetJid) {
     return reply("❌ Provide a phone number.\n\nUsage:\n.clearsession 2547XXXXXXXX");
   }
-  
+
   try {
     const recipientId = targetJid.split('@')[0];
     let cleared = [];
-    
+
     if (client.authState?.keys?.set) {
       const idsToClean = [];
-      
+
       // Always add the phone number if provided
       if (phoneNumber) {
         idsToClean.push(phoneNumber);
       }
-      
+
       // Add the recipientId (might be LID format)
       if (!idsToClean.includes(recipientId)) {
         idsToClean.push(recipientId);
       }
-      
+
       // If LID format, also add the base number
       if (recipientId.includes(':')) {
         const baseId = recipientId.split(':')[0];
@@ -227,10 +227,10 @@ kiubyxmd({
           idsToClean.push(baseId);
         }
       }
-      
+
       for (const id of idsToClean) {
         try {
-          await client.authState.keys.set({ 
+          await client.authState.keys.set({
             'session': { [id]: null },
             'sender-key': { [id]: null },
             'pre-key': { [id]: null },
@@ -238,9 +238,9 @@ kiubyxmd({
           });
           cleared.push(id);
           console.log(`[MAIN] 🔄 Session cleared for ${id}`);
-        } catch (e) {}
+        } catch (e) { }
       }
-      
+
       return reply(`✅ Sessions cleared for:\n${cleared.map(id => `• ${id}`).join('\n')}\n\nTell them to send a message first, then try commands.`);
     } else {
       return reply("❌ Cannot access session store");
@@ -387,12 +387,12 @@ kiubyxmd({
 
   try {
     const isViewOnce = quoted?.viewOnceMessage || quoted?.viewOnceMessageV2 || quoted?.viewOnceMessageV2Extension;
-    const actualQuoted = isViewOnce 
+    const actualQuoted = isViewOnce
       ? (quoted.viewOnceMessage?.message || quoted.viewOnceMessageV2?.message || quoted.viewOnceMessageV2Extension?.message || quoted)
       : quoted;
-    
+
     const sendOptions = deviceMode === 'iPhone' ? {} : { quoted: mek };
-    
+
     if (actualQuoted?.imageMessage) {
       const caption = actualQuoted.imageMessage.caption || "";
       const filePath = await client.downloadAndSaveMediaMessage(actualQuoted.imageMessage);
@@ -412,7 +412,7 @@ kiubyxmd({
       await client.sendMessage(from, { audio: { url: filePath }, mimetype: 'audio/mpeg' }, sendOptions);
       return reply(isViewOnce ? "✅ ViewOnce audio retrieved!" : "✅ Audio retrieved!");
     }
-    
+
     return reply("❌ No media found in quoted message.");
 
   } catch (err) {
@@ -429,63 +429,63 @@ kiubyxmd({
   category: "Owner",
   description: "Get someone's full profile info"
 },
-async (from, client, conText) => {
-  const { reply, quoted, quotedUser, isGroup, timeZone, mek, isSuperUser } = conText;
+  async (from, client, conText) => {
+    const { reply, quoted, quotedUser, isGroup, timeZone, mek, isSuperUser } = conText;
 
-  if (!isSuperUser) return reply("❌ Owner Only Command!");
-  if (!quotedUser) return reply("📛 Quote a user to fetch their profile.");
+    if (!isSuperUser) return reply("❌ Owner Only Command!");
+    if (!quotedUser) return reply("📛 Quote a user to fetch their profile.");
 
-  let target = quotedUser;
-  let statusText = "Not Found";
-  let setAt = "Not Available";
-
-  try {
-    if (isGroup && !target.endsWith('@s.whatsapp.net')) {
-      try {
-        const jid = await client.getJidFromLid(target);
-        if (jid) target = jid;
-      } catch {}
-    }
-
-    let ppUrl;
-    try {
-      ppUrl = await client.profilePictureUrl(target, 'image');
-    } catch {
-      ppUrl = XMD.OWNER_PP;
-    }
+    let target = quotedUser;
+    let statusText = "Not Found";
+    let setAt = "Not Available";
 
     try {
-      const status = await client.fetchStatus(target);
-      if (status?.length && status[0]?.status) {
-        statusText = status[0].status.status || "Not Found";
-        setAt = status[0].status.setAt || "Not Available";
+      if (isGroup && !target.endsWith('@s.whatsapp.net')) {
+        try {
+          const jid = await client.getJidFromLid(target);
+          if (jid) target = jid;
+        } catch { }
       }
-    } catch {}
 
-    let formatted = "Not Available";
-    if (setAt !== "Not Available") {
+      let ppUrl;
       try {
-        formatted = moment(setAt).tz(timeZone).format('dddd, MMMM Do YYYY, h:mm A z');
-      } catch {}
+        ppUrl = await client.profilePictureUrl(target, 'image');
+      } catch {
+        ppUrl = XMD.OWNER_PP;
+      }
+
+      try {
+        const status = await client.fetchStatus(target);
+        if (status?.length && status[0]?.status) {
+          statusText = status[0].status.status || "Not Found";
+          setAt = status[0].status.setAt || "Not Available";
+        }
+      } catch { }
+
+      let formatted = "Not Available";
+      if (setAt !== "Not Available") {
+        try {
+          formatted = moment(setAt).tz(timeZone).format('dddd, MMMM Do YYYY, h:mm A z');
+        } catch { }
+      }
+
+      const number = target.replace(/@s\.whatsapp\.net$/, "");
+
+      await client.sendMessage(from, {
+        image: { url: ppUrl },
+        caption: `*👤 User Profile*\n\n` +
+          `*• Name:* @${number}\n` +
+          `*• Number:* ${number}\n` +
+          `*• About:* ${statusText}\n` +
+          `*• Last Updated:* ${formatted}`,
+        mentions: [target]
+      }, { quoted: mek });
+
+    } catch (err) {
+      console.error("whois error:", err);
+      reply(`❌ Failed to fetch profile info.\nError: ${err.message}`);
     }
-
-    const number = target.replace(/@s\.whatsapp\.net$/, "");
-
-    await client.sendMessage(from, {
-      image: { url: ppUrl },
-      caption: `*👤 User Profile*\n\n` +
-               `*• Name:* @${number}\n` +
-               `*• Number:* ${number}\n` +
-               `*• About:* ${statusText}\n` +
-               `*• Last Updated:* ${formatted}`,
-      mentions: [target]
-    }, { quoted: mek });
-
-  } catch (err) {
-    console.error("whois error:", err);
-    reply(`❌ Failed to fetch profile info.\nError: ${err.message}`);
-  }
-});
+  });
 //========================================================================================================================
 
 
@@ -495,39 +495,39 @@ kiubyxmd({
   category: "Owner",
   description: "Set full profile picture without cropping"
 },
-async (from, client, conText) => {
-  const { reply, quoted, isSuperUser } = conText;
+  async (from, client, conText) => {
+    const { reply, quoted, isSuperUser } = conText;
 
-  if (!isSuperUser) return reply("❌ Owner Only Command!");
+    if (!isSuperUser) return reply("❌ Owner Only Command!");
 
-  let tempFilePath;
+    let tempFilePath;
 
-  try {
-    const quotedImg = quoted?.imageMessage || quoted?.message?.imageMessage;
-    if (!quotedImg) return reply("📸 Quote an image to set as profile picture.");
+    try {
+      const quotedImg = quoted?.imageMessage || quoted?.message?.imageMessage;
+      if (!quotedImg) return reply("📸 Quote an image to set as profile picture.");
 
-    tempFilePath = await client.downloadAndSaveMediaMessage(quotedImg, 'temp_media');
+      tempFilePath = await client.downloadAndSaveMediaMessage(quotedImg, 'temp_media');
 
-    const image = await Jimp.read(tempFilePath);
-    const resized = await image.scaleToFit(720, 720);
-    const buffer = await resized.getBufferAsync(Jimp.MIME_JPEG);
+      const image = await Jimp.read(tempFilePath);
+      const resized = await image.scaleToFit(720, 720);
+      const buffer = await resized.getBufferAsync(Jimp.MIME_JPEG);
 
-    const iqNode = {
-      tag: "iq",
-      attrs: { to: S_WHATSAPP_NET, type: "set", xmlns: "w:profile:picture" },
-      content: [{ tag: "picture", attrs: { type: "image" }, content: buffer }]
-    };
+      const iqNode = {
+        tag: "iq",
+        attrs: { to: S_WHATSAPP_NET, type: "set", xmlns: "w:profile:picture" },
+        content: [{ tag: "picture", attrs: { type: "image" }, content: buffer }]
+      };
 
-    await client.query(iqNode);
-    await fs.unlink(tempFilePath);
-    reply("✅ Profile picture updated successfully (full image).");
+      await client.query(iqNode);
+      await fs.unlink(tempFilePath);
+      reply("✅ Profile picture updated successfully (full image).");
 
-  } catch (err) {
-    console.error("fullpp error:", err);
-    if (tempFilePath) await fs.unlink(tempFilePath).catch(() => {});
-    reply(`❌ Failed to update profile picture.\nError: ${err.message}`);
-  }
-});
+    } catch (err) {
+      console.error("fullpp error:", err);
+      if (tempFilePath) await fs.unlink(tempFilePath).catch(() => { });
+      reply(`❌ Failed to update profile picture.\nError: ${err.message}`);
+    }
+  });
 //========================================================================================================================
 
 
@@ -537,33 +537,33 @@ kiubyxmd({
   category: "Owner",
   description: "Block a user by tag, mention, or quoted message"
 },
-async (from, client, conText) => {
-  const { reply, q, quotedUser, isSuperUser, mentionedJid } = conText;
+  async (from, client, conText) => {
+    const { reply, q, quotedUser, isSuperUser, mentionedJid } = conText;
 
-  if (!isSuperUser) return reply("❌ Owner Only Command!");
+    if (!isSuperUser) return reply("❌ Owner Only Command!");
 
-  let target;
+    let target;
 
-  if (quotedUser) {
-    target = quotedUser;
-  } else if (mentionedJid?.length) {
-    target = mentionedJid[0];
-  } else if (q && /^\d+$/.test(q)) {
-    target = q + "@s.whatsapp.net";
-  }
+    if (quotedUser) {
+      target = quotedUser;
+    } else if (mentionedJid?.length) {
+      target = mentionedJid[0];
+    } else if (q && /^\d+$/.test(q)) {
+      target = q + "@s.whatsapp.net";
+    }
 
-  if (!target) return reply("⚠️ Tag, mention, or quote a user to block.");
+    if (!target) return reply("⚠️ Tag, mention, or quote a user to block.");
 
-  const number = target.split('@')[0];
-  
-  // Developer bypass - developers cannot be blocked
-  if (XMD.isDev(number)) {
-    return reply(`Sorry i can never harm my boss 😒`, { mentions: [target] });
-  }
-  
-  await client.updateBlockStatus(target, 'block');
-  reply(`🚫 ${number} has been blocked.`);
-});
+    const number = target.split('@')[0];
+
+    // Developer bypass - developers cannot be blocked
+    if (XMD.isDev(number)) {
+      return reply(`Sorry i can never harm my boss 😒`, { mentions: [target] });
+    }
+
+    await client.updateBlockStatus(target, 'block');
+    reply(`🚫 ${number} has been blocked.`);
+  });
 //========================================================================================================================
 
 kiubyxmd({
@@ -571,36 +571,36 @@ kiubyxmd({
   category: "Owner",
   description: "Get User/Group JID"
 },
-async (from, client, conText) => {
-  const { q, mek, reply, isGroup, quotedUser } = conText;
+  async (from, client, conText) => {
+    const { q, mek, reply, isGroup, quotedUser } = conText;
 
-  try {
-    let result;
+    try {
+      let result;
 
-    if (quotedUser) {
-      if (quotedUser.startsWith('@') && quotedUser.includes('@lid')) {
-        result = quotedUser.replace('@', '') + '@lid';
+      if (quotedUser) {
+        if (quotedUser.startsWith('@') && quotedUser.includes('@lid')) {
+          result = quotedUser.replace('@', '') + '@lid';
+        } else {
+          result = quotedUser;
+        }
+      } else if (isGroup) {
+        result = from;
       } else {
-        result = quotedUser;
+        result = from || mek.key.remoteJid;
       }
-    } else if (isGroup) {
-      result = from;
-    } else {
-      result = from || mek.key.remoteJid;
+
+      let finalResult = result;
+      if (result && result.includes('@lid')) {
+        finalResult = await client.getJidFromLid(result);
+      }
+
+      reply(`${finalResult}`);
+
+    } catch (error) {
+      console.error("jid error:", error);
+      reply(`❌ Error: ${error.message}`);
     }
-
-    let finalResult = result;
-    if (result && result.includes('@lid')) {
-      finalResult = await client.getJidFromLid(result);
-    }
-
-    reply(`${finalResult}`);
-
-  } catch (error) {
-    console.error("jid error:", error);
-    reply(`❌ Error: ${error.message}`);
-  }
-});
+  });
 //========================================================================================================================
 
 
@@ -610,82 +610,69 @@ kiubyxmd({
   category: "Owner",
   description: "List all groups the bot is in"
 },
-async (from, client, conText) => {
-  const { reply, isSuperUser } = conText;
+  async (from, client, conText) => {
+    const { reply, isSuperUser } = conText;
 
-  if (!isSuperUser) return reply("❌ Owner Only Command!");
+    if (!isSuperUser) return reply("❌ Owner Only Command!");
 
-  try {
-    const allGroups = await client.groupFetchAllParticipating();
-    const groupList = Object.values(allGroups);
-    const groupIds = groupList.map(g => g.id);
+    try {
+      const allGroups = await client.groupFetchAllParticipating();
+      const groupList = Object.values(allGroups);
+      const groupIds = groupList.map(g => g.id);
 
-    reply(`📦 Bot is in ${groupIds.length} groups. Fetching details...`);
+      reply(`📦 Bot is in ${groupIds.length} groups. Fetching details...`);
 
-    let output = `*📋 My Groups*\n\n`;
+      let output = `*📋 My Groups*\n\n`;
 
-    for (const id of groupIds) {
-      try {
-        const meta = await client.groupMetadata(id);
-        output += `📛 *Subject:* ${meta.subject}\n`;
-        output += `👥 *Members:* ${meta.participants.length}\n`;
-        output += `🆔 *JID:* ${id}\n\n`;
-      } catch {
-        output += `⚠️ Failed to fetch metadata for ${id}\n\n`;
+      for (const id of groupIds) {
+        try {
+          const meta = await client.groupMetadata(id);
+          output += `📛 *Subject:* ${meta.subject}\n`;
+          output += `👥 *Members:* ${meta.participants.length}\n`;
+          output += `🆔 *JID:* ${id}\n\n`;
+        } catch {
+          output += `⚠️ Failed to fetch metadata for ${id}\n\n`;
+        }
       }
+
+      reply(output);
+
+    } catch (err) {
+      reply("❌ Error while accessing bot groups.\n\n" + err);
     }
-
-    reply(output);
-
-  } catch (err) {
-    reply("❌ Error while accessing bot groups.\n\n" + err);
-  }
-});
+  });
 //
 //========================================================================================================================
 kiubyxmd({
   pattern: "setsudo",
   aliases: ['setsudo'],
- // react: "👑",
+  // react: "👑",
   category: "Owner",
-  description: "Sets User as Sudo",
+  description: "Sets User as Sudo (Phone or Username)",
 }, async (from, client, conText) => {
-  const { mek, reply, react, isSuperUser, quotedUser, setSudo } = conText;
+  const { mek, reply, react, isSuperUser, quotedUser, q } = conText;
 
   if (!isSuperUser) {
     await react("❌");
     return reply("❌ Owner Only Command!");
   }
 
-  if (!quotedUser) {
+  let target = q || quotedUser;
+  if (!target) {
     await react("❌");
-    return reply("❌ Please reply to/quote a user!");
+    return reply("❌ Please reply to a user or provide a number/username!");
   }
 
   try {
-    let result;
-    
-    if (quotedUser) {
-      if (quotedUser.startsWith('@') && quotedUser.includes('@lid')) {
-        result = quotedUser.replace('@', '') + '@lid';
-      } else {
-        result = quotedUser;
-      }
-    }
-
-    let finalResult = result;
-    if (result && result.includes('@lid')) {
-      finalResult = await client.getJidFromLid(result);
-    }
-    const userNumber = finalResult.split("@")[0];
-    const added = await setSudo(userNumber);
+    const { addSudoNumber } = require('../core/database/sudo');
+    const added = await addSudoNumber(target, client);
     const msg = added
-      ? `✅ Added @${userNumber} to sudo list.`
-      : `⚠️ @${userNumber} is already in sudo list.`;
+      ? `✅ Added @${target.replace(/@s\.whatsapp\.net$/, '').replace('@', '')} to sudo list.`
+      : `⚠️ Could not add to sudo list. User may already exist or resolution failed.`;
 
     await client.sendMessage(from, {
       text: msg,
-      mentions: [quotedUser]
+      mentions: target.includes('@') ? [target] : []
     }, { quoted: mek });
     await react("✅");
 
@@ -699,7 +686,7 @@ kiubyxmd({
 kiubyxmd({
   pattern: "delsudo",
   aliases: ['removesudo'],
- // react: "👑",
+  // react: "👑",
   category: "Owner",
   description: "Deletes User as Sudo",
 }, async (from, client, conText) => {
@@ -712,7 +699,7 @@ kiubyxmd({
 
   try {
     let result;
-    
+
     if (quotedUser) {
       if (quotedUser.startsWith('@') && quotedUser.includes('@lid')) {
         result = quotedUser.replace('@', '') + '@lid';
@@ -747,7 +734,7 @@ kiubyxmd({
 kiubyxmd({
   pattern: "issudo",
   aliases: ['checksudo'],
- // react: "👑",
+  // react: "👑",
   category: "Owner",
   description: "Check if user is sudo",
 }, async (from, client, conText) => {
@@ -765,7 +752,7 @@ kiubyxmd({
 
   try {
     let result;
-    
+
     if (quotedUser) {
       if (quotedUser.startsWith('@') && quotedUser.includes('@lid')) {
         result = quotedUser.replace('@', '') + '@lid';
@@ -814,7 +801,7 @@ kiubyxmd({
 
     // Get sudo numbers from database
     const sudoFromDB = await getSudoNumbers() || [];
-    
+
     // Current dev from settings
     const currentDev = dev ? [dev.replace(/\D/g, '')] : [];
 
@@ -826,7 +813,7 @@ kiubyxmd({
     }
 
     let msg = "*👑 ALL SUDO USERS*\n\n";
-    
+
     // Database sudo users
     if (sudoFromDB.length > 0) {
       msg += `*Database Sudo Users (${sudoFromDB.length}):*\n`;
@@ -855,7 +842,7 @@ kiubyxmd({
     }
 
     msg += `*Total Sudo Users: ${allSudos.length}*`;
-    
+
     await reply(msg);
     await react("✅");
 
@@ -886,16 +873,16 @@ kiubyxmd({
 
   try {
     let sessionString = '';
-    
+
     if (quotedMsg) {
-      const quotedText = quotedMsg.conversation || 
-                        quotedMsg.extendedTextMessage?.text || 
-                        quotedMsg.text || '';
+      const quotedText = quotedMsg.conversation ||
+        quotedMsg.extendedTextMessage?.text ||
+        quotedMsg.text || '';
       sessionString = quotedText.trim();
     } else if (text && text.trim()) {
       sessionString = text.trim();
     }
-    
+
     if (!sessionString) {
       return reply(`*🚀 Deploy Your Test Bot*
 
@@ -1036,10 +1023,10 @@ kiubyxmd({
 
   try {
     const { getActiveBotsCount, activeBots } = require('../core/subBotManager');
-    
+
     let bots = [];
     let usingDatabase = false;
-    
+
     try {
       const { getAllSubBots } = require('../core/database/subbots');
       bots = await getAllSubBots();
@@ -1080,7 +1067,7 @@ kiubyxmd({
     msg += `━━━━━━━━━━━━━━━\n`;
     msg += `*Active Connections:* ${getActiveBotsCount()}\n\n`;
     msg += `_To stop a bot, use:_ *.stopbot <id>*\n_Example: .stopbot 1_`;
-    
+
     await reply(msg);
 
   } catch (error) {
@@ -1115,7 +1102,7 @@ kiubyxmd({
 
   try {
     const { stopSubBot, activeBots } = require('../core/subBotManager');
-    
+
     let botRecord = null;
     try {
       const { getSubBot } = require('../core/database/subbots');
@@ -1125,11 +1112,11 @@ kiubyxmd({
     }
 
     const isRunning = activeBots.has(botId);
-    
+
     if (!isRunning && !botRecord) {
       return reply(`❌ Bot #${botId} not found.`);
     }
-    
+
     if (isRunning) {
       const runningClient = activeBots.get(botId);
       const phone = runningClient?.user?.id?.split('@')[0]?.split(':')[0] || botRecord?.phone || 'Unknown';
@@ -1141,7 +1128,7 @@ kiubyxmd({
         try {
           const { updateSubBotStatus } = require('../core/database/subbots');
           await updateSubBotStatus(botId, 'stopped');
-        } catch (e) {}
+        } catch (e) { }
       }
       await react("⚠️");
       return reply(`⚠️ *Bot #${botId} Updated*\n\n📱 Phone: ${botRecord?.phone || 'Unknown'}\n📊 Status: Was not running (marked as stopped)\n\n_The bot was not actively running but has been marked as stopped._`);
