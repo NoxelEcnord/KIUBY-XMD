@@ -54,9 +54,7 @@ const randomMedia = () => {
     // Check if local files exist
     if (fs.existsSync(localBg) || fs.existsSync(localLogo)) {
         const mediaPool = [localBg, localLogo].filter(p => fs.existsSync(p));
-        // Return a buffer for better reliability in some environments
-        const chosenFile = mediaPool[Math.floor(Math.random() * mediaPool.length)];
-        return fs.readFileSync(chosenFile);
+        return mediaPool[Math.floor(Math.random() * mediaPool.length)];
     }
 
     // High-quality fallbacks if local files are missing
@@ -139,6 +137,7 @@ const setupGlobalReplyHandler = (client) => {
 kiubyxmd(
     {
         pattern: "menu",
+        aliases: ["help", "commands"],
         category: "general",
         description: "Interactive KIUBY Mainframe Menu",
     },
@@ -183,8 +182,11 @@ kiubyxmd(
 ${greeting}, Agent *${contactName}*. Identity verified.`;
 
             const media = randomMedia();
+            const isUrl = typeof media === "string" && media.startsWith("http");
+            const isVideo = typeof media === "string" && media.match(/\.(mp4|gif)$/i);
+
             const msg = await client.sendMessage(from, {
-                [media.match(/\.(mp4|gif)$/i) ? 'video' : 'image']: media.startsWith("http") ? { url: media } : fs.readFileSync(media),
+                [isVideo ? 'video' : 'image']: isUrl ? { url: media } : fs.readFileSync(media),
                 caption: `${header}\n\n${readMore}\n${options}`,
                 contextInfo: XMD.getContextInfo('🛸 KIUBY NEXTGEN MAIN MENU', `Access: Granted | User: ${contactName}`)
             }, { quoted: contactMessage });
