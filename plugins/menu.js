@@ -51,13 +51,20 @@ const randomMedia = () => {
     const localBg = path.join(__dirname, "../core/public/kiuby_bg.png");
     const localLogo = path.join(__dirname, "../core/public/kiuby_logo.png");
 
-    // Randomly pick between bg and logo or use logo as default
-    const mediaPool = [localBg, localLogo].filter(p => fs.existsSync(p));
-    if (mediaPool.length > 0) return mediaPool[Math.floor(Math.random() * mediaPool.length)];
+    // Check if local files exist
+    if (fs.existsSync(localBg) || fs.existsSync(localLogo)) {
+        const mediaPool = [localBg, localLogo].filter(p => fs.existsSync(p));
+        // Return a buffer for better reliability in some environments
+        const chosenFile = mediaPool[Math.floor(Math.random() * mediaPool.length)];
+        return fs.readFileSync(chosenFile);
+    }
 
-    const combinedUrls = [...(s.BOT_URL || [])];
-    const validUrls = combinedUrls.filter(url => typeof url === "string" && url.trim().startsWith("http"));
-    return validUrls.length > 0 ? validUrls[Math.floor(Math.random() * validUrls.length)] : XMD.BOT_LOGO;
+    // High-quality fallbacks if local files are missing
+    const fallbacks = [
+        'https://files.catbox.moe/5i88b8.png',
+        'https://files.catbox.moe/ak48ct.png'
+    ];
+    return { url: fallbacks[Math.floor(Math.random() * fallbacks.length)] };
 };
 
 const setupGlobalReplyHandler = (client) => {

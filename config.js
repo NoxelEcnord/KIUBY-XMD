@@ -50,13 +50,7 @@ module.exports = {
     PREFIX: process.env.PREFIX || '.',
     TZ: process.env.TZ || 'Africa/Nairobi',
 
-    BOT_URL: process.env.BOT_URL ? process.env.BOT_URL.split(',') : [
-        'https://files.catbox.moe/5i88b8.png',
-        'https://files.catbox.moe/ak48ct.png',
-        'https://files.catbox.moe/q9v77i.png',
-        'https://files.catbox.moe/e8q9cs.png',
-        'https://files.catbox.moe/h2ojq2.png'
-    ],
+    BOT_URL: [], // Prioritize local images in plugins
 
     MENU_TOP_LEFT: process.env.MENU_TOP_LEFT || "╔═════════════════════════════╗",
     MENU_BOT_NAME_LINE: process.env.MENU_BOT_NAME_LINE || "║       ",
