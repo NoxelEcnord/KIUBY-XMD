@@ -108,7 +108,7 @@ const NEWSLETTER_JID = XMD.NEWSLETTER_JID;
 
 const getGlobalContextInfo = () => XMD.getContextInfo();
 
-const { kiubyxmd, commands, evt } = require("./core/commandHandler");
+const { kiubyxmd, commands, evt, getRandomEmoji } = require("./core/commandHandler");
 const {
     Sticker,
     createSticker,
