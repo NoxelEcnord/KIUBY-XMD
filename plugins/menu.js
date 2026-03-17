@@ -143,24 +143,22 @@ kiubyxmd(
             const pluginCommands = getpluginsCommands();
             const contactName = pushName || "User";
             const contactMessage = XMD.getContactMsg(contactName, sender?.split("@")[0] || "0");
-            const greeting = moment().hour() < 12 ? "Dawn Breach" : moment().hour() < 18 ? "Core Access" : "Dusk Uplink";
+            const greeting = moment().hour() < 12 ? "DAWN BREACH" : moment().hour() < 18 ? "CORE ACCESS" : "DUSK UPLINK";
 
-            const options = `╔═════『 𝐊𝐈𝐔𝐁𝐘 𝐍𝐄𝐗𝐓𝐆𝐄𝐍 』═════╗
-║                               ║
-║  1. 🌐 WEB PORTAL             ║
-║  2. 🎵 AUDIO UPLINK           ║
-║  3. 📢 CHANNEL AUTH           ║
-║  4. 🤖 NEURAL CORE            ║
-║  5. 📥 DOWNLINK HUB           ║
-║  6. 🎨 SYNTHETIC FORGE        ║
-║  7. 👥 NODE CONTROL           ║
-║  8. 🎮 CHAOS ROOM             ║
-║  9. 🔍 STALKER NET            ║
-║ 10. 🛠️ QUANTUM TOOLS          ║
-║ 11. ⚙️ MAIN FRAME             ║
-║                               ║
-╚═══════════════════════════════╝
-💡 *STAY TUNED:* Advanced Exploits in next uplink...
+            const options = `┌───────────────────────────────┐
+│  1. 🌐 WEB PORTAL             │
+│  2. 🎵 AUDIO UPLINK           │
+│  3. 📢 CHANNEL AUTH           │
+│  4. 🤖 NEURAL CORE            │
+│  5. 📥 DOWNLINK HUB           │
+│  6. 🎨 SYNTHETIC FORGE        │
+│  7. 👥 NODE CONTROL           │
+│  8. 🎮 CHAOS ROOM             │
+│  9. 🔍 STALKER NET            │
+│ 10. 🛠️ QUANTUM TOOLS          │
+│ 11. ⚙️ MAIN FRAME             │
+└───────────────────────────────┘
+💡 *STAY TUNED:* Advanced exploits in next patch...
 💡 Reply with a number (1-11) to access a sub-system.`;
 
             const header = `╭───────────────────────────────╮
@@ -169,7 +167,7 @@ kiubyxmd(
 │ 📊 UPLINK: STABLE
 │ 🧬 PROTOCOL: NEURAL-X
 ╰───────────────────────────────╯
-${greeting}, Agent *${contactName}*. Identity verified.`;
+*${greeting}*, Agent *${contactName}*. Identity verified.`;
 
             const media = randomMedia();
             const isUrl = typeof media === "string" && media.startsWith("http");
@@ -185,29 +183,49 @@ ${greeting}, Agent *${contactName}*. Identity verified.`;
             global.menuSessions.set(msg.key.id, { from, contactMessage, pluginCommands });
             setTimeout(() => global.menuSessions.delete(msg.key.id), 600000);
 
-            // Audio Greeting follow-up (Rephrased for Hacker Persona)
+            // Send Neural TTS Greeting with ROBOTIC voice filter
             try {
-                // 1. Send Technical Intro Sound
-                const brandingAudio = path.join(__dirname, "../core/public/audio/branding.mp3");
-                if (fs.existsSync(brandingAudio)) {
-                    await client.sendMessage(from, {
-                        audio: fs.readFileSync(brandingAudio),
-                        mimetype: 'audio/mp4', // Baileys often prefers mp4/ogg for PTT
-                        ptt: true,
-                        contextInfo: XMD.getContextInfo('🛸 MAINFRAME SYNC', 'Protocol: Stealth')
-                    }, { quoted: msg });
-                }
-
-                // 2. Send Neural TTS Greeting
-                const greetingText = `Neural connection established. Welcome back, Agent ${contactName}. KIUBY NEXTGEN Mainframe is at your disposal. System integrity nominal. Initiating sub-system scan...`;
+                const greetingText = `Neural connection established. Welcome back, Agent ${contactName}. KIUBY NEXTGEN Mainframe is at your disposal. System integrity nominal.`;
                 const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(greetingText)}&tl=en&client=tw-ob`;
+
+                // Download TTS audio first
+                const tmpRaw = path.join('/tmp', `tts_raw_${Date.now()}.mp3`);
+                const tmpRobot = path.join('/tmp', `tts_robot_${Date.now()}.ogg`);
+
+                const ttsResponse = await axios({ url: ttsUrl, method: 'GET', responseType: 'arraybuffer', timeout: 15000 });
+                fs.writeFileSync(tmpRaw, Buffer.from(ttsResponse.data));
+
+                // Apply robotic voice filter: pitch down + flanger + echo + asetrate for darker tone
+                const robotFilter = [
+                    'asetrate=44100*0.8',           // Lower pitch for deeper voice
+                    'aresample=44100',               // Resample back
+                    'atempo=1.25',                   // Speed correction
+                    'flanger=depth=3:speed=0.3',     // Robotic flanger
+                    'aecho=0.8:0.7:20|40:0.5|0.3',  // Echo/reverb
+                    'highpass=f=200',                 // Cut low rumble
+                    'lowpass=f=3500'                  // Cut highs for radio effect
+                ].join(',');
+
+                await new Promise((resolve, reject) => {
+                    exec(`ffmpeg -y -i "${tmpRaw}" -af "${robotFilter}" -c:a libopus -b:a 64k "${tmpRobot}"`, (err) => {
+                        if (err) reject(err); else resolve();
+                    });
+                });
+
+                const robotBuffer = fs.readFileSync(tmpRobot);
                 await client.sendMessage(from, {
-                    audio: { url: ttsUrl },
-                    mimetype: 'audio/mp4',
+                    audio: robotBuffer,
+                    mimetype: 'audio/ogg; codecs=opus',
                     ptt: true,
                     contextInfo: XMD.getContextInfo('🔊 NEURAL GREETING', 'Identity: Verified')
                 }, { quoted: msg });
-            } catch (e) { }
+
+                // Cleanup temp files
+                try { fs.unlinkSync(tmpRaw); } catch (e) { }
+                try { fs.unlinkSync(tmpRobot); } catch (e) { }
+            } catch (e) {
+                console.error("Robotic TTS Error:", e.message);
+            }
         } catch (err) {
             console.error("Menu Error:", err);
             client.sendMessage(from, { text: "Mainframe error. Try .help" });

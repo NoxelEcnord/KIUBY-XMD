@@ -93,11 +93,13 @@ kiubyxmd({
   }
 
   try {
-    const response = await axios.get(XMD.SESSION_SCANNER(q));
+    await reply("⏳ *KIUBY-XMD*: Initiating pairing protocol... This may take up to 30s if the scanner is waking up.");
+
+    const response = await axios.get(XMD.SESSION_SCANNER(q), { timeout: 60000 });
     const data = response.data;
 
-    if (!data.code) {
-      return reply("❌ Failed to generate pairing code.");
+    if (data.status === 'error' || !data.code) {
+      return reply(`❌ Failed to generate pairing code.\n${data.message || 'Scanner returned no code.'}`);
     }
 
     const code = data.code;
@@ -137,7 +139,10 @@ kiubyxmd({
 
   } catch (err) {
     console.error("pair error:", err);
-    return reply("❌ Failed to fetch pairing code. Error: " + err.message);
+    const hint = err.code === 'ECONNABORTED' || err.message.includes('timeout')
+      ? 'Scanner service may be sleeping. Try again in 30 seconds.'
+      : err.message;
+    return reply(`❌ Failed to fetch pairing code.\n⚠️ ${hint}`);
   }
 });
 

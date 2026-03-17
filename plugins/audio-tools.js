@@ -45,16 +45,22 @@ kiubyxmd({
   }
 
   try {
+    await reply("✂️ Trimming media...");
     const mediaPath = await client.downloadAndSaveMediaMessage(mediaType);
     const isAudio = !!quotedMsg.audioMessage;
     const outputExt = isAudio ? ".mp3" : ".mp4";
     const outputPath = await keithRandom(outputExt);
 
-    exec(`ffmpeg -i ${mediaPath} -ss ${startTime} -to ${endTime} -c copy ${outputPath}`, async (err) => {
-      fs.unlinkSync(mediaPath);
+    // Re-encode for accurate trimming (no -c copy)
+    const ffmpegCmd = isAudio
+      ? `ffmpeg -y -i "${mediaPath}" -ss ${startTime} -to ${endTime} -q:a 0 "${outputPath}"`
+      : `ffmpeg -y -i "${mediaPath}" -ss ${startTime} -to ${endTime} -c:v libx264 -c:a aac -strict experimental "${outputPath}"`;
+
+    exec(ffmpegCmd, async (err) => {
+      try { fs.unlinkSync(mediaPath); } catch (e) { }
       if (err) {
         console.error("ffmpeg error:", err);
-        return reply("❌ Trimming failed.");
+        return reply("❌ Trimming failed. Check your time format (e.g. 0:10 0:30).");
       }
 
       const buffer = fs.readFileSync(outputPath);
@@ -63,7 +69,7 @@ kiubyxmd({
         : { video: buffer, mimetype: "video/mp4" };
 
       await client.sendMessage(from, message, { quoted: mek });
-      fs.unlinkSync(outputPath);
+      try { fs.unlinkSync(outputPath); } catch (e) { }
     });
   } catch (error) {
     console.error("trim error:", error);
@@ -189,7 +195,7 @@ kiubyxmd({
     });
   } catch (e) {
     console.error("toimg error:", e);
-    await reply("❌ Unable to convert the sticker." + e );
+    await reply("❌ Unable to convert the sticker." + e);
   }
 });
 //==================================================================================================================

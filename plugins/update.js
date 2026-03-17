@@ -79,29 +79,35 @@ kiubyxmd({
   if (!isSuperUser) return reply("❌ Owner-only command");
 
   try {
-    await reply("🔍 Checking for updates...");
+    await reply("🔍 *KIUBY-XMD*: Initializing Update Protocol...");
 
-    const repo = "ecnord/KIUBY-XMD";
-    const { data: commit } = await axios.get(
-      XMD.EXTERNAL.GITHUB_API_COMMITS(repo),
-      { timeout: 8000 }
-    );
+    // Check if repo is defined in XMD or use default
+    const repo = XMD.GITHUB_REPO_URL?.split('github.com/')[1] || "ecnord/KIUBY-XMD";
+    const apiUrl = `https://api.github.com/repos/${repo}/commits/main`;
+
+    const { data: commit } = await axios.get(apiUrl, { timeout: 10000 }).catch(err => {
+      throw new Error(`GitHub API Connection Failed: ${err.message}`);
+    });
+
+    if (!commit || !commit.sha) throw new Error("Invalid response from GitHub API");
 
     const currentHash = await getCurrentHash();
     if (commit.sha === currentHash) {
-      return reply("✅ Already running the latest version!");
+      return reply("✅ *KIUBY-XMD*: System is already running the latest neural patch.");
     }
 
-    await reply("⬇️ Downloading update...");
-    const zipUrl = XMD.EXTERNAL.GITHUB_ZIP(repo, commit.sha);
-    const zipPath = path.join(__dirname, '..', 'temp_update.zip');
+    await reply("⬇️ *KIUBY-XMD*: Siphoning update data from main node...");
+    const zipUrl = `https://github.com/${repo}/archive/${commit.sha}.zip`;
+    const zipPath = path.join(__dirname, '..', 'tmp', `update_${commit.sha.slice(0, 7)}.zip`);
+
+    await fs.ensureDir(path.join(__dirname, '..', 'tmp'));
     const writer = fs.createWriteStream(zipPath);
 
     const response = await axios({
       url: zipUrl,
       method: 'GET',
       responseType: 'stream',
-      timeout: 30000
+      timeout: 60000
     });
 
     response.data.pipe(writer);
@@ -110,26 +116,41 @@ kiubyxmd({
       writer.on('error', reject);
     });
 
-    await reply("📦 Extracting files...");
-    const extractPath = path.join(__dirname, '..', 'temp_extract');
+    await reply("📦 *KIUBY-XMD*: Extracting data shards...");
+    const extractPath = path.join(__dirname, '..', 'tmp', `extract_${commit.sha.slice(0, 7)}`);
+    await fs.ensureDir(extractPath);
+
     const zip = new AdmZip(zipPath);
     zip.extractAllTo(extractPath, true);
 
     const extractedFolder = fs.readdirSync(extractPath)
-      .find(name => name.startsWith('KIUBY-XMD-'));
+      .find(name => name.toLowerCase().includes('kiuby-xmd'));
+
+    if (!extractedFolder) throw new Error("Update package structure unrecognized.");
+
     const updateSrc = path.join(extractPath, extractedFolder);
 
-    await reply("🔄 Applying update...");
+    await reply("🔄 *KIUBY-XMD*: Applying neural patches to core...");
     await syncFiles(updateSrc, path.join(__dirname, '..'));
     await setCurrentHash(commit.sha);
 
-    await reply("✅ Update complete! Restarting...");
-    fs.unlinkSync(zipPath);
-    fs.removeSync(extractPath);
-    process.exit(0);
+    await reply("✅ *KIUBY-XMD*: Update sequence complete. Rebooting mainframe...");
+
+    // Cleanup
+    await fs.remove(zipPath).catch(() => { });
+    await fs.remove(extractPath).catch(() => { });
+
+    setTimeout(() => {
+      if (global.fullReboot) {
+        global.fullReboot("System Update Applied");
+      } else {
+        process.exit(0);
+      }
+    }, 2000);
+
   } catch (err) {
     console.error("❗ Update failed:", err);
-    await reply(`❌ Update failed: ${err.message}`);
+    await reply(`❌ *KIUBY-XMD*: Update sequence aborted.\n⚠️ *Detail*: ${err.message}`);
   }
 });
 

@@ -58,6 +58,7 @@ kiubyxmd({
       caption += `\n📌 Reply with the style number to get the fancy text.`;
 
       const sent = await client.sendMessage(from, { text: caption }, { quoted: mek });
+      if (!sent || !sent.key) return;
       const messageId = sent.key.id;
 
       // Listen for reply with number

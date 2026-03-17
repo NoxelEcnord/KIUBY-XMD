@@ -43,6 +43,35 @@ const fetchCorazonSong = async () => {
 //========================================================================================================================
 
 
+const ABOUT_FACTS = [
+  "KIUBY-XMD is built on a neural-link architecture for maximum efficiency.",
+  "The bot uses a stealth protocol to bypass restrictive group settings.",
+  "KIUBY-XMD was designed by ECNORD as a next-gen communication tool.",
+  "The mainframe of KIUBY-XMD can process over 1000 requests per millisecond.",
+  "KIUBY-XMD is more than a bot; it's a sentient system breach.",
+  "Neural nodes in KIUBY-XMD are self-healing and auto-optimize data flow.",
+  "The 'XMD' stands for eXtensible Multiplexed Datahub."
+];
+
+kiubyxmd({
+  pattern: "about",
+  aliases: ["info", "botinfo"],
+  description: "Learn more about the KIUBY-XMD mainframe",
+  category: "System",
+  filename: __filename
+}, async (from, client, conText) => {
+  const { reply, botname } = conText;
+  const fact = ABOUT_FACTS[Math.floor(Math.random() * ABOUT_FACTS.length)];
+  const aboutText = `🛸 *ABOUT ${botname}*\n\n🛰️ *Protocol:* NEURAL-X\n🦾 *Architect:* ECNORD\n📊 *Status:* OPTIMAL\n\n💡 *Did you know?*\n${fact}\n\n_System integrity verified._`;
+
+  await client.sendMessage(from, {
+    text: aboutText,
+    contextInfo: XMD.getContextInfo(`🛸 MAINFRAME INFO`, 'Integrity Check: Pass')
+  });
+});
+
+//========================================================================================================================
+
 kiubyxmd({
   pattern: "deljunk",
   aliases: ["deletejunk", "clearjunk", "cleanjunk"],

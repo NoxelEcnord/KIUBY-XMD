@@ -76,28 +76,29 @@ const XMD = {
     THEME_SONG_TITLE: '🎵 GIMS - Corazon ft. Lil Wayne & French Montana',
 
     SUPABASE_APK: 'https://teugqirxznhfegcwwnzh.supabase.co/storage/v1/object/public/KIUBY-XMD-apps/BWM-GIFT-5.5.apk',
-    SESSION_SCANNER: (number) => `https://KIUBY-XMD-scan-pro.onrender.com/code?number=${number}`,
+    SESSION_SCANNER: (number) => `https://KIUBY-XMD-scan-pro.onrender.com/api/pair?number=${number}`,
     GITHUB_REPO_API: 'https://api.github.com/repos/ecnord/KIUBY-XMD',
     GITHUB_REMOTE_CMDS: 'https://api.github.com/repos/keithghost/REMOTE/contents/Cmds',
     NCS_RANDOM: 'https://ncs.KIUBY-XMD.online/random',
     LANGCODE_JSON: 'https://raw.githubusercontent.com/ecnord/INFO/refs/heads/main/langcode.json',
-    CATBOX_IMG: 'https://files.catbox.moe/5i88b8.png',
+    CATBOX_IMG: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000&auto=format&fit=crop', // High quality tech image
     UGUU_UPLOAD: 'https://uguu.se/upload.php',
     CATBOX_API: 'https://catbox.moe/user/api.php',
-    DEFAULT_PP: 'https://files.catbox.moe/ak48ct.png',
-    OWNER_PP: 'https://files.catbox.moe/q9v77i.png',
+    DEFAULT_PP: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1000&auto=format&fit=crop',
+    OWNER_PP: 'https://images.unsplash.com/photo-1510511459019-5dee595ec031?q=80&w=1000&auto=format&fit=crop',
     BOT_LOGOS: [
-        'https://files.catbox.moe/5i88b8.png',
-        'https://files.catbox.moe/ak48ct.png',
-        'https://files.catbox.moe/q9v77i.png',
-        'https://files.catbox.moe/e8q9cs.png',
-        'https://files.catbox.moe/h2ojq2.png'
+        'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800',
+        'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800',
+        'https://images.unsplash.com/photo-1510511459019-5dee595ec031?auto=format&fit=crop&w=800',
+        'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800'
     ],
     get BOT_LOGO() {
+        // Favor local logo if possible via logic in plugins, 
+        // but provide these as high-quality fallbacks
         return this.BOT_LOGOS[Math.floor(Math.random() * this.BOT_LOGOS.length)];
     },
-    KIUBY_LOGO_LOCAL: './core/public/kiuby_logo.png',
-    KIUBY_BG_LOCAL: './core/public/kiuby_bg.png',
+    KIUBY_LOGO_LOCAL: path.join(__dirname, 'public', 'kiuby_logo.png'),
+    KIUBY_BG_LOCAL: path.join(__dirname, 'public', 'kiuby_bg.png'),
     SFM_FAVICON: 'https://sfmcompile.club/favicon.ico',
     TENOR_API: (q, key) => `https://tenor.googleapis.com/v2/search?q=${encodeURIComponent(q)}&key=${key}&client_key=KIUBY-XMD&limit=8&media_filter=gif`,
     TENOR_API_KEY: 'AIzaSyCyouca1_KKy4W_MG1xsPzuku5oa8W358c',
@@ -118,7 +119,9 @@ const XMD = {
         "MAINFRAME BREACH: SUCCESS",
         "SATCOM HANDSHAKE: VERIFIED",
         "GHOST SHADOW: ENABLED",
-        "ZERO-DAY EXPLOIT: PRIMED"
+        "ZERO-DAY EXPLOIT: PRIMED",
+        "NETWORK_INFILTRATION: COMPLETE",
+        "NEURAL_SYNAPSE: OVERLOAD_PROTECTED"
     ],
 
     getRandomHackerPhrase: function () {
@@ -132,7 +135,8 @@ const XMD = {
             `🛡️ SECURE NODE: ${Math.random().toString(36).substring(7).toUpperCase()}`,
             `🦾 ENTITY: NEURAL-X`,
             `💾 BUFFER: ${Math.floor(Math.random() * 100)}% ACTIVE`,
-            `📡 LATENCY: ${Math.floor(Math.random() * 10)}ms`
+            `📡 LATENCY: ${Math.floor(Math.random() * 10)}ms`,
+            `🔓 SECURITY_LEVEL: ALPHA`
         ];
         return {
             externalAdReply: {
