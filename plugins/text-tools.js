@@ -247,11 +247,16 @@ kiubyxmd({
       return reply(`✅ Font updated to style #${num} (${fontLabels[num]}). Your outgoing texts will now be auto-styled.`);
     }
 
-    // Otherwise show list and wait for reply
+    // Otherwise show list with previews and wait for reply
     let caption = `✨ *KIUBY-XMD FONT SELECTOR*\n\n`;
-    fontLabels.forEach((f, i) => {
-      caption += `${i}. ${f}\n`;
+    const { applyFont } = require('../core/lib/fontStyles');
+
+    fontLabels.forEach((label, i) => {
+      // Create a preview of the font name/label using its own style
+      const preview = applyFont(label, i);
+      caption += `*${i}.* ${preview}\n`;
     });
+
     caption += `\n📌 *Usage:* \`.setfont <number>\` or reply with a number to this message.`;
 
     const sent = await reply(caption);
