@@ -18,21 +18,33 @@ kiubyxmd({
     try {
         await reply("🚀 *KIUBY-XMD*: Initializing Update Protocol...");
 
-        // Stage 1: Fetch and Check Updates
+        // Stage 1: Fetch and Check Updates (Detail Mode)
         await reply("📡 *Step 1/4*: Checking for new neural patches...");
-        const updates = await new Promise((resolve, reject) => {
-            exec('git fetch origin main && git log HEAD..origin/main --oneline', { cwd: path.join(__dirname, '..') }, (err, stdout, stderr) => {
+
+        const logs = await new Promise((resolve, reject) => {
+            exec('git fetch origin main && git log HEAD..origin/main --pretty=format:"• %s (%h)"', { cwd: path.join(__dirname, '..') }, (err, stdout, stderr) => {
                 if (err) return reject(new Error(`Git Fetch Error: ${stderr}`));
                 resolve(stdout.trim());
             });
         });
 
-        if (!updates) {
+        if (!logs) {
             return reply("✅ *KIUBY-XMD*: System is already running the latest neural patch.");
         }
 
-        const commitCount = updates.split('\n').length;
-        await reply(`📥 *Siphoning ${commitCount} New Updates:*\n\n${updates.split('\n').map(c => `• ${c}`).join('\n')}\n\n_Applying patches..._`);
+        const files = await new Promise((resolve) => {
+            exec('git diff --name-only HEAD..origin/main', { cwd: path.join(__dirname, '..') }, (err, stdout) => {
+                resolve(stdout ? stdout.trim() : "None detected");
+            });
+        });
+
+        const commitCount = logs.split('\n').length;
+        const patchReport = `📥 *NEURAL PATCH DETECTED* (${commitCount} Commits)\n\n` +
+            `📜 *COMMIT LOGS*:\n${logs}\n\n` +
+            `📁 *IMPACTED ASSETS*:\n\`\`\`\n${files}\n\`\`\`\n\n` +
+            `_Siphoning data from mainframe..._`;
+
+        await reply(patchReport);
 
         // Stage 2: Git Pull (Actual update)
         await reply("📡 *Step 2/4*: Synchronizing with GitHub mainframe...");
