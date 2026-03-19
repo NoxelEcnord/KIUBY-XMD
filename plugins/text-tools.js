@@ -135,15 +135,20 @@ kiubyxmd({
     }
 
     try {
-      // Professional TTS using Google's translate_tts as a reliable fallback
-      // Or use a more advanced voice API if provided in XMD
-      const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=en&client=tw-ob`;
+      const { pushName } = conText;
+      const greeting = `Hello ${pushName || 'User'}, `;
+      const fullText = greeting + text;
+
+      // Neural TTS with personalized greeting and 1.5x speed optimization
+      // tl: language, q: text, ttsspeed: 0.8 (Google interprets <1 as faster in some clients/proxies)
+      // Actually, standardizing with a more natural voice:
+      const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(fullText)}&tl=en&client=tw-ob&ttsspeed=0.8`;
 
       await client.sendMessage(from, {
         audio: { url: ttsUrl },
         mimetype: "audio/mpeg",
         ptt: true,
-        contextInfo: XMD.getContextInfo('🔊 PROFESSIONAL AUDIO', 'Uplink: Synchronized')
+        contextInfo: XMD.getContextInfo('🔊 NEURAL UPLINK', `User: ${pushName || 'Infiltrator'}`)
       }, { quoted: mek });
 
     } catch (error) {

@@ -87,14 +87,18 @@ const XMD = {
     DEFAULT_PP: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1000&auto=format&fit=crop',
     OWNER_PP: 'https://images.unsplash.com/photo-1510511459019-5dee595ec031?q=80&w=1000&auto=format&fit=crop',
     BOT_LOGOS: [
-        'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800',
-        'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800',
-        'https://images.unsplash.com/photo-1510511459019-5dee595ec031?auto=format&fit=crop&w=800',
-        'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800'
+        path.join(__dirname, 'public', 'gemini_images', 'kiuby_1.png'),
+        path.join(__dirname, 'public', 'gemini_images', 'kiuby_2.png'),
+        path.join(__dirname, 'public', 'gemini_images', 'kiuby_3.png'),
+        path.join(__dirname, 'public', 'gemini_images', 'kiuby_4.png'),
+        path.join(__dirname, 'public', 'gemini_images', 'kiuby_5.png'),
+        path.join(__dirname, 'public', 'gemini_images', 'kiuby_6.png'),
+        path.join(__dirname, 'public', 'gemini_images', 'kiuby_7.png'),
+        path.join(__dirname, 'public', 'gemini_images', 'kiuby_8.png'),
+        path.join(__dirname, 'public', 'gemini_images', 'kiuby_9.png'),
+        path.join(__dirname, 'public', 'gemini_images', 'kiuby_10.png')
     ],
     get BOT_LOGO() {
-        // Favor local logo if possible via logic in plugins, 
-        // but provide these as high-quality fallbacks
         return this.BOT_LOGOS[Math.floor(Math.random() * this.BOT_LOGOS.length)];
     },
     KIUBY_LOGO_LOCAL: path.join(__dirname, 'public', 'kiuby_logo.png'),
