@@ -2550,6 +2550,7 @@ async function startkiubyxmd() {
                         const conText = {
                             from,
                             client,
+                            ms,
                             mek: ms,
                             body,
                             args,
