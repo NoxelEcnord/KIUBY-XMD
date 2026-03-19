@@ -1,4 +1,7 @@
 const BOT_NAME = 'KIUBY-XMD';
+const fs = require('fs');
+const path = require('path');
+
 const OWNER_NAME = 'ECNORD';
 
 const XMD = {

