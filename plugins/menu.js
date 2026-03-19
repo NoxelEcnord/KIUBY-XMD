@@ -44,17 +44,7 @@ const getpluginsCommands = () => {
 };
 
 const randomMedia = () => {
-    const localMenu = path.join(__dirname, "../core/public/kiuby_menu.png");
-    const localLogo = path.join(__dirname, "../core/public/kiuby_logo.png");
-    const localBg = path.join(__dirname, "../core/public/kiuby_bg.png");
-
-    const mediaPool = [localMenu, localLogo, localBg].filter(p => fs.existsSync(p));
-
-    if (mediaPool.length > 0) {
-        return mediaPool[Math.floor(Math.random() * mediaPool.length)];
-    }
-
-    return localMenu;
+    return XMD.BOT_LOGO;
 };
 
 const setupGlobalReplyHandler = (client) => {
@@ -173,8 +163,7 @@ kiubyxmd(
 
             const msg = await client.sendMessage(from, {
                 [isVideo ? 'video' : 'image']: isUrl ? { url: media } : fs.readFileSync(media),
-                caption: `${header}\n\n${readMore}\n${options}`,
-                contextInfo: XMD.getContextInfo('🛸 KIUBY NEXTGEN MAIN MENU', `Access: Granted | User: ${contactName}`)
+                caption: `${header}\n\n${readMore}\n${options}`
             }, { quoted: contactMessage });
 
             // Auto-delete menu after 15 seconds to maintain secrecy
@@ -200,15 +189,13 @@ kiubyxmd(
                 const ttsResponse = await axios({ url: ttsUrl, method: 'GET', responseType: 'arraybuffer', timeout: 15000 });
                 fs.writeFileSync(tmpRaw, Buffer.from(ttsResponse.data));
 
-                // Apply robotic voice filter: pitch down + flanger + echo + asetrate for darker tone
+                // Apply high-quality neural voice tone: subtle robotic/radio effect without speed distortion
                 const robotFilter = [
-                    'asetrate=44100*0.8',           // Lower pitch for deeper voice
-                    'aresample=44100',               // Resample back
-                    'atempo=1.25',                   // Speed correction
-                    'flanger=depth=3:speed=0.3',     // Robotic flanger
-                    'aecho=0.8:0.7:20|40:0.5|0.3',  // Echo/reverb
-                    'highpass=f=200',                 // Cut low rumble
-                    'lowpass=f=3500'                  // Cut highs for radio effect
+                    'asetrate=44100*0.95',          // Very slight pitch drop
+                    'aresample=44100',
+                    'flanger=depth=2:speed=0.2',     // Subtle cyber effect
+                    'highpass=f=200',                // Clarity
+                    'lowpass=f=4000'
                 ].join(',');
 
                 await new Promise((resolve, reject) => {

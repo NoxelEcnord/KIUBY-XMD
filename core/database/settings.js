@@ -54,7 +54,7 @@ const SettingsDB = database.define('settings', {
     },
     autoDeleteCommands: {
         type: DataTypes.STRING,
-        defaultValue: "on",
+        defaultValue: "off",
         allowNull: false
     },
     autoDeleteResponses: {

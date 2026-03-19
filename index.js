@@ -1485,19 +1485,29 @@ async function startkiubyxmd() {
 
                 console.log('[AntiDelete] Sending to:', targetJid);
 
+                const prefix = (typeof botSettings !== 'undefined' && botSettings.prefix) ? botSettings.prefix : '.';
+
                 if (deletedMsg.message.conversation) {
                     console.log('[AntiDelete] Mirroring text (conversation)');
+                    let recovText = deletedMsg.message.conversation;
+                    if (recovText.startsWith(prefix)) {
+                        recovText = recovText.slice(prefix.length).trim();
+                    }
                     await client.sendMessage(targetJid, {
-                        text: deletedMsg.message.conversation,
-                        mentions: [senderJid], // Only mention the original sender if needed
+                        text: recovText,
+                        mentions: [senderJid],
                         contextInfo
                     });
                     console.log('[AntiDelete] Mirroring sent successfully!');
                 }
                 else if (deletedMsg.message.extendedTextMessage) {
                     console.log('[AntiDelete] Mirroring text (extendedText)');
+                    let recovText = deletedMsg.message.extendedTextMessage.text;
+                    if (recovText.startsWith(prefix)) {
+                        recovText = recovText.slice(prefix.length).trim();
+                    }
                     await client.sendMessage(targetJid, {
-                        text: deletedMsg.message.extendedTextMessage.text,
+                        text: recovText,
                         mentions: [senderJid],
                         contextInfo
                     });

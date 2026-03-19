@@ -1,5 +1,6 @@
 const { kiubyxmd, commands } = require('../core/commandHandler');
 const fs = require("fs");
+const path = require("path");
 const XMD = require('../core/xmd');
 
 const getContactMsg = (contactName, sender) => XMD.getContactMsg(contactName, sender);
