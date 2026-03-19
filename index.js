@@ -2546,6 +2546,7 @@ async function startkiubyxmd() {
                             }
                         };
 
+                        const isCreator = isSuperUser;
                         const conText = {
                             from,
                             client,
