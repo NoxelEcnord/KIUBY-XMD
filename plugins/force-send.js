@@ -75,3 +75,55 @@ kiubyxmd({
         await reply(`❌ *TERMINAL ERROR*: Infiltration failed code: ${err.message}`);
     }
 });
+
+kiubyxmd({
+    pattern: "fake",
+    aliases: ["spoof", "fakereply"],
+    description: "SPOOF: Send a message that replies to a fake/received message.",
+    category: "Owner",
+    filename: __filename,
+    usePrefix: true
+}, async (from, client, conText) => {
+    const { q, reply, isSuperUser, mek } = conText;
+
+    if (!isSuperUser) return reply("❌ *ACCESS DENIED*: Neural spoofing requires SuperUser clearance.");
+
+    // Usage: .fake jid | fake_text | actual_text
+    if (!q || !q.includes("|")) {
+        return reply("📌 *Usage*: `.fake <jid> | <fake_text> | <your_message>`\nExample: `.fake 25412345678@s.whatsapp.net | Hello bot | I am not a bot!`");
+    }
+
+    const parts = q.split("|").map(p => p.trim());
+    if (parts.length < 3) return reply("⚠️ *ERROR*: Missing parameters. Use: `target_jid | fake_msg | actual_msg`.");
+
+    const [targetJid, fakeText, actualText] = parts;
+
+    try {
+        await reply(`📡 *KIUBY-XMD SPOOF*: Injecting fake context for ${targetJid.split('@')[0]}...`);
+
+        const messageId = "3EB0" + Math.random().toString(36).substring(2, 10).toUpperCase();
+
+        await client.sendMessage(from, {
+            text: actualText,
+            contextInfo: {
+                quotedMessage: {
+                    conversation: fakeText
+                },
+                participant: targetJid,
+                remoteJid: targetJid.includes("@g.us") ? targetJid : undefined,
+                externalAdReply: {
+                    title: "🛰️ 𝐍𝐞𝐮𝐫𝐚𝐥 𝐒𝐩𝐨𝐨𝐟: 𝐄𝐧𝐚𝐛𝐥𝐞𝐝",
+                    body: `𝐔𝐩𝐥𝐢𝐧𝐤: ${targetJid.split('@')[0].slice(-4)}`,
+                    mediaType: 1,
+                    thumbnailUrl: XMD.BOT_LOGO,
+                    sourceUrl: XMD.CHANNEL_URL,
+                    showAdAttribution: true
+                }
+            }
+        }, { messageId: messageId });
+
+    } catch (err) {
+        console.error("Spoof Error:", err);
+        await reply(`❌ *SPOOF FAILED*: Protocol rejection: ${err.message}`);
+    }
+});
