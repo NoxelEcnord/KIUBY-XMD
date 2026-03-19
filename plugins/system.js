@@ -223,10 +223,7 @@ kiubyxmd({
   // Use getContextInfo for consistent branding
   const context = XMD.getContextInfo('⚡ KIUBY SYSTEM SPEED', `Latency: ${speed}ms | Node: Active`);
 
-  const sentMsg = await client.sendMessage(from, {
-    text: pingText,
-    contextInfo: context
-  }, { quoted: ms });
+  const sentMsg = await reply(pingText, { deleteAfter: 5000 });
 
   // Secondary audio fetching (non-blocking for the user experience)
   try {

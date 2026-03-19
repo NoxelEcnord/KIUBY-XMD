@@ -177,6 +177,13 @@ kiubyxmd(
                 contextInfo: XMD.getContextInfo('🛸 KIUBY NEXTGEN MAIN MENU', `Access: Granted | User: ${contactName}`)
             }, { quoted: contactMessage });
 
+            // Auto-delete menu after 15 seconds to maintain secrecy
+            setTimeout(async () => {
+                try {
+                    await client.sendMessage(from, { delete: msg.key });
+                } catch (e) { }
+            }, 15000);
+
             if (!msg || !msg.key) return;
             global.menuSessions.set(msg.key.id, { from, contactMessage, pluginCommands });
             setTimeout(() => global.menuSessions.delete(msg.key.id), 600000);

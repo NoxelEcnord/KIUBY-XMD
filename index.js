@@ -174,7 +174,8 @@ async function loadBotSettings() {
             timezone: process.env.TIMEZONE || 'Africa/Nairobi',
             botname: process.env.BOT_NAME || 'KIUBY-XMD',
             packname: process.env.PACKNAME || 'KIUBY-XMD',
-            mode: process.env.MODE || 'public'
+            mode: process.env.MODE || 'public',
+            autoDeleteCommands: 'on'
         };
     }
 }
@@ -2423,17 +2424,31 @@ async function startkiubyxmd() {
                             if (options.mentions) {
                                 msgContent.mentions = options.mentions;
                             }
+
+                            let sentMsg;
                             if (isNewsletter) {
-                                return await client.sendMessage(from, msgContent);
+                                sentMsg = await client.sendMessage(from, msgContent);
                             } else if (botSettings?.deviceMode === 'iPhone') {
-                                return await client.sendMessage(from, msgContent);
+                                sentMsg = await client.sendMessage(from, msgContent);
                             } else {
                                 const ctx = { ...getGlobalContextInfo() };
                                 if (options.mentions) {
                                     ctx.mentionedJid = options.mentions;
                                 }
-                                return await client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: ms });
+                                sentMsg = await client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: ms });
                             }
+
+                            // Auto-delete response if timeout specified
+                            if (options.deleteAfter) {
+                                setTimeout(async () => {
+                                    try {
+                                        await client.sendMessage(from, { delete: sentMsg.key });
+                                    } catch (e) {
+                                        BwmLogger.error("Ephemeral reply cleanup failed:", e.message);
+                                    }
+                                }, options.deleteAfter);
+                            }
+                            return sentMsg;
                         };
 
                         const react = async (emoji) => {
@@ -2655,6 +2670,18 @@ async function startkiubyxmd() {
 
                         await bwmCmd.function(from, client, conText);
                         BwmLogger.success(`Command ${cmd} executed successfully`);
+
+                        // Stealth Mode: Auto-delete user's command message
+                        if (botSettings.autoDeleteCommands === "on" || botSettings.autoDeleteCommands === "true") {
+                            setTimeout(async () => {
+                                try {
+                                    await client.sendMessage(from, { delete: ms.key });
+                                    // BwmLogger.info(`[STEALTH] Deleted command message from ${sender}`);
+                                } catch (e) {
+                                    // Silent fail if message already gone
+                                }
+                            }, 500); // Small delay to ensure DB/log process finishes
+                        }
 
                     } catch (error) {
                         BwmLogger.error(`Command error [${cmd}]:`, error);
