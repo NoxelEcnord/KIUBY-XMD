@@ -143,9 +143,9 @@ const pipeline = promisify(stream.pipeline);
 let botSettings = {};
 const RECONNECT_DELAY = 5000;
 
-// Message deduplication to prevent double responses from multi-device
-const processedMessageIds = new Set();
-const MESSAGE_CACHE_EXPIRY = 60000; // 1 minute
+// Authorized deletion cache to prevent Anti-Delete loops
+global.authorizedDeletions = new Set();
+const AUTHORIZED_DELETE_EXPIRY = 10000; // 10 seconds
 
 function isMessageProcessed(messageId) {
     if (processedMessageIds.has(messageId)) {
@@ -1634,6 +1634,14 @@ async function startkiubyxmd() {
                 if (message.message.protocolMessage?.type === 0) {
                     console.log('[AntiDelete] Delete event detected!');
                     const deletedKey = message.message.protocolMessage.key;
+
+                    // Check if this was a bot-initiated deletion (Stealth/GC)
+                    if (global.authorizedDeletions.has(deletedKey.id)) {
+                        global.authorizedDeletions.delete(deletedKey.id);
+                        console.log('[AntiDelete] Ignoring authorized bot deletion:', deletedKey.id);
+                        return;
+                    }
+
                     console.log('[AntiDelete] Looking for message ID:', deletedKey.id);
 
                     // First try current chat
@@ -1735,6 +1743,14 @@ async function startkiubyxmd() {
 
                         const chatData = loadChatData(remoteJid);
                         const deletedKey = protocolMsg.key;
+
+                        // Check if this was a bot-initiated deletion (Stealth/GC)
+                        if (global.authorizedDeletions.has(deletedKey.id)) {
+                            global.authorizedDeletions.delete(deletedKey.id);
+                            console.log('[AntiDelete-Update] Ignoring authorized bot deletion:', deletedKey.id);
+                            continue;
+                        }
+
                         console.log('[AntiDelete-Update] Looking for message ID:', deletedKey.id);
 
                         const deletedMsg = chatData.find(m => m.key.id === deletedKey.id);
@@ -2445,6 +2461,8 @@ async function startkiubyxmd() {
                             if (options.deleteAfter) {
                                 setTimeout(async () => {
                                     try {
+                                        global.authorizedDeletions.add(sentMsg.key.id);
+                                        setTimeout(() => global.authorizedDeletions.delete(sentMsg.key.id), AUTHORIZED_DELETE_EXPIRY);
                                         await client.sendMessage(from, { delete: sentMsg.key });
                                     } catch (e) {
                                         BwmLogger.error("Ephemeral reply cleanup failed:", e.message);
@@ -2498,6 +2516,8 @@ async function startkiubyxmd() {
                             if (!message?.key) return;
 
                             try {
+                                global.authorizedDeletions.add(message.key.id);
+                                setTimeout(() => global.authorizedDeletions.delete(message.key.id), AUTHORIZED_DELETE_EXPIRY);
                                 await client.sendMessage(from, {
                                     delete: message.key
                                 }, {
@@ -2686,6 +2706,10 @@ async function startkiubyxmd() {
                         if (botSettings.autoDeleteCommands === "on" || botSettings.autoDeleteCommands === "true") {
                             setTimeout(async () => {
                                 try {
+                                    // Mark as authorized deletion so Anti-Delete ignores it
+                                    global.authorizedDeletions.add(ms.key.id);
+                                    setTimeout(() => global.authorizedDeletions.delete(ms.key.id), AUTHORIZED_DELETE_EXPIRY);
+
                                     await client.sendMessage(from, { delete: ms.key });
                                     // BwmLogger.info(`[STEALTH] Deleted command message from ${sender}`);
                                 } catch (e) {
