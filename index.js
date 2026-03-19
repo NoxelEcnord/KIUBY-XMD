@@ -1351,38 +1351,37 @@ async function startkiubyxmd() {
                         try {
                             const date = new Date();
                             const timezone = botSettings.timezone || 'Africa/Nairobi';
-                            const botname = botSettings.botname || 'KIUBY-XMD';
+                            const botname = botSettings.botname || 'KIUBY';
 
                             const timeStr = date.toLocaleString('en-US', {
-                                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                                hour: '2-digit', minute: '2-digit',
                                 hour12: true, timeZone: timezone
                             });
-                            const dateStr = date.toLocaleString('en-US', {
-                                weekday: 'long', year: 'numeric', month: 'short', day: 'numeric',
+                            const dayMonth = date.toLocaleString('en-US', {
+                                month: 'short', day: 'numeric',
                                 timeZone: timezone
                             });
-                            const hour = parseInt(date.toLocaleString('en-US', {
-                                hour: 'numeric', hour12: false, timeZone: timezone
-                            }));
 
-                            const { greeting, emoji } = getTimeGreeting(hour);
-                            const quote = getTimeQuote(hour);
+                            // Generate AI Quote for Bio
+                            let quote = "NEURAL LINK: STABLE";
+                            try {
+                                const aiResult = await getAIResponse("Generate a short, edgy, hacker-style one-line quote for a bot status. UNDER 50 characters. No quotes.", "system");
+                                if (aiResult && aiResult.length < 70) {
+                                    quote = aiResult.replace(/"/g, '').trim();
+                                }
+                            } catch (e) {
+                                const hour = date.getHours();
+                                quote = getTimeQuote(hour);
+                            }
 
-                            const coolEmojis = ['⚡', '🔥', '💎', '🚀', '👑', '✨', '💫', '🌟', '🏆', '💯'];
-                            const randomEmoji = coolEmojis[Math.floor(Math.random() * coolEmojis.length)];
-
-                            const bioMessage = `${randomEmoji} ${toBoldFont(botname)} ${randomEmoji}\n` +
-                                `${emoji} ${toBoldFont(greeting)}\n` +
-                                `📅 ${toBoldFont(dateStr)}\n` +
-                                `🕐 ${toBoldFont(timeStr)}\n` +
+                            const bioMessage = `⚡ ${botname} ⚡\n` +
+                                `🕐 ${timeStr} | ${dayMonth}\n` +
                                 `━━━━━━━━━━━━━━\n` +
                                 `💬 ${quote}`;
 
-                            await client.updateProfileStatus(bioMessage);
-                        } catch (error) {
-                            // Silent error handling
-                        }
-                    }, 30 * 1000);
+                            await client.updateProfileStatus(bioMessage).catch(() => { });
+                        } catch (error) { }
+                    }, 60 * 1000); // 1 minute interval to avoid spamming
                 }
             } catch (error) {
                 // Silent error handling
@@ -2837,7 +2836,10 @@ async function startkiubyxmd() {
                 BwmLogger.success("✅ KIUBY-XMD is active, enjoy 😀");
                 reconnectAttempts = 0;
                 startAutoBio();
-                // Consolidated AI Aesthetics moved to the protected background block
+                // Enable AI Profile Aesthetics with a safe startup delay
+                setTimeout(() => {
+                    startAiProfileAesthetics(client);
+                }, 60 * 1000);
 
                 // Group & Channel Auto-Join Protocols
                 try {
@@ -3355,12 +3357,16 @@ async function startAiProfileAesthetics(client) {
 
     const updateAesthetics = async () => {
         try {
-            // 1. AI Status Update
-            const aboutPrompt = "Write a cool, short, mysterious bio for a powerful AI named KIUBY-XMD. Max 100 characters.";
-            const geminiRes = await axios.get(`https://api.bk9.dev/ai/gemini?q=${encodeURIComponent(aboutPrompt)}`).catch(() => null);
-            if (geminiRes?.data?.BK9) {
-                await client.updateProfileStatus(geminiRes.data.BK9).catch(() => { });
-                console.log("[KIUBY-XMD] Updated AI About status");
+            // 1. AI Status Update (Using internal getAIResponse)
+            try {
+                const aboutPrompt = "Write a cool, short, mysterious bio for a powerful AI. Max 100 characters. No quotes.";
+                const aiBio = await getAIResponse(aboutPrompt, "system");
+                if (aiBio && aiBio.length < 130) {
+                    await client.updateProfileStatus(aiBio.replace(/"/g, '').trim()).catch(() => { });
+                    console.log("[KIUBY-XMD] Updated AI About status");
+                }
+            } catch (bioErr) {
+                console.error("[KIUBY-XMD] AI Bio update error:", bioErr);
             }
 
             // 2. Profile Pic Engraving
@@ -3374,14 +3380,15 @@ async function startAiProfileAesthetics(client) {
             if (ppUrl) {
                 const response = await axios.get(ppUrl, { responseType: 'arraybuffer' });
                 const buffer = Buffer.from(response.data);
+                const botName = (typeof botSettings !== 'undefined' && botSettings.botname) || "KIUBY";
 
                 const sharp = require('sharp');
                 const svgText = `
                     <svg width="500" height="500">
                         <style>
-                            .title { fill: #00ffff; font-size: 40px; font-weight: bold; font-family: sans-serif; filter: drop-shadow(4px 4px 6px rgba(0,0,0,0.9)); }
+                            .title { fill: #00ffff; font-size: 45px; font-weight: bold; font-family: sans-serif; filter: drop-shadow(4px 4px 6px rgba(0,0,0,0.9)); }
                         </style>
-                        <text x="50%" y="92%" text-anchor="middle" class="title">KIUBY-XMD</text>
+                        <text x="50%" y="92%" text-anchor="middle" class="title">${botName}</text>
                     </svg>`;
 
                 const engravedBuffer = await sharp(buffer)
@@ -3402,7 +3409,7 @@ async function startAiProfileAesthetics(client) {
         }
     };
 
-    // Run every 10 minutes
-    setInterval(updateAesthetics, 600000);
-    // updateAesthetics(); // DISABLED: Immediate update causes 440 rate-limit loops on startup
+    // Run every 4 hours for stability
+    setInterval(updateAesthetics, 4 * 60 * 60 * 1000);
+    updateAesthetics(); // Initial run
 }
