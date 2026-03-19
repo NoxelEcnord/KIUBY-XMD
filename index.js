@@ -2646,9 +2646,17 @@ async function startkiubyxmd() {
                             prefix: currentPrefix,
                             timeZone: botSettings.timezone || 'Africa/Nairobi',
                             // Add settings functions for commands to update settings
-                            updateSettings,
+                            // Add settings functions for commands to update settings with local sync
+                            updateSettings: async (updates) => {
+                                const result = await updateSettings(updates);
+                                if (result) {
+                                    // Update local cache immediately
+                                    botSettings = { ...botSettings, ...updates };
+                                }
+                                return result;
+                            },
                             getSettings,
-                            botSettings,
+                            botSettings: botSettings,
                             store: store,
                             deviceMode: botSettings?.deviceMode || 'Android',
                             sendPlain: async (content, options = {}) => {
