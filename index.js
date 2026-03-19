@@ -2556,6 +2556,7 @@ async function startkiubyxmd() {
                             args,
                             q: args.join(' '),
                             isCreator,
+                            isSuperUser,
                             isGroup,
                             sender,
                             pushName,
