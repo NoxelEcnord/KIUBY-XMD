@@ -1485,6 +1485,12 @@ async function startkiubyxmd() {
 
                 console.log('[AntiDelete] Sending to:', targetJid);
 
+                const conversationText = deletedMsg.message.conversation || deletedMsg.message.extendedTextMessage?.text || "";
+                if (conversationText.toLowerCase().includes('kiuby-xmd')) {
+                    console.log('[AntiDelete] Skipping bot response (kiuby-xmd found)');
+                    return;
+                }
+
                 const prefix = (typeof botSettings !== 'undefined' && botSettings.prefix) ? botSettings.prefix : '.';
 
                 if (deletedMsg.message.conversation) {
@@ -1496,7 +1502,11 @@ async function startkiubyxmd() {
                     await client.sendMessage(targetJid, {
                         text: recovText,
                         mentions: [senderJid],
-                        contextInfo
+                        contextInfo: {
+                            stanzaId: deletedMsg.key.id,
+                            participant: senderJid,
+                            quotedMessage: deletedMsg.message
+                        }
                     });
                     console.log('[AntiDelete] Mirroring sent successfully!');
                 }
@@ -1509,7 +1519,11 @@ async function startkiubyxmd() {
                     await client.sendMessage(targetJid, {
                         text: recovText,
                         mentions: [senderJid],
-                        contextInfo
+                        contextInfo: {
+                            stanzaId: deletedMsg.key.id,
+                            participant: senderJid,
+                            quotedMessage: deletedMsg.message
+                        }
                     });
                     console.log('[AntiDelete] Mirroring sent successfully!');
                 }
@@ -2478,13 +2492,22 @@ async function startkiubyxmd() {
                         const reply = async (teks, options = {}) => {
                             const isNewsletter = from.endsWith('@newsletter');
 
-                            // Automatically add KIUBY-XMD marker for GC cleanup if enabled
+                            // Apply "command by {name}" fake reply logic
+                            let ctx = options.contextInfo || { ...getGlobalContextInfo() };
+                            if (isCommandMessage && !options.noFake) {
+                                ctx.quotedMessage = {
+                                    conversation: `command by ${pushName}`
+                                };
+                                ctx.participant = sender;
+                            }
+
+                            // Automatically add kiuby-xmd marker
                             let markedText = teks;
                             if (typeof teks === 'string' && !teks.includes('kiuby-xmd')) {
                                 markedText = `${teks}\n\n_kiuby-xmd_`;
                             }
 
-                            const msgContent = { text: markedText };
+                            const msgContent = typeof teks === 'object' ? { ...teks } : { text: markedText };
                             if (options.mentions) {
                                 msgContent.mentions = options.mentions;
                             }
@@ -2495,30 +2518,17 @@ async function startkiubyxmd() {
                             } else if (botSettings?.deviceMode === 'iPhone') {
                                 sentMsg = await client.sendMessage(from, msgContent);
                             } else {
-                                const ctx = { ...getGlobalContextInfo() };
                                 if (options.mentions) {
                                     ctx.mentionedJid = options.mentions;
                                 }
-                                sentMsg = await client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: ms });
+                                sentMsg = await client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: options.quoted || ms });
                             }
 
-                            // Auto-schedule for Garbage Collection if enabled
+                            // Auto-schedule for GC
                             if (global.gcEnabled && typeof global.scheduleDelete === 'function' && sentMsg?.key) {
                                 global.scheduleDelete(from, sentMsg.key);
                             }
 
-                            // Auto-delete response if timeout specified
-                            if (options.deleteAfter) {
-                                setTimeout(async () => {
-                                    try {
-                                        global.authorizedDeletions.add(sentMsg.key.id);
-                                        setTimeout(() => global.authorizedDeletions.delete(sentMsg.key.id), AUTHORIZED_DELETE_EXPIRY);
-                                        await client.sendMessage(from, { delete: sentMsg.key });
-                                    } catch (e) {
-                                        BwmLogger.error("Ephemeral reply cleanup failed:", e.message);
-                                    }
-                                }, options.deleteAfter);
-                            }
                             return sentMsg;
                         };
 
@@ -2527,291 +2537,78 @@ async function startkiubyxmd() {
                             try {
                                 const isNewsletter = from.endsWith('@newsletter');
                                 if (isNewsletter) {
-                                    // Newsletter server_id is in ms.key.server_id
-                                    const serverId = ms.key?.server_id || ms.newsletterServerId;
-                                    if (serverId) {
-                                        await client.newsletterReactMessage(from, serverId.toString(), emoji);
-                                        console.log(`[Newsletter] Reacted with ${emoji} to server_id: ${serverId}`);
-                                    } else {
-                                        console.log(`[Newsletter] No server_id found, cannot react`);
-                                    }
+                                    return await client.sendMessage(from, { react: { text: emoji, key: ms.key } });
                                 } else {
-                                    await client.sendMessage(from, {
-                                        react: {
-                                            key: ms.key,
-                                            text: emoji
-                                        }
-                                    });
+                                    return await client.sendMessage(from, { react: { text: emoji, key: ms.key } });
                                 }
-                            } catch (err) {
-                                BwmLogger.error("Reaction error:", err);
-                            }
-                        };
-
-                        const edit = async (text, message) => {
-                            if (typeof text !== 'string') return;
-
-                            try {
-                                const msgContent = { text: text, edit: message.key };
-                                if (botSettings?.deviceMode !== 'iPhone') {
-                                    msgContent.contextInfo = getGlobalContextInfo();
-                                }
-                                await client.sendMessage(from, msgContent, botSettings?.deviceMode === 'iPhone' ? {} : { quoted: ms });
-                            } catch (err) {
-                                BwmLogger.error("Edit error:", err);
-                            }
-                        };
-
-                        const del = async (message) => {
-                            if (!message?.key) return;
-
-                            try {
-                                global.authorizedDeletions.add(message.key.id);
-                                setTimeout(() => global.authorizedDeletions.delete(message.key.id), AUTHORIZED_DELETE_EXPIRY);
-                                await client.sendMessage(from, {
-                                    delete: message.key
-                                }, {
-                                    quoted: ms
-                                });
-                            } catch (err) {
-                                BwmLogger.error("Delete error:", err);
-                            }
-                        };
-
-                        if (bwmCmd.react) {
-                            try {
-                                await client.sendMessage(from, {
-                                    react: {
-                                        key: ms.key,
-                                        text: bwmCmd.react
-                                    }
-                                });
-                            } catch (err) {
-                                BwmLogger.error("Reaction error:", err);
-                            }
-                        }
-
-                        client.getJidFromLid = async (lid) => {
-                            try {
-                                const groupMetadata = await client.groupMetadata(from);
-                                const match = groupMetadata.participants.find(p =>
-                                    p.lid === lid ||
-                                    p.id === lid ||
-                                    p.lid?.split('@')[0] === lid?.split('@')[0] ||
-                                    p.id?.split('@')[0] === lid?.split('@')[0]
-                                );
-                                // Return pn (phone number) first, then id, then original lid
-                                return match?.pn || match?.id || lid;
-                            } catch (err) {
-                                console.log('[getJidFromLid] Error:', err.message);
-                                return lid;
-                            }
-                        };
-
-                        client.getLidFromJid = async (jid) => {
-                            const groupMetadata = await client.groupMetadata(from);
-                            const match = groupMetadata.participants.find(p => p.jid === jid || p.id === jid);
-                            return match?.lid || null;
-                        };
-
-                        let fileType;
-                        (async () => {
-                            fileType = await import('file-type');
-                        })();
-
-                        client.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
-                            try {
-                                let quoted = message.msg ? message.msg : message;
-                                let mime = (message.msg || message).mimetype || '';
-                                let messageType = message.mtype ?
-                                    message.mtype.replace(/Message/gi, '') :
-                                    mime.split('/')[0];
-
-                                const stream = await downloadContentFromMessage(quoted, messageType);
-                                let buffer = Buffer.from([]);
-
-                                for await (const chunk of stream) {
-                                    buffer = Buffer.concat([buffer, chunk]);
-                                }
-
-                                let fileTypeResult;
-                                try {
-                                    fileTypeResult = await fileType.fileTypeFromBuffer(buffer);
-                                } catch (e) {
-                                    BwmLogger.warning("file-type detection failed, using mime type fallback");
-                                }
-
-                                const extension = fileTypeResult?.ext ||
-                                    mime.split('/')[1] ||
-                                    (messageType === 'image' ? 'jpg' :
-                                        messageType === 'video' ? 'mp4' :
-                                            messageType === 'audio' ? 'mp3' : 'bin');
-
-                                const trueFileName = attachExtension ?
-                                    `${filename}.${extension}` :
-                                    filename;
-
-                                await fs.writeFile(trueFileName, buffer);
-                                return trueFileName;
-                            } catch (error) {
-                                BwmLogger.error("Error in downloadAndSaveMediaMessage:", error);
-                                throw error;
+                            } catch (e) {
+                                console.error('React Error:', e);
                             }
                         };
 
                         const conText = {
-                            m: ms,
+                            from,
+                            client,
                             mek: ms,
-                            ms: ms,
-                            edit,
-                            react,
-                            del,
-                            args: args,
-                            arg: args, // Alias for legacy plugins
-                            quoted,
-                            quotedMsg: quoted, // Alias for legacy plugins
-                            isCmd: isCommandMessage,
-                            isCommand: isCommandMessage,
-                            command,
                             body,
-                            isAdmin,
-                            isBotAdmin,
+                            args,
+                            q: args.join(' '),
+                            isCreator,
+                            isGroup,
                             sender,
                             pushName,
-                            setSudo,
-                            delSudo,
-                            isSudo,
-                            devNumbers,
-                            q: args.join(" "),
+                            isAdmins: isAdmin,
+                            isBotAdmins: isBotAdmin,
                             reply,
-                            superUser,
-                            tagged,
-                            mentionedJid,
-                            isGroup,
-                            groupInfo,
-                            groupName,
-                            getSudoNumbers,
-                            authorMessage: messageAuthor,
-                            user: user || '',
-                            bwmBuffer,
-                            bwmJson,
-                            formatAudio,
-                            formatVideo,
-                            bwmRandom,
-                            arg: args, // Provide both arg and args for plugin compatibility
-                            groupMember: isGroup ? messageAuthor : '',
-                            from,
-                            tagged,
-                            dev: dev, // Using original dev from settings.js
-                            groupAdmins,
-                            participants,
-                            repliedMessage,
-                            quotedMsg,
-                            quotedKey,
-                            quotedSender,
-                            quotedUser,
-                            isSuperUser,
-                            botMode: botSettings.mode || 'public',
-                            botPic: botSettings.url || './core/public/bot-image.jpg',
-                            packname: botSettings.packname || 'KIUBY-XMD',
-                            author: botSettings.author || 'ecnord',
-                            botVersion: '1.0.0',
-                            ownerNumber: dev, // Using original dev from settings.js
-                            ownerName: botSettings.author || 'ecnord',
-                            botname: botSettings.botname || 'KIUBY-XMD',
-                            sourceUrl: botSettings.gurl || XMD.GURL,
-                            isSuperAdmin,
-                            prefix: currentPrefix,
-                            timeZone: botSettings.timezone || 'Africa/Nairobi',
-                            // Add settings functions for commands to update settings
-                            // Add settings functions for commands to update settings with local sync
-                            updateSettings: async (updates) => {
-                                const result = await updateSettings(updates);
-                                if (result) {
-                                    // Update local cache immediately
-                                    botSettings = { ...botSettings, ...updates };
-                                }
-                                return result;
-                            },
-                            getSettings,
-                            botSettings: botSettings,
-                            store: store,
-                            deviceMode: botSettings?.deviceMode || 'Android',
-                            sendPlain: async (content, options = {}) => {
-                                if (botSettings?.deviceMode === 'iPhone') {
-                                    const plainContent = { ...content };
-                                    delete plainContent.contextInfo;
-                                    delete plainContent.buttons;
-                                    delete plainContent.templateButtons;
-                                    delete plainContent.sections;
-                                    return client.sendMessage(from, plainContent);
-                                }
-                                return client.sendMessage(from, content, options);
-                            }
+                            react,
+                            isCommand: isCommandMessage,
+                            commandName: cmd
                         };
 
-                        // Auto-react with command's emoji or random one
-                        const reactionEmoji = bwmCmd.react || getRandomEmoji();
-                        await react(reactionEmoji);
-
+                        // EXECUTE COMMAND
                         await bwmCmd.function(from, client, conText);
-                        BwmLogger.success(`Command ${cmd} executed successfully`);
-
-                        // Stealth Mode: Auto-delete user's command message
-                        if (botSettings.autoDeleteCommands === "on" || botSettings.autoDeleteCommands === "true") {
-                            setTimeout(async () => {
-                                try {
-                                    // Mark as authorized deletion so Anti-Delete ignores it
-                                    global.authorizedDeletions.add(ms.key.id);
-                                    setTimeout(() => global.authorizedDeletions.delete(ms.key.id), AUTHORIZED_DELETE_EXPIRY);
-
-                                    await client.sendMessage(from, { delete: ms.key });
-                                    // BwmLogger.info(`[STEALTH] Deleted command message from ${sender}`);
-                                } catch (e) {
-                                    // Silent fail if message already gone
-                                }
-                            }, 500); // Small delay to ensure DB/log process finishes
-                        }
-
-                    } catch (error) {
-                        BwmLogger.error(`Command error [${cmd}]:`, error);
-                        try {
-                            // React with error symbol for the user
-                            await client.sendMessage(from, {
-                                react: { key: ms.key, text: "❌" }
-                            });
-
-                            // Send detailed error to owner AND Home Group
-                            const ownerNum = process.env.OWNER_NUMBER || 'Unknown';
-                            const errorText = `❌ *KIUBY-XMD SYSTEM BREACH DETECTED*\n\n🛰️ *Command:* ${cmd}\n👤 *User:* ${pushName}\n📱 *Owner:* ${ownerNum}\n📁 *Node:* ${from}\n⚠️ *Exception:* ${error.message}\n\n*TECHNICAL TRACE:* \n\`\`\`${error.stack}\`\`\``.trim();
-
-                            const { LOG_GROUP_JID } = require('./config');
-                            const targets = [];
-
-                            // If LOG_GROUP_JID is set, only send there to avoid spamming individuals
-                            if (LOG_GROUP_JID && LOG_GROUP_JID !== '') {
-                                targets.push(LOG_GROUP_JID);
-                            } else {
-                                // Fallback: Send only to the primary owner or bot itself
-                                const ownerJid = jidNormalizedUser(client.user.id);
-                                const configuredOwner = (process.env.OWNER_NUMBER || '').replace(/[^0-9]/g, '');
-                                targets.push(configuredOwner ? configuredOwner + '@s.whatsapp.net' : ownerJid);
-                            }
-
-                            for (const target of targets) {
-                                try {
-                                    await client.sendMessage(target, {
-                                        text: errorText,
-                                        contextInfo: XMD.getContextInfo('🧨 CRITICAL KERNEL PANIC', 'Error Log Dispatched')
-                                    });
-                                } catch (e) { }
-                            }
-                        } catch (sendErr) {
-                            BwmLogger.error("Error handling command failure:", sendErr);
-                        }
+                    } catch (e) {
+                        BwmLogger.error(`Command execution error:`, e);
+                        await client.sendMessage(from, { text: `❌ *KIUBY ERROR*\n\nTrace: ${e.message}` }, { quoted: ms });
                     }
                 }
             }
+        });
+
+        client.getJidFromLid = async (lid) => {
+            try {
+                const groupMetadata = await client.groupMetadata(from);
+                const match = groupMetadata.participants.find(p =>
+                    p.lid === lid ||
+                    p.id === lid ||
+                    p.lid?.split('@')[0] === lid?.split('@')[0] ||
+                    p.id?.split('@')[0] === lid?.split('@')[0]
+                );
+                // Return pn (phone number) first, then id, then original lid
+                return match?.pn || match?.id || lid;
+            } catch (err) {
+                console.log('[getJidFromLid] Error:', err.message);
+                return lid;
+            }
+        };
+
+        client.getLidFromJid = async (jid) => {
+            const groupMetadata = await client.groupMetadata(from);
+            const match = groupMetadata.participants.find(p => p.jid === jid || p.id === jid);
+            return match?.lid || null;
+        };
+
+        let fileType;
+        (async () => {
+            fileType = await import('file-type');
+        })();
+
+        process.on('uncaughtException', (err) => {
+            BwmLogger.error('Uncaught Exception:', err);
+        });
+
+        process.on('unhandledRejection', (reason, promise) => {
+            BwmLogger.error('Unhandled Rejection at:', promise, 'reason:', reason);
         });
 
         // Connection handling

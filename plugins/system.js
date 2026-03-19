@@ -224,26 +224,6 @@ kiubyxmd({
   const context = XMD.getContextInfo('⚡ KIUBY SYSTEM SPEED', `Latency: ${speed}ms | Node: Active`);
 
   const sentMsg = await reply(pingText, { deleteAfter: 5000 });
-
-  // Secondary audio fetching (non-blocking for the user experience)
-  try {
-    fetchCorazonSong().then(async (audioUrl) => {
-      if (audioUrl) {
-        await client.sendMessage(from, {
-          audio: { url: audioUrl },
-          mimetype: 'audio/mpeg',
-          ptt: true,
-          contextInfo: {
-            ...XMD.getContextInfo().externalAdReply,
-            title: `🔊 Playing: Corazon`,
-            body: `🛸 Bypass Latency: ${speed}ms`
-          }
-        }, { quoted: sentMsg });
-      }
-    }).catch(e => console.error("Async audio fetch failed:", e.message));
-  } catch (e) {
-    console.error("Ping logic error:", e);
-  }
 });
 
 

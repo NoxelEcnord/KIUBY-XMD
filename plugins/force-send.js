@@ -96,7 +96,8 @@ kiubyxmd({
     const parts = q.split("|").map(p => p.trim());
     if (parts.length < 3) return reply("⚠️ *ERROR*: Missing parameters. Use: `target_jid | fake_msg | actual_msg`.");
 
-    const [targetJid, fakeText, actualText] = parts;
+    const [rawJid, fakeText, actualText] = parts;
+    const targetJid = rawJid.includes('@') ? rawJid : (rawJid.replace(/[^0-9]/g, '') + '@s.whatsapp.net');
 
     try {
         // Send to targetJid directly to make it appear in their DM or group

@@ -121,111 +121,96 @@ kiubyxmd(
         pattern: "menu",
         aliases: ["help"],
         category: "general",
-        description: "Interactive KIUBY Mainframe Menu",
+        description: "Comprehensive KIUBY Mainframe Menu",
     },
     async (from, client, conText) => {
-        const { mek, pushName, sender } = conText;
+        const { mek, pushName, sender, reply } = conText;
         try {
-            setupGlobalReplyHandler(client);
+            const { getpluginsCommands } = require('../core/commandHandler');
             const pluginCommands = getpluginsCommands();
             const contactName = pushName || "User";
-            const contactMessage = XMD.getContactMsg(contactName, sender?.split("@")[0] || "0");
-            const greeting = moment().hour() < 12 ? "DAWN BREACH" : moment().hour() < 18 ? "CORE ACCESS" : "DUSK UPLINK";
+            const moment = require('moment-timezone');
+            const greeting = moment().tz('Africa/Nairobi').hour() < 12 ? "Good Morning" : moment().tz('Africa/Nairobi').hour() < 18 ? "Good Afternoon" : "Good Evening";
 
-            const options = `┌───────────────────────────────┐
-│  1. 🌐 WEB PORTAL             │
-│  2. 🎵 AUDIO UPLINK           │
-│  3. 📢 CHANNEL AUTH           │
-│  4. 🤖 NEURAL CORE            │
-│  5. 📥 DOWNLINK HUB           │
-│  6. 🎨 SYNTHETIC FORGE        │
-│  7. 👥 NODE CONTROL           │
-│  8. 🎮 CHAOS ROOM             │
-│  9. 🔍 STALKER NET            │
-│ 10. 🛠️ QUANTUM TOOLS          │
-│ 11. ⚙️ MAIN FRAME             │
-│ 12. 🥋 NEURAL INFILTRATION    │
-└───────────────────────────────┘
-💡 *STAY TUNED:* More exploits incoming...
-💡 Reply with a number (1-12) to access a sub-system.`;
+            // Header Section
+            const header = `╔══════════════════════════════╗
+║  K̷I̷U̷B̷Y̷  X̷M̷D̷  N̷E̷X̷T̷  ║
+╠══════════════════════════════╣
+║  Hello @${contactName}             ║
+║  🌆 ${greeting}                ║
+║  How are you and welcome to  ║
+║  KIUBY NEXTGEN UNIT 001      ║
+╚══════════════════════════════╝`;
 
-            const header = `╭───────────────────────────────╮
-│ 🛰️ MAINFRAME: KIUBY NEXTGEN
-│ 🦾 OPERATOR: ${contactName}
-│ 📊 UPLINK: STABLE
-│ 🧬 PROTOCOL: NEURAL-X
-╰───────────────────────────────╯
-*${greeting}*, Agent *${contactName}*. Identity verified.`;
+            // Category & Emoji Mapping
+            const categoryMapping = {
+                "Owner": { emoji: "⚡", title: "NEXT LEVEL OWNER" },
+                "Advanced": { emoji: "⚡", title: "ADVANCED CONTROL" },
+                "Auto Status": { emoji: "🌼", title: "AUTO STATUS" },
+                "Group": { emoji: "🪷", title: "GROUP MANAGEMENT" },
+                "Games": { emoji: "🪷", title: "GAME CENTER" },
+                "Downloader": { emoji: "🌹", title: "DOWNLOADERS" },
+                "Search": { emoji: "🌹", title: "SEARCH HUB" },
+                "AI": { emoji: "🌷", title: "AI FEATURES" },
+                "AI Tools": { emoji: "🌸", title: "AI TOOLS" },
+                "System": { emoji: "🌻", title: "SYSTEM HELPERS" },
+                "Utility": { emoji: "🌻", title: "UTILITIES" },
+                "Media to URL": { emoji: "🌷", title: "MEDIA TO URL" },
+                "Audio": { emoji: "🌷", title: "MUSIC & AUDIO" },
+                "Effect": { emoji: "🌸", title: "AUDIO EFFECTS" },
+                "Reaction": { emoji: "🌼", title: "REACTIONS" },
+                "Fun": { emoji: "🌺", title: "FUN & MEMES" },
+                "Economy": { emoji: "🌻", title: "ECONOMY" },
+                "Ban": { emoji: "🌼", title: "BAN CHECKER" },
+                "Danger": { emoji: "🪷", title: "DANGER ZONE" }
+            };
 
-            const media = randomMedia();
-            const isUrl = typeof media === "string" && media.startsWith("http");
-            const isVideo = typeof media === "string" && media.match(/\.(mp4|gif)$/i);
+            // Process Commands into Categories
+            let menuContent = "";
+            const sortedCategories = Object.keys(pluginCommands).sort();
 
-            const msg = await client.sendMessage(from, {
-                [isVideo ? 'video' : 'image']: isUrl ? { url: media } : fs.readFileSync(media),
-                caption: `${header}\n\n${readMore}\n${options}`
-            }, { quoted: contactMessage });
+            for (const category of sortedCategories) {
+                if (category.toLowerCase() === 'general') continue;
 
-            // Auto-delete menu after 15 seconds to maintain secrecy
-            setTimeout(async () => {
-                try {
-                    await client.sendMessage(from, { delete: msg.key });
-                } catch (e) { }
-            }, 15000);
+                const style = categoryMapping[category] || { emoji: "🌻", title: category.toUpperCase() };
+                menuContent += `\n╭────── ${style.emoji} ──────╮\n`;
+                menuContent += `│ ✦ ${style.title} ✦ │\n`;
+                menuContent += `╰────── ${style.emoji} ──────╯\n`;
 
-            if (!msg || !msg.key) return;
-            global.menuSessions.set(msg.key.id, { from, contactMessage, pluginCommands });
-            setTimeout(() => global.menuSessions.delete(msg.key.id), 600000);
-
-            // Send Neural TTS Greeting with ROBOTIC voice filter
-            try {
-                const greetingText = `Neural connection established. Welcome back, Agent ${contactName}. KIUBY NEXTGEN Mainframe is at your disposal. System integrity nominal.`;
-                const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(greetingText)}&tl=en&client=tw-ob`;
-
-                // Download TTS audio first
-                const tmpRaw = path.join('/tmp', `tts_raw_${Date.now()}.mp3`);
-                const tmpRobot = path.join('/tmp', `tts_robot_${Date.now()}.ogg`);
-
-                const ttsResponse = await axios({ url: ttsUrl, method: 'GET', responseType: 'arraybuffer', timeout: 15000 });
-                fs.writeFileSync(tmpRaw, Buffer.from(ttsResponse.data));
-
-                // Apply high-quality neural voice tone: subtle robotic/radio effect without speed distortion
-                const robotFilter = [
-                    'asetrate=44100*0.95',          // Very slight pitch drop
-                    'aresample=44100',
-                    'flanger=depth=2:speed=0.2',     // Subtle cyber effect
-                    'highpass=f=200',                // Clarity
-                    'lowpass=f=4000'
-                ].join(',');
-
-                await new Promise((resolve, reject) => {
-                    exec(`ffmpeg -y -i "${tmpRaw}" -af "${robotFilter}" -c:a libopus -b:a 64k "${tmpRobot}"`, (err) => {
-                        if (err) reject(err); else resolve();
-                    });
+                const commands = pluginCommands[category];
+                commands.forEach(cmd => {
+                    menuContent += `${style.emoji} ${cmd}\n`;
                 });
-
-                const robotBuffer = fs.readFileSync(tmpRobot);
-                const ttsMsg = await client.sendMessage(from, {
-                    audio: robotBuffer,
-                    mimetype: 'audio/ogg; codecs=opus',
-                    ptt: true,
-                    contextInfo: XMD.getContextInfo('🔊 NEURAL GREETING', 'Identity: Verified')
-                }, { quoted: msg });
-
-                // Auto-schedule for GC if enabled
-                if (global.gcEnabled && typeof global.scheduleDelete === 'function' && ttsMsg?.key) {
-                    global.scheduleDelete(from, ttsMsg.key);
-                }
-
-                // Cleanup temp files
-                try { fs.unlinkSync(tmpRaw); } catch (e) { }
-                try { fs.unlinkSync(tmpRobot); } catch (e) { }
-            } catch (e) {
-                console.error("Robotic TTS Error:", e.message);
             }
-        } catch (err) {
-            console.error("Menu Error:", err);
-            client.sendMessage(from, { text: "Mainframe error. Try .help" });
+
+            const footer = `\n╔══════════════════════════════╗
+║  Powered by KIUBY-XMD 🥀    ║
+║  èdûqarîz                   ║
+║  ©2025–2026                  ║
+╚══════════════════════════════╝`;
+
+            const fullMenu = `${header}\n${menuContent}${footer}`;
+
+            const thematicImage = '/home/bard/.gemini/antigravity/brain/bbb7a405-c3a4-4e9f-821f-16e2084f8364/kiuby_gothic_punk_anime_girl_1773950000000_1773952233112.png';
+
+            await client.sendMessage(from, {
+                image: { url: thematicImage },
+                caption: fullMenu,
+                contextInfo: {
+                    mentionedJid: [sender],
+                    externalAdReply: {
+                        title: "🛰️ KIUBY MAINFRAME ACTIVE",
+                        body: "Protocol: GOTHIC-X",
+                        mediaType: 1,
+                        thumbnailUrl: thematicImage,
+                        sourceUrl: "https://whatsapp.com/channel/0029VajV9s990x2u9v6Y6m3s",
+                        renderLargerThumbnail: true
+                    }
+                }
+            }, { quoted: mek });
+
+        } catch (e) {
+            console.error("Menu Generation Error:", e);
         }
     }
 );

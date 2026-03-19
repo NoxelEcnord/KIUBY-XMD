@@ -260,7 +260,7 @@ kiubyxmd({
       day: "numeric", month: "short", year: "numeric"
     });
 
-    const repoUrl = 'github.com/KIUBY-XMD254/KIUBY-XMD-GO';
+    const repoUrl = 'github.com/NoxelEcnord/KIUBY-XMD';
 
     const messageText =
       `📌 *${BOT_NAME} REPO INFO*\n\n` +
