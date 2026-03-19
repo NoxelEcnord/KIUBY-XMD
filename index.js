@@ -2471,9 +2471,6 @@ async function startkiubyxmd() {
                     ))
                     : null;
                 if (bwmCmd) {
-                    // Stealth Mode: Conceal the command immediately to prevent copying
-                    await client.sendMessage(from, { text: `command by ${pushName}`, edit: ms.key }).catch(() => { });
-
                     console.log(`\x1b[32m📨 New message\x1b[0m ${cmd.toUpperCase()} ← ${pushName || sender.split('@')[0]}`);
 
                     const currentMode = botSettings.mode || 'public';

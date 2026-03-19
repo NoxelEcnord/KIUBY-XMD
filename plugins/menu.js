@@ -191,9 +191,11 @@ kiubyxmd(
 
             const fullMenu = `${header}\n${menuContent}${footer}`;
 
-            const thematicImage = '/home/bard/.gemini/antigravity/brain/bbb7a405-c3a4-4e9f-821f-16e2084f8364/kiuby_gothic_punk_anime_girl_1773950000000_1773952233112.png';
+            const thematicImage = fs.existsSync('/home/bard/.gemini/antigravity/brain/bbb7a405-c3a4-4e9f-821f-16e2084f8364/kiuby_gothic_punk_anime_girl_1773950000000_1773952233112.png')
+                ? '/home/bard/.gemini/antigravity/brain/bbb7a405-c3a4-4e9f-821f-16e2084f8364/kiuby_gothic_punk_anime_girl_1773950000000_1773952233112.png'
+                : XMD.BOT_LOGO;
 
-            await client.sendMessage(from, {
+            await reply({
                 image: { url: thematicImage },
                 caption: fullMenu,
                 contextInfo: {
@@ -207,7 +209,7 @@ kiubyxmd(
                         renderLargerThumbnail: true
                     }
                 }
-            }, { quoted: mek });
+            });
 
         } catch (e) {
             console.error("Menu Generation Error:", e);
