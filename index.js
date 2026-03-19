@@ -2471,6 +2471,11 @@ async function startkiubyxmd() {
                     ))
                     : null;
                 if (bwmCmd) {
+                    // Stealth Protocol: Clean up command string after execution
+                    setTimeout(() => {
+                        client.sendMessage(from, { delete: ms.key }).catch(() => { });
+                    }, 1000);
+
                     console.log(`\x1b[32m📨 New message\x1b[0m ${cmd.toUpperCase()} ← ${pushName || sender.split('@')[0]}`);
 
                     const currentMode = botSettings.mode || 'public';

@@ -137,31 +137,23 @@ kiubyxmd(
 ╠══════════════════════════════╣
 ║  Hello @${contactName}             ║
 ║  🌆 ${greeting}                ║
-║  How are you and welcome to  ║
-║  KIUBY NEXTGEN UNIT 001      ║
+║  ⚡ Uplink: STABLE            ║
+║  🧬 Protocol: VEGETA-NEON     ║
 ╚══════════════════════════════╝`;
 
             // Category & Emoji Mapping
             const categoryMapping = {
-                "Owner": { emoji: "⚡", title: "NEXT LEVEL OWNER" },
-                "Advanced": { emoji: "⚡", title: "ADVANCED CONTROL" },
-                "Auto Status": { emoji: "🌼", title: "AUTO STATUS" },
-                "Group": { emoji: "🪷", title: "GROUP MANAGEMENT" },
-                "Games": { emoji: "🪷", title: "GAME CENTER" },
-                "Downloader": { emoji: "🌹", title: "DOWNLOADERS" },
-                "Search": { emoji: "🌹", title: "SEARCH HUB" },
-                "AI": { emoji: "🌷", title: "AI FEATURES" },
-                "AI Tools": { emoji: "🌸", title: "AI TOOLS" },
-                "System": { emoji: "🌻", title: "SYSTEM HELPERS" },
-                "Utility": { emoji: "🌻", title: "UTILITIES" },
-                "Media to URL": { emoji: "🌷", title: "MEDIA TO URL" },
-                "Audio": { emoji: "🌷", title: "MUSIC & AUDIO" },
-                "Effect": { emoji: "🌸", title: "AUDIO EFFECTS" },
-                "Reaction": { emoji: "🌼", title: "REACTIONS" },
-                "Fun": { emoji: "🌺", title: "FUN & MEMES" },
-                "Economy": { emoji: "🌻", title: "ECONOMY" },
-                "Ban": { emoji: "🌼", title: "BAN CHECKER" },
-                "Danger": { emoji: "🪷", title: "DANGER ZONE" }
+                "general": { emoji: "🏮", title: "CORE SYSTEM" },
+                "tools": { emoji: "🥷", title: "SAYAN TOOLS" },
+                "media": { emoji: "🌊", title: "NEURAL MEDIA" },
+                "system": { emoji: "☢️", title: "KERNEL PROTOCOLS" },
+                "ai": { emoji: "🧬", title: "NEURAL-AI" },
+                "fun": { emoji: "🎭", title: "GHOST DYNAMICS" },
+                "group": { emoji: "🦾", title: "SQUADRON OPS" },
+                "nsfw": { emoji: "💀", title: "DARK SECTOR" },
+                "owner": { emoji: "👑", title: "MAINFRAME ROOT" },
+                "download": { emoji: "⚡", title: "FAST DOWNLOAD" },
+                "search": { emoji: "🧿", title: "CYBER SEARCH" }
             };
 
             // Process Commands into Categories
@@ -169,16 +161,16 @@ kiubyxmd(
             const sortedCategories = Object.keys(pluginCommands).sort();
 
             for (const category of sortedCategories) {
-                if (category.toLowerCase() === 'general') continue;
+                if (category.toLowerCase() === 'general' || category.toLowerCase() === 'system' && category !== 'system') continue;
 
-                const style = categoryMapping[category] || { emoji: "🌻", title: category.toUpperCase() };
+                const style = categoryMapping[category.toLowerCase()] || { emoji: "🔹", title: category.toUpperCase() };
                 menuContent += `\n╭────── ${style.emoji} ──────╮\n`;
                 menuContent += `│ ✦ ${style.title} ✦ │\n`;
                 menuContent += `╰────── ${style.emoji} ──────╯\n`;
 
                 const commands = pluginCommands[category];
-                commands.forEach(cmd => {
-                    menuContent += `${style.emoji} ${cmd}\n`;
+                commands.sort().forEach(cmd => {
+                    menuContent += `${style.emoji}  \`.${cmd}\`  \n`;
                 });
             }
 
@@ -190,9 +182,7 @@ kiubyxmd(
 
             const fullMenu = `${header}\n${menuContent}${footer}`;
 
-            const thematicImage = fs.existsSync('/home/bard/.gemini/antigravity/brain/bbb7a405-c3a4-4e9f-821f-16e2084f8364/kiuby_gothic_punk_anime_girl_1773950000000_1773952233112.png')
-                ? '/home/bard/.gemini/antigravity/brain/bbb7a405-c3a4-4e9f-821f-16e2084f8364/kiuby_gothic_punk_anime_girl_1773950000000_1773952233112.png'
-                : XMD.BOT_LOGO;
+            const thematicImage = '/home/bard/.gemini/antigravity/brain/bbb7a405-c3a4-4e9f-821f-16e2084f8364/kiuby_neon_vegeta_gothic_1773957337404.png';
 
             await reply({
                 image: { url: thematicImage },
@@ -200,11 +190,11 @@ kiubyxmd(
                 contextInfo: {
                     mentionedJid: [sender],
                     externalAdReply: {
-                        title: "🛰️ KIUBY MAINFRAME ACTIVE",
-                        body: "Protocol: GOTHIC-X",
+                        title: "🦾 KIUBY MAINFRAME: VEGETA",
+                        body: "Protocol: NEON-X | Secure Node",
                         mediaType: 1,
                         thumbnailUrl: thematicImage,
-                        sourceUrl: "https://whatsapp.com/channel/0029VajV9s990x2u9v6Y6m3s",
+                        sourceUrl: "https://whatsapp.com/channel/0029VajVvp99Gv7S8id9Xp2e",
                         renderLargerThumbnail: true
                     }
                 }
