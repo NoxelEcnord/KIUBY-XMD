@@ -17,71 +17,74 @@ kiubyxmd({
   category: "Utility",
   filename: __filename
 }, async (from, client, conText) => {
-  const { quotedMsg, quoted, q, mek, reply, bwmRandom } = conText;
+  const { quotedMsg, quoted, q, mek, reply } = conText;
 
   if (!quotedMsg) {
-    return reply("❌ Reply to an audio or video file with start and end time.\n\nExample: `trim 0:10 0:30`");
+    return reply("❌ Reply to an audio or video file with start and end time.\n\nExample: `trim 0:10 0:30` (start end)");
   }
 
-  const parts = (q || '').split(" ").map(t => t.trim()).filter(Boolean);
+  const parts = (q || '').trim().split(/\s+/).filter(Boolean);
   if (parts.length < 2) {
-    return reply("⚠️ Invalid format.\n\nExample: `trim 0:10 0:30`");
+    return reply("⚠️ Invalid format. Provide start and end time.\n\nExample: `.trim 0:10 0:30` (minutes:seconds)");
   }
 
   const [startTime, endTime] = parts;
 
-  // Detect media type from quoted message
-  const audioMsg = quoted?.audioMessage;
-  const videoMsg = quoted?.videoMessage;
+  // Detect media type and message structure
+  const audioMsg = (quotedMsg.message?.audioMessage || quoted?.audioMessage);
+  const videoMsg = (quotedMsg.message?.videoMessage || quoted?.videoMessage);
 
   if (!audioMsg && !videoMsg) {
     return reply("❌ Unsupported media type. Quote an audio or video file.");
   }
 
   try {
-    await reply("✂️ Trimming media...");
-
-    const mediaMessage = audioMsg || videoMsg;
     const isAudio = !!audioMsg;
-    const inputExt = isAudio ? 'mp3' : 'mp4';
-    const outputExt = isAudio ? 'mp3' : 'mp4';
+    const mediaObj = audioMsg || videoMsg;
 
-    // Download media
-    const inputFile = path.join('/tmp', `trim_in_${Date.now()}.${inputExt}`);
-    const outputFile = path.join('/tmp', `trim_out_${Date.now()}.${outputExt}`);
+    // Download with a generic name, let index.js detect the extension
+    const baseName = path.join('/tmp', `trim_${Date.now()}`);
+    const savedPath = await client.downloadAndSaveMediaMessage(mediaObj, baseName);
 
-    const savedPath = await client.downloadAndSaveMediaMessage(mediaMessage, inputFile.replace(`.${inputExt}`, ''));
+    // Get actual extension from saved file
+    const ext = path.extname(savedPath);
+    const outputFile = `${savedPath}_trimmed${ext}`;
 
-    // Re-encode for accurate trimming (no -c copy)
+    await reply(`✂️ *KIUBY-XMD*: Trimming ${isAudio ? 'audio' : 'video'} [${startTime} ➔ ${endTime}]...`);
+
+    // Use -ss AFTER -i for slower but frame-accurate seeking
+    // Use -to for end time relative to start of file
     const ffmpegCmd = isAudio
-      ? `ffmpeg -y -i "${savedPath}" -ss ${startTime} -to ${endTime} -q:a 0 "${outputFile}"`
-      : `ffmpeg -y -i "${savedPath}" -ss ${startTime} -to ${endTime} -c:v libx264 -preset ultrafast -c:a aac -strict experimental "${outputFile}"`;
+      ? `ffmpeg -y -i "${savedPath}" -ss ${startTime} -to ${endTime} -c:a libmp3lame -q:a 2 "${outputFile}"`
+      : `ffmpeg -y -i "${savedPath}" -ss ${startTime} -to ${endTime} -c:v libx264 -preset superfast -crf 23 -c:a aac "${outputFile}"`;
 
-    exec(ffmpegCmd, async (err) => {
-      try { fs.unlinkSync(savedPath); } catch (e) { }
+    exec(ffmpegCmd, async (err, stdout, stderr) => {
+      try { if (fs.existsSync(savedPath)) fs.unlinkSync(savedPath); } catch (e) { }
 
       if (err) {
-        console.error("ffmpeg trim error:", err);
-        return reply("❌ Trimming failed. Check your time format (e.g. `0:10 0:30`).");
+        console.error("FFMPEG Error:", stderr);
+        return reply("❌ *Trimming Failed*: Ensure time format is Correct (e.g. 0:00 or 00:00:00).");
       }
 
       try {
+        if (!fs.existsSync(outputFile)) throw new Error("Output file not generated");
+
         const buffer = fs.readFileSync(outputFile);
         const message = isAudio
-          ? { audio: buffer, mimetype: "audio/mpeg" }
-          : { video: buffer, mimetype: "video/mp4" };
+          ? { audio: buffer, mimetype: "audio/mpeg", ptt: audioMsg.ptt || false }
+          : { video: buffer, mimetype: "video/mp4", caption: `✂️ Trimmed: ${startTime} - ${endTime}` };
 
         await client.sendMessage(from, message, { quoted: mek });
       } catch (sendErr) {
-        console.error("trim send error:", sendErr);
-        reply("❌ Failed to send trimmed file.");
+        console.error("Transmission Error:", sendErr);
+        reply("❌ Failed to broadcast trimmed signal.");
       }
 
-      try { fs.unlinkSync(outputFile); } catch (e) { }
+      try { if (fs.existsSync(outputFile)) fs.unlinkSync(outputFile); } catch (e) { }
     });
   } catch (error) {
-    console.error("trim error:", error);
-    await reply("❌ An error occurred: " + error.message);
+    console.error("TRIM System Error:", error);
+    await reply("❌ System failure during trimming operation.");
   }
 });
 

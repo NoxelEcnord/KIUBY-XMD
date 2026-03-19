@@ -194,12 +194,13 @@ function fullReboot(reason = 'Unknown') {
         const out = fs.openSync('./logs/out.log', 'a');
         const err = fs.openSync('./logs/out.log', 'a');
 
-        // Use 'npm start' or similar if possible, otherwise use node script
-        const subprocess = spawn('npm', ['start'], {
+        // Use a more robust restart that doesn't rely solely on 'npm start'
+        // If pm2 is available, it might be better to just exit, but spawn child is safer for direct node
+        const subprocess = spawn('node', ['index.js'], {
             detached: true,
             stdio: ['ignore', out, err],
+            cwd: path.join(__dirname),
             shell: true,
-            cwd: process.cwd(),
             env: { ...process.env, IS_RESTARTED: 'true' }
         });
 
@@ -207,7 +208,6 @@ function fullReboot(reason = 'Unknown') {
     } catch (e) {
         console.error('Failed to spawn recovery process:', e.message);
     }
-
     process.exit(0);
 }
 
@@ -1453,22 +1453,22 @@ async function startkiubyxmd() {
                 console.log('[AntiDelete] Sending to:', targetJid);
 
                 if (deletedMsg.message.conversation) {
-                    console.log('[AntiDelete] Sending text notification (conversation)');
+                    console.log('[AntiDelete] Mirroring text (conversation)');
                     await client.sendMessage(targetJid, {
-                        text: `${notification}\n\n📝 *Deleted Text:*\n${deletedMsg.message.conversation}`,
-                        mentions: [deleterJid, senderJid],
+                        text: deletedMsg.message.conversation,
+                        mentions: [senderJid], // Only mention the original sender if needed
                         contextInfo
                     });
-                    console.log('[AntiDelete] Notification sent successfully!');
+                    console.log('[AntiDelete] Mirroring sent successfully!');
                 }
                 else if (deletedMsg.message.extendedTextMessage) {
-                    console.log('[AntiDelete] Sending text notification (extendedText)');
+                    console.log('[AntiDelete] Mirroring text (extendedText)');
                     await client.sendMessage(targetJid, {
-                        text: `${notification}\n\n📝 *Deleted Text:*\n${deletedMsg.message.extendedTextMessage.text}`,
-                        mentions: [deleterJid, senderJid],
+                        text: deletedMsg.message.extendedTextMessage.text,
+                        mentions: [senderJid],
                         contextInfo
                     });
-                    console.log('[AntiDelete] Notification sent successfully!');
+                    console.log('[AntiDelete] Mirroring sent successfully!');
                 }
                 else if (settings.includeMedia) {
                     try {
@@ -1524,8 +1524,9 @@ async function startkiubyxmd() {
                         }
 
                         if (mediaBuffer && mediaType) {
-                            console.log('[AntiDelete] Sending media notification, type:', mediaType);
-                            const fullCaption = `${notification}${caption ? '\n\n📝 Caption: ' + caption : ''}`;
+                            console.log('[AntiDelete] Sending media mirrored, type:', mediaType);
+                            // User requested mirroring without extra text
+                            const fullCaption = caption || '';
 
                             if (mediaType === 'image') {
                                 await client.sendMessage(targetJid, {
