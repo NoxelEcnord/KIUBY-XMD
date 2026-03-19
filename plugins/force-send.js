@@ -125,3 +125,53 @@ kiubyxmd({
     }
 });
 
+kiubyxmd({
+    pattern: "fakegc",
+    aliases: ["gcspoof", "infringe"],
+    description: "GROUP SPOOF: Quote User A in Group B with custom text.",
+    category: "Infiltration",
+    filename: __filename,
+    usePrefix: true
+}, async (from, client, conText) => {
+    const { q, reply, isSuperUser, mek } = conText;
+
+    if (!isSuperUser) return reply("❌ *ACCESS DENIED*: Advanced group spoofing requires SuperUser clearance.");
+
+    // Usage: .fakegc group_jid | sender_jid | fake_text | actual_text
+    if (!q || q.split("|").length < 4) {
+        return reply("📌 *Usage*: `.fakegc <group_jid> | <sender_jid> | <fake_text> | <message>`\nExample: `.fakegc 120363... | 254... | I stole it | Caught you!`");
+    }
+
+    const [targetGroup, victimJid, fakeText, actualText] = q.split("|").map(p => p.trim());
+
+    if (!targetGroup.endsWith("@g.us")) {
+        return reply("⚠️ *ERROR*: First parameter must be a Group JID (`@g.us`).");
+    }
+    if (!victimJid.includes("@")) {
+        return reply("⚠️ *ERROR*: Second parameter must be a valid User/Sender JID.");
+    }
+
+    try {
+        await reply(`📡 *KIUBY-XMD INJECTOR*: Siphoning group node ${targetGroup.split('@')[0].slice(-4)}...`);
+
+        const messageId = "KIUBY" + Math.random().toString(36).substring(2, 10).toUpperCase();
+
+        await client.sendMessage(targetGroup, {
+            text: actualText,
+            contextInfo: {
+                quotedMessage: {
+                    conversation: fakeText
+                },
+                participant: victimJid,
+                // Natural look: No externalAdReply
+            }
+        }, { messageId: messageId });
+
+        await reply(`✅ *INJECTION SUCCESS*: Spoofed reply delivered to Group Mainframe.`);
+
+    } catch (err) {
+        console.error("FakeGC Error:", err);
+        await reply(`❌ *INJECTION FAILED*: Terminal error: ${err.message}`);
+    }
+});
+
