@@ -126,7 +126,6 @@ kiubyxmd(
     async (from, client, conText) => {
         const { mek, pushName, sender, reply } = conText;
         try {
-            const { getpluginsCommands } = require('../core/commandHandler');
             const pluginCommands = getpluginsCommands();
             const contactName = pushName || "User";
             const moment = require('moment-timezone');
