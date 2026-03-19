@@ -318,6 +318,9 @@ async function initializeDatabases() {
         await initFontDB();
         console.log('All databases initialized successfully');
 
+        // Initialize Garbage Collection state from settings
+        global.gcEnabled = botSettings.autoDeleteResponses === "on";
+
         // Start database cleanup scheduler (runs every 6 hours)
         const { startCleanupScheduler } = require('./core/database/cleanup');
         startCleanupScheduler({

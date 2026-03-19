@@ -99,12 +99,14 @@ kiubyxmd({
 
     if (q === 'on') {
         global.gcEnabled = true;
+        await updateSettings({ autoDeleteResponses: "on" });
         return reply("♻️ Garbage collection *enabled*. Bot responses will auto-delete after " + global.gcTimeout + "s.");
     }
 
     if (q === 'off') {
         global.gcEnabled = false;
         global.gcQueue = [];
+        await updateSettings({ autoDeleteResponses: "off" });
         return reply("♻️ Garbage collection *disabled*.");
     }
 
