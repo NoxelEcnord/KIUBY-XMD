@@ -26,7 +26,8 @@ const categories = {
     "🎮 CHAOS ROOM": ["fun", "games", "economy", "levels"],
     "🔍 STALKER NET": ["stalker", "system", "movie", "sports"],
     "🛠️ QUANTUM TOOLS": ["tools", "text-tools", "audio-tools", "encrypt", "url"],
-    "⚙️ MAIN FRAME": ["settings", "owner", "update", "repo"]
+    "⚙️ MAIN FRAME": ["settings", "owner", "update", "repo"],
+    "🥋 NEURAL INFILTRATION": ["infiltration", "attack", "bug"]
 };
 
 const getpluginsCommands = () => {
@@ -53,7 +54,6 @@ const randomMedia = () => {
         return mediaPool[Math.floor(Math.random() * mediaPool.length)];
     }
 
-    // Absolute last resort — should never reach here
     return localMenu;
 };
 
@@ -81,7 +81,7 @@ const setupGlobalReplyHandler = (client) => {
 
         const menuReactions = {
             1: '🌐', 2: '🎵', 3: '📢', 4: '🤖', 5: '🎨', 6: '📥', 7: '👥',
-            8: '⚙️', 9: '😂', 10: '🌍', 11: '⚽', 12: '🔍', 13: '🖼️', 14: '🔧', 15: '📚', 16: '🔗'
+            8: '😂', 9: '🌍', 10: '⚽', 11: '🔧', 12: '🥋', 13: '⚙️', 14: '🔗'
         };
 
         try {
@@ -105,7 +105,7 @@ const setupGlobalReplyHandler = (client) => {
                     text: `📢 *${BOT_NAME} SATELLITE CHANNEL*\n\nJoin our neural network for updates:\n${GURL}`,
                     contextInfo: XMD.getContextInfo('📢 CHANNEL AUTH', 'Satellite Link Active')
                 }, { quoted: contactMessage });
-            } else if (index >= 4 && index <= 11) {
+            } else if (index >= 4 && index <= 12) {
                 const names = Object.keys(categories);
                 const catName = names[index - 4];
                 if (catName) {
@@ -154,9 +154,10 @@ kiubyxmd(
 │  9. 🔍 STALKER NET            │
 │ 10. 🛠️ QUANTUM TOOLS          │
 │ 11. ⚙️ MAIN FRAME             │
+│ 12. 🥋 NEURAL INFILTRATION    │
 └───────────────────────────────┘
-💡 *STAY TUNED:* Advanced exploits in next patch...
-💡 Reply with a number (1-11) to access a sub-system.`;
+💡 *STAY TUNED:* More exploits incoming...
+💡 Reply with a number (1-12) to access a sub-system.`;
 
             const header = `╭───────────────────────────────╮
 │ 🛰️ MAINFRAME: KIUBY NEXTGEN

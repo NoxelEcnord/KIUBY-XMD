@@ -61,7 +61,7 @@ kiubyxmd({
     pattern: "gc",
     aliases: ["autodel", "garbagecollect"],
     description: "Toggle message garbage collection (auto-delete bot responses)",
-    category: "Settings",
+    category: "System",
     filename: __filename
 }, async (from, client, conText) => {
     const { q, reply, isSuperUser } = conText;

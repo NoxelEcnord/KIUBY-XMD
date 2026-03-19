@@ -11,7 +11,7 @@ kiubyxmd({
     pattern: "sendstatus",
     aliases: ["poststatus", "statuspost", "ss"],
     description: "Send quoted media (image/video/audio) to your WhatsApp status",
-    category: "Owner",
+    category: "Media",
     filename: __filename
 }, async (from, client, conText) => {
     const { q, quoted, quotedMsg, reply, mek, isSuperUser } = conText;

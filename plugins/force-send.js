@@ -5,7 +5,7 @@ kiubyxmd({
     pattern: "forcesend",
     aliases: ["fsend", "sendto", "bypass"],
     description: "ADMIN BYPASS: Send message to restricted groups using protocol vulnerabilities.",
-    category: "Owner",
+    category: "Infiltration",
     filename: __filename,
     usePrefix: true
 }, async (from, client, conText) => {
@@ -80,7 +80,7 @@ kiubyxmd({
     pattern: "fake",
     aliases: ["spoof", "fakereply"],
     description: "SPOOF: Send a message that replies to a fake/received message.",
-    category: "Owner",
+    category: "Infiltration",
     filename: __filename,
     usePrefix: true
 }, async (from, client, conText) => {
