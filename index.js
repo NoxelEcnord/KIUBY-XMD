@@ -2644,9 +2644,13 @@ async function startkiubyxmd() {
                             react,
                             del,
                             args: args,
+                            arg: args, // Alias for legacy plugins
                             quoted,
-                            isCmd: isCommand,
+                            quotedMsg: quoted, // Alias for legacy plugins
+                            isCmd: isCommandMessage,
+                            isCommand: isCommandMessage,
                             command,
+                            body,
                             isAdmin,
                             isBotAdmin,
                             sender,

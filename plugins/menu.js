@@ -129,7 +129,7 @@ const setupGlobalReplyHandler = (client) => {
 kiubyxmd(
     {
         pattern: "menu",
-        aliases: ["help", "commands"],
+        aliases: ["help"],
         category: "general",
         description: "Interactive KIUBY Mainframe Menu",
     },

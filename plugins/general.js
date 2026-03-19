@@ -194,7 +194,7 @@ kiubyxmd({
         { image: { url: filePath }, caption, viewOnce: true },
         { quoted: mek }
       );
-      try { fs.unlinkSync(filePath); } catch {}
+      try { fs.unlinkSync(filePath); } catch { }
     }
 
     if (quoted?.videoMessage) {
@@ -205,7 +205,7 @@ kiubyxmd({
         { video: { url: filePath }, caption, viewOnce: true },
         { quoted: mek }
       );
-      try { fs.unlinkSync(filePath); } catch {}
+      try { fs.unlinkSync(filePath); } catch { }
     }
 
     if (quoted?.audioMessage) {
@@ -220,7 +220,7 @@ kiubyxmd({
         },
         { quoted: mek }
       );
-      try { fs.unlinkSync(filePath); } catch {}
+      try { fs.unlinkSync(filePath); } catch { }
     }
   } catch (err) {
     console.error("toviewonce command error:", err);
@@ -228,44 +228,33 @@ kiubyxmd({
   }
 });
 //========================================================================================================================
-/*kiubyxmd({
-  pattern: "menu",
-  aliases: ["help", "commands"],
+kiubyxmd({
+  pattern: "commands",
   category: "General",
-  description: "Show all available commands"
-},
-async (from, client, { prefix, botPic, botname, author }) => {
-  const total = commands.filter(cmd => !cmd.dontAddCommandList).length;
+  description: "Show all available commands from commands.md",
+  filename: __filename
+}, async (from, client, { reply, prefix }) => {
+  try {
+    const commandsPath = path.join(__dirname, "../commands.md");
+    if (!fs.existsSync(commandsPath)) {
+      return reply("❌ `commands.md` not found in the root directory.");
+    }
 
-  const categorized = commands.reduce((acc, cmd) => {
-    if (!cmd.pattern || cmd.dontAddCommandList) return acc;
-    const cat = cmd.category?.toUpperCase() || "UNCATEGORIZED";
-    if (!acc[cat]) acc[cat] = [];
-    acc[cat].push(cmd.pattern);
-    return acc;
-  }, {});
+    const content = fs.readFileSync(commandsPath, "utf8");
+    const readMore = String.fromCharCode(8206).repeat(4000);
 
-  let output = `╭───「 ${botname} 」─⭓\n`;
-  output += `│ ▸ Prefix: *${prefix}*\n`;
-  output += `│ ▸ Commands: *${total}*\n`;
-  output += `│ ▸ Author: *${author}*\n`;
-  output += `╰─────────────────⭓\n\n`;
+    // Split the content into header and commands to insert readMore
+    const lines = content.split("\n");
+    const header = lines.slice(0, 5).join("\n");
+    const rest = lines.slice(5).join("\n");
 
-  Object.entries(categorized).sort().forEach(([cat, cmds]) => {
-    output += `╭────「 ${cat} 」──┈⊷\n`;
-    output += `│◦➛╭───────────────\n`;
-    cmds.forEach((cmd, i) => {
-      output += `│◦➛ ${i + 1}. ${cmd}\n`;
-    });
-    output += `│◦➛╰─────────────\n`;
-    output += `╰──────────────┈⊷\n\n`;
-  });
-
-  await client.sendMessage(from, {
-    image: { url: botPic },
-    caption: output.trim()
-  });
-});*/
+    const output = `${header}\n${readMore}\n${rest}`;
+    reply(output);
+  } catch (err) {
+    console.error("commands command error:", err);
+    reply("❌ Failed to read `commands.md`.");
+  }
+});
 //========================================================================================================================
 
 kiubyxmd({
@@ -274,16 +263,16 @@ kiubyxmd({
   category: "General",
   description: "Show description of a given command"
 },
-async (from, client, { q, reply }) => {
-  const input = q?.trim().toLowerCase();
-  if (!input) return reply("❌ Provide a command name.\nExample: getdesc play");
+  async (from, client, { q, reply }) => {
+    const input = q?.trim().toLowerCase();
+    if (!input) return reply("❌ Provide a command name.\nExample: getdesc play");
 
-  const match = commands.find(cmd => cmd.pattern?.toLowerCase() === input);
-  if (!match) return reply(`❌ No command found with name: *${input}*`);
+    const match = commands.find(cmd => cmd.pattern?.toLowerCase() === input);
+    if (!match) return reply(`❌ No command found with name: *${input}*`);
 
-  const desc = match.description || "No description provided.";
-  reply(`📝 Description for *${input}*:\n\n${desc}`);
-});
+    const desc = match.description || "No description provided.";
+    reply(`📝 Description for *${input}*:\n\n${desc}`);
+  });
 //========================================================================================================================
 
 kiubyxmd({
@@ -292,16 +281,16 @@ kiubyxmd({
   category: "General",
   description: "Show category of a given command"
 },
-async (from, client, { q, reply }) => {
-  const input = q?.trim().toLowerCase();
-  if (!input) return reply("❌ Provide a command name.\nExample: getcategory play");
+  async (from, client, { q, reply }) => {
+    const input = q?.trim().toLowerCase();
+    if (!input) return reply("❌ Provide a command name.\nExample: getcategory play");
 
-  const match = commands.find(cmd => cmd.pattern?.toLowerCase() === input);
-  if (!match) return reply(`❌ No command found with name: *${input}*`);
+    const match = commands.find(cmd => cmd.pattern?.toLowerCase() === input);
+    if (!match) return reply(`❌ No command found with name: *${input}*`);
 
-  const category = match.category || "Uncategorized";
-  reply(`📂 Category for *${input}* is: *${category}*`);
-});
+    const category = match.category || "Uncategorized";
+    reply(`📂 Category for *${input}* is: *${category}*`);
+  });
 //========================================================================================================================
 kiubyxmd({
   pattern: "getalias",
@@ -309,18 +298,18 @@ kiubyxmd({
   aliases: ["getaliases"],
   description: "Show aliases for a given command"
 },
-async (from, client, { q, reply }) => {
-  const input = q?.trim().toLowerCase();
-  if (!input) return reply("❌ Provide a command name.\nExample: getalias play");
+  async (from, client, { q, reply }) => {
+    const input = q?.trim().toLowerCase();
+    if (!input) return reply("❌ Provide a command name.\nExample: getalias play");
 
-  const match = commands.find(cmd => cmd.pattern?.toLowerCase() === input);
-  if (!match) return reply(`❌ No command found with name: *${input}*`);
+    const match = commands.find(cmd => cmd.pattern?.toLowerCase() === input);
+    if (!match) return reply(`❌ No command found with name: *${input}*`);
 
-  const aliases = match.aliases || match.alias || [];
-  const list = Array.isArray(aliases) ? aliases : [aliases];
+    const aliases = match.aliases || match.alias || [];
+    const list = Array.isArray(aliases) ? aliases : [aliases];
 
-  if (list.length === 0) return reply(`ℹ️ Command *${input}* has no aliases.`);
+    if (list.length === 0) return reply(`ℹ️ Command *${input}* has no aliases.`);
 
-  const aliasText = list.map((a, i) => `▸ ${i + 1}. ${a}`).join('\n');
-  reply(`🔎 Aliases for *${input}*:\n\n${aliasText}`);
-});
+    const aliasText = list.map((a, i) => `▸ ${i + 1}. ${a}`).join('\n');
+    reply(`🔎 Aliases for *${input}*:\n\n${aliasText}`);
+  });

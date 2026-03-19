@@ -14,43 +14,43 @@ kiubyxmd({
   category: "AI",
   description: "Generate video from text using Sora API"
 },
-async (from, client, conText) => {
-  const { q, mek, reply } = conText;
+  async (from, client, conText) => {
+    const { q, mek, reply } = conText;
 
-  if (!q) {
-    return reply("❌ Provide a query, e.g. .sora monkey running");
-  }
-
-  try {
-    const apiUrl = XMD.API.AI.TEXT2VIDEO(q);
-    const response = await axios.get(apiUrl, { timeout: 120000 });
-    const result = response.data?.results;
-
-    if (!result) {
-      return reply("❌ No video result found.");
+    if (!q) {
+      return reply("❌ Provide a query, e.g. .sora monkey running");
     }
 
-    await client.sendMessage(from, {
-      video: { url: result },
-      mimetype: "video/mp4",
-      caption: `result for: ${q}`,
-      contextInfo: {
-        externalAdReply: {
-          title: "AI Message Assistant",
-          body: "KIUBY-XMD Bot Support",
-          thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
-          sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
-          mediaType: 1,
-          renderLargerThumbnail: false
-        }
-      }
-    }, { quoted: mek });
+    try {
+      const apiUrl = XMD.API.AI.TEXT2VIDEO(q);
+      const response = await axios.get(apiUrl, { timeout: 120000 });
+      const result = response.data?.results;
 
-  } catch (error) {
-    console.error("Sora error:", error);
-    reply("❌ Failed to fetch Sora video: " + error.message);
-  }
-});
+      if (!result) {
+        return reply("❌ No video result found.");
+      }
+
+      await client.sendMessage(from, {
+        video: { url: result },
+        mimetype: "video/mp4",
+        caption: `result for: ${q}`,
+        contextInfo: {
+          externalAdReply: {
+            title: "AI Message Assistant",
+            body: "KIUBY-XMD Bot Support",
+            thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
+            sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
+            mediaType: 1,
+            renderLargerThumbnail: false
+          }
+        }
+      }, { quoted: mek });
+
+    } catch (error) {
+      console.error("Sora error:", error);
+      reply("❌ Failed to fetch Sora video: " + error.message);
+    }
+  });
 
 //========================================================================================================================
 
@@ -60,44 +60,44 @@ kiubyxmd({
   category: "ai",
   description: "Generate an image using Flux API"
 },
-async (from, client, conText) => {
-  const { q, reply } = conText;
+  async (from, client, conText) => {
+    const { q, reply } = conText;
 
-  if (!q) return reply("❌ Provide a query, e.g. .flux dog");
+    if (!q) return reply("❌ Provide a query, e.g. .flux dog");
 
-  try {
-    // Call Flux API (returns raw image)
-    const res = await axios.get(XMD.API.AI.FLUX(q), {
-      responseType: "arraybuffer"
-    });
+    try {
+      // Call Flux API (returns raw image)
+      const res = await axios.get(XMD.API.AI.FLUX(q), {
+        responseType: "arraybuffer"
+      });
 
-    // Save temporarily
-    const filePath = "./flux_img.jpg";
-    fs.writeFileSync(filePath, res.data);
+      // Save temporarily
+      const filePath = "./flux_img.jpg";
+      fs.writeFileSync(filePath, res.data);
 
-    // Send image to chat
-    await client.sendMessage(from, { 
-      image: { url: filePath }, 
-      caption: `Flux result for: ${q}`,
-      contextInfo: {
-        externalAdReply: {
-          title: "AI Message Assistant",
-          body: "KIUBY-XMD Bot Support",
-          thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
-          sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
-          mediaType: 1,
-          renderLargerThumbnail: false
+      // Send image to chat
+      await client.sendMessage(from, {
+        image: { url: filePath },
+        caption: `Flux result for: ${q}`,
+        contextInfo: {
+          externalAdReply: {
+            title: "AI Message Assistant",
+            body: "KIUBY-XMD Bot Support",
+            thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
+            sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
+            mediaType: 1,
+            renderLargerThumbnail: false
+          }
         }
-      }
-    });
+      });
 
-    // Clean up
-    fs.unlinkSync(filePath);
-  } catch (err) {
-    console.error("flux Error:", err);
-    reply("❌ Failed to fetch Flux image: " + err.message);
-  }
-});
+      // Clean up
+      fs.unlinkSync(filePath);
+    } catch (err) {
+      console.error("flux Error:", err);
+      reply("❌ Failed to fetch Flux image: " + err.message);
+    }
+  });
 //========================================================================================================================
 
 
@@ -107,38 +107,38 @@ kiubyxmd({
   category: "ai",
   description: "Generate a speech using the Speechwriter API"
 },
-async (from, client, conText) => {
-  const { q, reply } = conText;
+  async (from, client, conText) => {
+    const { q, reply } = conText;
 
-  if (!q) {
-    return reply("❌ Provide a topic, e.g. .speechwriter how to pass exam");
-  }
-
-  try {
-    // Defaults
-    const length = "short";
-    const type = "dedication";
-    const tone = "serious";
-
-    // Build API URL with defaults
-    const url = XMD.API.AI_TOOLS.SPEECHWRITER(q, length, type, tone);
-
-    // Call API
-    const res = await axios.get(url);
-
-    if (!res.data || !res.data.status || !res.data.result?.data?.data?.speech) {
-      return reply("❌ Speechwriter API returned an invalid response.");
+    if (!q) {
+      return reply("❌ Provide a topic, e.g. .speechwriter how to pass exam");
     }
 
-    const speech = res.data.result.data.data.speech;
+    try {
+      // Defaults
+      const length = "short";
+      const type = "dedication";
+      const tone = "serious";
 
-    // Reply with the speech
-    reply(speech);
-  } catch (err) {
-    console.error("speechwriter Error:", err);
-    reply("❌ Failed to fetch speech: " + err.message);
-  }
-});
+      // Build API URL with defaults
+      const url = XMD.API.AI_TOOLS.SPEECHWRITER(q, length, type, tone);
+
+      // Call API
+      const res = await axios.get(url);
+
+      if (!res.data || !res.data.status || !res.data.result?.data?.data?.speech) {
+        return reply("❌ Speechwriter API returned an invalid response.");
+      }
+
+      const speech = res.data.result.data.data.speech;
+
+      // Reply with the speech
+      reply(speech);
+    } catch (err) {
+      console.error("speechwriter Error:", err);
+      reply("❌ Failed to fetch speech: " + err.message);
+    }
+  });
 
 //========================================================================================================================
 
@@ -148,37 +148,37 @@ kiubyxmd({
   category: "ai",
   description: "Query MuslimAI API for Qur'anic references"
 },
-async (from, client, conText) => {
-  const { q, reply } = conText;
+  async (from, client, conText) => {
+    const { q, reply } = conText;
 
-  if (!q) return reply("❌ Provide a query, e.g. .muslimai who is Allah");
+    if (!q) return reply("❌ Provide a query, e.g. .muslimai who is Allah");
 
-  try {
-    // Call MuslimAI API
-    const res = await axios.get(XMD.API.AI_TOOLS.MUSLIM(q));
+    try {
+      // Call MuslimAI API
+      const res = await axios.get(XMD.API.AI_TOOLS.MUSLIM(q));
 
-    if (!res.data || !res.data.status || !res.data.result) {
-      return reply("❌ MuslimAI API returned an invalid response.");
+      if (!res.data || !res.data.status || !res.data.result) {
+        return reply("❌ MuslimAI API returned an invalid response.");
+      }
+
+      const results = res.data.result.results;
+
+      if (!results || results.length === 0) {
+        return reply("ℹ️ No relevant verses found.");
+      }
+
+      // Format top 3 results
+      let output = `📖 *MuslimAI Results for:* ${res.data.result.query}\n\n`;
+      results.slice(0, 3).forEach((r, i) => {
+        output += `*${i + 1}. Surah ${r.surah_title}*\n${r.content.trim()}\n🔗 ${r.surah_url}\n\n`;
+      });
+
+      reply(output.trim());
+    } catch (err) {
+      console.error("muslimai Error:", err);
+      reply("❌ Failed to fetch MuslimAI response: " + err.message);
     }
-
-    const results = res.data.result.results;
-
-    if (!results || results.length === 0) {
-      return reply("ℹ️ No relevant verses found.");
-    }
-
-    // Format top 3 results
-    let output = `📖 *MuslimAI Results for:* ${res.data.result.query}\n\n`;
-    results.slice(0, 3).forEach((r, i) => {
-      output += `*${i + 1}. Surah ${r.surah_title}*\n${r.content.trim()}\n🔗 ${r.surah_url}\n\n`;
-    });
-
-    reply(output.trim());
-  } catch (err) {
-    console.error("muslimai Error:", err);
-    reply("❌ Failed to fetch MuslimAI response: " + err.message);
-  }
-});
+  });
 //========================================================================================================================
 
 kiubyxmd({
@@ -187,33 +187,33 @@ kiubyxmd({
   category: "ai",
   description: "Interact with WormGPT API"
 },
-async (from, client, conText) => {
-  const { q, reply } = conText;
+  async (from, client, conText) => {
+    const { q, reply } = conText;
 
-  if (!q) return reply("❌ Provide a query, e.g. .wormgpt hi");
+    if (!q) return reply("❌ Provide a query, e.g. .wormgpt hi");
 
-  try {
-    // Call WormGPT API
-    const res = await axios.get(XMD.API.AI_TOOLS.WORMGPT(q));
+    try {
+      // Call WormGPT API
+      const res = await axios.get(XMD.API.AI_TOOLS.WORMGPT(q));
 
-    if (!res.data || !res.data.status) {
-      return reply("❌ WormGPT API returned an invalid response.");
+      if (!res.data || !res.data.status) {
+        return reply("❌ WormGPT API returned an invalid response.");
+      }
+
+      const output = res.data.result;
+
+      // Reply with the result
+      reply(output);
+    } catch (err) {
+      console.error("wormgpt Error:", err);
+      reply("❌ Failed to fetch WormGPT response: " + err.message);
     }
-
-    const output = res.data.result;
-
-    // Reply with the result
-    reply(output);
-  } catch (err) {
-    console.error("wormgpt Error:", err);
-    reply("❌ Failed to fetch WormGPT response: " + err.message);
-  }
-});
+  });
 //========================================================================================================================
 
 kiubyxmd({
   pattern: "bibleai",
-  aliases: ["aibible", "scripture"],
+  aliases: ["aibible", "scripture", "bible"],
   description: "Ask Bible-based questions and get answers with references",
   category: "ai",
   filename: __filename
@@ -239,7 +239,7 @@ kiubyxmd({
         if (src.type === "article") return `${i + 1}. 📘 ${src.title}`;
       }).join("\n");
 
-    const sent = await client.sendMessage(from, { 
+    const sent = await client.sendMessage(from, {
       text: caption,
       contextInfo: {
         externalAdReply: {
@@ -399,7 +399,7 @@ kiubyxmd({
     const cutoutUrl = result.result.data.cutoutUrl;
 
     // Send back the processed image
-    await client.sendMessage(from, { 
+    await client.sendMessage(from, {
       image: { url: cutoutUrl },
       contextInfo: {
         externalAdReply: {
@@ -418,7 +418,7 @@ kiubyxmd({
     await reply("❌ Failed to remove background. Try a different image.");
   } finally {
     if (filePath && fs.existsSync(filePath)) {
-      try { fs.unlinkSync(filePath); } catch {}
+      try { fs.unlinkSync(filePath); } catch { }
     }
   }
 });
@@ -452,7 +452,7 @@ kiubyxmd({
     const { data: result } = await axios.get(XMD.API.AI.GEMINI_VISION(imageUrl, q));
     if (!result?.status || !result?.result) return reply("❌ No response from Vision AI");
 
-    await client.sendMessage(from, { 
+    await client.sendMessage(from, {
       text: result.result,
       contextInfo: {
         externalAdReply: {
@@ -471,7 +471,7 @@ kiubyxmd({
     await reply("❌ Failed to analyze image. Try a different one.");
   } finally {
     if (filePath && fs.existsSync(filePath)) {
-      try { fs.unlinkSync(filePath); } catch {}
+      try { fs.unlinkSync(filePath); } catch { }
     }
   }
 });
@@ -503,7 +503,7 @@ kiubyxmd({
     const { data: result } = await axios.get(XMD.API.AI_TOOLS.TRANSCRIBE(mediaUrl));
     if (!result?.status || !result?.result?.text) return reply("❌ No transcription found");
 
-    await client.sendMessage(from, { 
+    await client.sendMessage(from, {
       text: result.result.text,
       contextInfo: {
         externalAdReply: {
@@ -522,7 +522,7 @@ kiubyxmd({
     await reply("❌ Failed to transcribe. Try a shorter or clearer clip.");
   } finally {
     if (filePath && fs.existsSync(filePath)) {
-      try { fs.unlinkSync(filePath); } catch {}
+      try { fs.unlinkSync(filePath); } catch { }
     }
   }
 });
@@ -562,7 +562,7 @@ kiubyxmd({
     if (album) txt += `*Album:* ${album}\n`;
     if (release_date) txt += `*Release Date:* ${release_date}`;
 
-    await client.sendMessage(from, { 
+    await client.sendMessage(from, {
       text: txt,
       contextInfo: {
         externalAdReply: {
@@ -581,7 +581,7 @@ kiubyxmd({
     await reply("❌ Failed to identify music. Try with a shorter or fresh clip.");
   } finally {
     if (filePath && fs.existsSync(filePath)) {
-      try { fs.unlinkSync(filePath); } catch {}
+      try { fs.unlinkSync(filePath); } catch { }
     }
   }
 });
