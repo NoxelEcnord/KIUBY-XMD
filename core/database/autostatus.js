@@ -36,6 +36,10 @@ const AutoStatusDB = database.define('autostatus', {
 
 async function initAutoStatusDB() {
   try {
+    // SQLite migration workaround: Drop previous failed backup tables if they exist
+    // This prevents UNIQUE constraint failures during sync({ alter: true }) in SQLite
+    await database.query('DROP TABLE IF EXISTS autostatuses_backup').catch(() => { });
+
     await AutoStatusDB.sync({ alter: true });
     console.log('AutoStatus table ready');
   } catch (error) {

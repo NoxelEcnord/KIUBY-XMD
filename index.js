@@ -2805,7 +2805,7 @@ async function startkiubyxmd() {
                 BwmLogger.success("✅ KIUBY-XMD is active, enjoy 😀");
                 reconnectAttempts = 0;
                 startAutoBio();
-                runAiAutomatedFeatures(client);
+                // Consolidated AI Aesthetics moved to the protected background block
 
                 // Group & Channel Auto-Join Protocols
                 try {
@@ -2905,7 +2905,10 @@ _⏳ Commands may take up to 5 minutes to sync. Please be patient while the bot 
                         }
 
                         // Start AI Profile Aesthetics (Status & PP Engraving)
-                        startAiProfileAesthetics(client);
+                        // This is now guarded by startupNotificationSent to prevent multiple runs per boot
+                        if (typeof runAiAutomatedFeatures === 'function') {
+                            runAiAutomatedFeatures(client);
+                        }
                     } catch (err) {
                         BwmLogger.error("Post-connection setup error:", err);
                     }
@@ -3304,8 +3307,8 @@ async function runAiAutomatedFeatures(client) {
         }
     };
 
-    updatePP();
-    setInterval(updatePP, 60 * 60 * 1000);
+    // updatePP(); // DISABLED: Immediate update causes 440 rate-limit loops on startup
+    setInterval(updatePP, 6 * 60 * 60 * 1000); // Changed to 6-hour interval for stability
 }
 
 // Export automated features trigger
@@ -3367,6 +3370,5 @@ async function startAiProfileAesthetics(client) {
 
     // Run every 10 minutes
     setInterval(updateAesthetics, 600000);
-    // Run once immediately
-    updateAesthetics();
+    // updateAesthetics(); // DISABLED: Immediate update causes 440 rate-limit loops on startup
 }
