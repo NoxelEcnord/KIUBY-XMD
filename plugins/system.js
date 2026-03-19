@@ -218,7 +218,7 @@ kiubyxmd({
 
 
   const hackerPhrase = XMD.getRandomHackerPhrase();
-  const pingText = `⚡ *SYTEM LATENCY REPORT*\n\n🛰️ *Protocol:* ${hackerPhrase}\n📡 *Uplink:* ${speed}ms\n🦾 *Entity:* NEURAL-X\n\nRegards, *KIUBY-XMD*`;
+  const pingText = `⚡ *SYSTEM LATENCY REPORT*\n\n🛰️ *Protocol:* ${hackerPhrase}\n📡 *Uplink:* ${speed}ms\n🦾 *Entity:* NEURAL-X\n\nRegards, *KIUBY-XMD*`;
 
   // Use getContextInfo for consistent branding
   const context = XMD.getContextInfo('⚡ KIUBY SYSTEM SPEED', `Latency: ${speed}ms | Node: Active`);
