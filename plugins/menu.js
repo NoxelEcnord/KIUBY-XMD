@@ -40,6 +40,8 @@ const getpluginsCommands = () => {
             pluginCmds[category].push(cmd.pattern);
         }
     });
+    console.log(`[MENU DEBUG] Total Commands found: ${commands.length}`);
+    console.log(`[MENU DEBUG] Categories found: ${Object.keys(pluginCmds).join(', ')}`);
     return pluginCmds;
 };
 
