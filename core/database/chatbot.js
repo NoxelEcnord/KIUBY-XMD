@@ -77,6 +77,10 @@ const availableVoices = [
 // Initialize both tables
 async function initChatbotDB() {
     try {
+        // SQLite migration workaround: Drop previous failed backup tables if they exist
+        await database.query('DROP TABLE IF EXISTS chatbot_settings_backup').catch(() => { });
+        await database.query('DROP TABLE IF EXISTS chatbot_conversations_backup').catch(() => { });
+
         await ChatbotConversationDB.sync({ alter: true });
         await ChatbotSettingsDB.sync({ alter: true });
         console.log('Chatbot tables ready');
@@ -163,7 +167,7 @@ async function getLastConversation(userJid) {
 async function getChatbotSettings() {
     try {
         let settings = await ChatbotSettingsDB.findOne();
-        
+
         // If no record exists, create one using env vars as initial defaults
         if (!settings) {
             const envStatus = process.env.CHATBOT;
@@ -171,11 +175,11 @@ async function getChatbotSettings() {
             const envTrigger = process.env.CHATBOT_TRIGGER;
             const envResponse = process.env.CHATBOT_RESPONSE;
             const envVoice = process.env.CHATBOT_VOICE;
-            
-            const initialStatus = envStatus !== undefined 
-                ? ((envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true') ? 'on' : 'off') 
+
+            const initialStatus = envStatus !== undefined
+                ? ((envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true') ? 'on' : 'off')
                 : 'off';
-            
+
             let initialMode = 'private';
             if (envMode !== undefined) {
                 const val = envMode.toLowerCase();
@@ -183,13 +187,13 @@ async function getChatbotSettings() {
                     initialMode = val;
                 }
             }
-            
+
             let initialResponse = 'text';
             if (envResponse !== undefined) {
                 const val = envResponse.toLowerCase();
                 if (val === 'text' || val === 'audio') initialResponse = val;
             }
-            
+
             settings = await ChatbotSettingsDB.create({
                 status: initialStatus,
                 mode: initialMode,
@@ -198,7 +202,7 @@ async function getChatbotSettings() {
                 voice: envVoice || 'Kimberly'
             });
         }
-        
+
         // Database values take priority (commands override env vars)
         return {
             status: settings.status || 'off',
@@ -214,9 +218,9 @@ async function getChatbotSettings() {
         const envTrigger = process.env.CHATBOT_TRIGGER;
         const envResponse = process.env.CHATBOT_RESPONSE;
         const envVoice = process.env.CHATBOT_VOICE;
-        return { 
-            status: envStatus ? ((envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true') ? 'on' : 'off') : 'off', 
-            mode: envMode || 'private', 
+        return {
+            status: envStatus ? ((envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true') ? 'on' : 'off') : 'off',
+            mode: envMode || 'private',
             trigger: envTrigger || 'dm',
             default_response: envResponse && ['text', 'audio'].includes(envResponse.toLowerCase()) ? envResponse.toLowerCase() : 'text',
             voice: envVoice || 'Kimberly'
@@ -232,11 +236,11 @@ async function syncChatbotFromEnv() {
         const envTrigger = process.env.CHATBOT_TRIGGER;
         const envResponse = process.env.CHATBOT_RESPONSE;
         const envVoice = process.env.CHATBOT_VOICE;
-        
-        const status = envStatus !== undefined 
-            ? ((envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true') ? 'on' : 'off') 
+
+        const status = envStatus !== undefined
+            ? ((envStatus.toLowerCase() === 'on' || envStatus.toLowerCase() === 'true') ? 'on' : 'off')
             : 'off';
-        
+
         let mode = 'private';
         if (envMode !== undefined) {
             const val = envMode.toLowerCase();
@@ -244,13 +248,13 @@ async function syncChatbotFromEnv() {
                 mode = val;
             }
         }
-        
+
         let default_response = 'text';
         if (envResponse !== undefined) {
             const val = envResponse.toLowerCase();
             if (val === 'text' || val === 'audio') default_response = val;
         }
-        
+
         const updates = {
             status,
             mode,
@@ -258,7 +262,7 @@ async function syncChatbotFromEnv() {
             default_response,
             voice: envVoice || 'Kimberly'
         };
-        
+
         let settings = await ChatbotSettingsDB.findOne();
         if (!settings) {
             settings = await ChatbotSettingsDB.create(updates);
@@ -296,18 +300,18 @@ module.exports = {
     getConversationHistory,
     clearConversationHistory,
     getLastConversation,
-    
+
     // Settings functions
     getChatbotSettings,
     updateChatbotSettings,
     syncChatbotFromEnv,
-    
+
     // Voices
     availableVoices,
-    
+
     // Initialization
     initChatbotDB,
-    
+
     // Models (for advanced use)
     ChatbotConversationDB,
     ChatbotSettingsDB

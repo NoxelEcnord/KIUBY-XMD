@@ -147,6 +147,9 @@ const RECONNECT_DELAY = 5000;
 global.authorizedDeletions = new Set();
 const AUTHORIZED_DELETE_EXPIRY = 10000; // 10 seconds
 
+const processedMessageIds = new Set();
+const MESSAGE_CACHE_EXPIRY = 3600000; // 1 hour
+
 function isMessageProcessed(messageId) {
     if (processedMessageIds.has(messageId)) {
         return true;
