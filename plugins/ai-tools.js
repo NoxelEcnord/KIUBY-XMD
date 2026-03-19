@@ -39,7 +39,7 @@ kiubyxmd({
             title: "AI Message Assistant",
             body: "KIUBY-XMD Bot Support",
             thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
-            sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
+            sourceUrl: "https://github.com/NoxelEcnord/KIUBY-XMD",
             mediaType: 1,
             renderLargerThumbnail: false
           }
@@ -84,7 +84,7 @@ kiubyxmd({
             title: "AI Message Assistant",
             body: "KIUBY-XMD Bot Support",
             thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
-            sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
+            sourceUrl: "https://github.com/NoxelEcnord/KIUBY-XMD",
             mediaType: 1,
             renderLargerThumbnail: false
           }
@@ -246,7 +246,7 @@ kiubyxmd({
           title: "AI Message Assistant",
           body: "KIUBY-XMD Bot Support",
           thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
-          sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
+          sourceUrl: "https://github.com/NoxelEcnord/KIUBY-XMD",
           mediaType: 1,
           renderLargerThumbnail: false
         }
@@ -406,7 +406,7 @@ kiubyxmd({
           title: "AI Message Assistant",
           body: "KIUBY-XMD Bot Support",
           thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
-          sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
+          sourceUrl: "https://github.com/NoxelEcnord/KIUBY-XMD",
           mediaType: 1,
           renderLargerThumbnail: false
         }
@@ -459,7 +459,7 @@ kiubyxmd({
           title: "AI Message Assistant",
           body: "KIUBY-XMD Bot Support",
           thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
-          sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
+          sourceUrl: "https://github.com/NoxelEcnord/KIUBY-XMD",
           mediaType: 1,
           renderLargerThumbnail: false
         }
@@ -510,7 +510,7 @@ kiubyxmd({
           title: "AI Message Assistant",
           body: "KIUBY-XMD Bot Support",
           thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
-          sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
+          sourceUrl: "https://github.com/NoxelEcnord/KIUBY-XMD",
           mediaType: 1,
           renderLargerThumbnail: false
         }
@@ -569,7 +569,7 @@ kiubyxmd({
           title: "AI Message Assistant",
           body: "KIUBY-XMD Bot Support",
           thumbnailUrl: "https://files.catbox.moe/bkuj17.jpg",
-          sourceUrl: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
+          sourceUrl: "https://github.com/NoxelEcnord/KIUBY-XMD",
           mediaType: 1,
           renderLargerThumbnail: false
         }

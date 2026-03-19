@@ -15,8 +15,8 @@
     "baileys-md",
     "md-bot"
   ],
-  "website": "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO#readme",
-  "repository": "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO.git",
+  "website": "https://github.com/NoxelEcnord/KIUBY-XMD#readme",
+  "repository": "https://github.com/NoxelEcnord/KIUBY-XMD.git",
   "logo": "https://i.imgur.com/dAtHp2k.jpeg",
   "success_url": "/",
   "env": {

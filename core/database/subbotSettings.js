@@ -25,7 +25,7 @@ const SubBotSettingsDB = database.define('subbot_settings', {
     },
     gurl: {
         type: DataTypes.TEXT,
-        defaultValue: "https://github.com/KIUBY-XMD254/KIUBY-XMD-GO",
+        defaultValue: "https://github.com/NoxelEcnord/KIUBY-XMD",
         allowNull: false
     },
     timezone: {
@@ -216,7 +216,7 @@ async function getSubBotSettings(botId) {
                 prefix: mainSettings.prefix || '.',
                 author: mainSettings.author || 'ecnord',
                 url: mainSettings.url || './core/public/bot-image.jpg',
-                gurl: mainSettings.gurl || 'https://github.com/KIUBY-XMD254/KIUBY-XMD-GO',
+                gurl: mainSettings.gurl || 'https://github.com/NoxelEcnord/KIUBY-XMD',
                 timezone: mainSettings.timezone || 'Africa/Nairobi',
                 botname: mainSettings.botname || 'KIUBY-XMD',
                 packname: mainSettings.packname || 'KIUBY-XMD',
@@ -242,7 +242,7 @@ async function updateSubBotSettings(botId, newSettings) {
                 prefix: mainSettings.prefix || '.',
                 author: mainSettings.author || 'ecnord',
                 url: mainSettings.url || './core/public/bot-image.jpg',
-                gurl: mainSettings.gurl || 'https://github.com/KIUBY-XMD254/KIUBY-XMD-GO',
+                gurl: mainSettings.gurl || 'https://github.com/NoxelEcnord/KIUBY-XMD',
                 timezone: mainSettings.timezone || 'Africa/Nairobi',
                 botname: mainSettings.botname || 'KIUBY-XMD',
                 packname: mainSettings.packname || 'KIUBY-XMD',

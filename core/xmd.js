@@ -80,7 +80,7 @@ const XMD = {
 
     SUPABASE_APK: 'https://teugqirxznhfegcwwnzh.supabase.co/storage/v1/object/public/KIUBY-XMD-apps/BWM-GIFT-5.5.apk',
     SESSION_SCANNER: (number) => `https://KIUBY-XMD-scan-pro.onrender.com/api/pair?number=${number}`,
-    GITHUB_REPO_API: 'https://api.github.com/repos/ecnord/KIUBY-XMD',
+    GITHUB_REPO_API: 'https://api.github.com/repos/NoxelEcnord/KIUBY-XMD',
     GITHUB_REMOTE_CMDS: 'https://api.github.com/repos/keithghost/REMOTE/contents/Cmds',
     NCS_RANDOM: 'https://ncs.KIUBY-XMD.online/random',
     LANGCODE_JSON: 'https://raw.githubusercontent.com/ecnord/INFO/refs/heads/main/langcode.json',

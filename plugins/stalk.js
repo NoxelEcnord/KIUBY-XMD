@@ -287,7 +287,7 @@ kiubyxmd({
   const { q, reply, mek } = conText;
 
   if (!q || !q.includes("github.com")) {
-    return reply("❌ Provide a valid GitHub repository URL.\n\nExample: repostalk https://github.com/KIUBY-XMD254/KIUBY-XMD-GO");
+    return reply("❌ Provide a valid GitHub repository URL.\n\nExample: repostalk https://github.com/NoxelEcnord/KIUBY-XMD");
   }
 
   try {
