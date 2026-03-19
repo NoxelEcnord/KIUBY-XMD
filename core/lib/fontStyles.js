@@ -66,10 +66,11 @@ function applyFont(text, styleIndex) {
 
     // Cap index at 29
     const idx = Math.min(Math.max(0, styleIndex), 29);
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const urlRegex = /(https?:\/\/[^\s]+)/gi;
 
     return text.split(urlRegex).map(part => {
-        if (part.match(urlRegex)) return part; // Don't style URLs
+        if (!part) return "";
+        if (part.toLowerCase().startsWith('http')) return part; // Don't style URLs
         return part.split('').map(char => {
             if (fontMap[char]) {
                 return fontMap[char][idx] || char;

@@ -178,11 +178,11 @@ kiubyxmd(
 ║  Powered by KIUBY-XMD 🥀    ║
 ║  èdûqarîz                   ║
 ║  ©2025–2026                  ║
-╚══════════════════════════════╝`;
+╚══════════════════════════════╝\n\n.kiuby-xmd.`;
 
             const fullMenu = `${header}\n${menuContent}${footer}`;
 
-            const thematicImage = '/home/bard/.gemini/antigravity/brain/bbb7a405-c3a4-4e9f-821f-16e2084f8364/kiuby_neon_vegeta_gothic_1773957337404.png';
+            const thematicImage = path.join(__dirname, '..', 'public', 'kiuby_neon_vegeta.png');
 
             await reply({
                 image: { url: thematicImage },

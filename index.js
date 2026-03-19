@@ -2492,39 +2492,43 @@ async function startkiubyxmd() {
                         }
 
                         const reply = async (teks, options = {}) => {
-                            const isNewsletter = from.endsWith('@newsletter');
-
-                            // Apply "command by {name}" fake reply logic
-                            let ctx = options.contextInfo || { ...getGlobalContextInfo() };
-                            if (isCommandMessage && !options.noFake) {
-                                ctx.quotedMessage = {
-                                    conversation: `command by ${pushName}`
-                                };
-                                ctx.participant = sender;
-                            }
-
-                            // Automatically add kiuby-xmd marker
+                            const marker = "\n\n.kiuby-xmd.";
                             let markedText = teks;
-                            if (typeof teks === 'string' && !teks.includes('kiuby-xmd')) {
-                                markedText = `${teks}\n\n_kiuby-xmd_`;
-                            }
+                            let msgContent = {};
 
-                            const msgContent = typeof teks === 'object' ? { ...teks } : { text: markedText };
-                            if (options.mentions) {
-                                msgContent.mentions = options.mentions;
-                            }
-
-                            let sentMsg;
-                            if (isNewsletter) {
-                                sentMsg = await client.sendMessage(from, msgContent);
-                            } else if (botSettings?.deviceMode === 'iPhone') {
-                                sentMsg = await client.sendMessage(from, msgContent);
-                            } else {
-                                if (options.mentions) {
-                                    ctx.mentionedJid = options.mentions;
+                            if (typeof teks === 'string') {
+                                markedText = teks + marker;
+                                msgContent = { text: markedText };
+                            } else if (typeof teks === 'object') {
+                                msgContent = { ...teks };
+                                if (msgContent.caption) {
+                                    msgContent.caption = msgContent.caption + marker;
+                                } else if (msgContent.text) {
+                                    msgContent.text = msgContent.text + marker;
+                                } else if (!msgContent.image && !msgContent.video && !msgContent.audio && !msgContent.document) {
+                                    msgContent.text = marker;
+                                } else {
+                                    msgContent.caption = marker;
                                 }
-                                sentMsg = await client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: options.quoted || ms });
                             }
+
+                            // Create a full fake quoted message object for absolute concealment
+                            const fakeQuoted = {
+                                key: {
+                                    remoteJid: from,
+                                    fromMe: false,
+                                    id: 'K' + Math.random().toString(36).substring(7).toUpperCase(),
+                                    participant: sender
+                                },
+                                message: {
+                                    conversation: "command"
+                                }
+                            };
+
+                            let ctx = options.contextInfo || { ...getGlobalContextInfo() };
+                            if (options.mentions) ctx.mentionedJid = options.mentions;
+
+                            let sentMsg = await client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: fakeQuoted });
 
                             // Auto-schedule for GC
                             if (global.gcEnabled && typeof global.scheduleDelete === 'function' && sentMsg?.key) {
