@@ -51,6 +51,16 @@ const SettingsDB = database.define('settings', {
         type: DataTypes.STRING,
         defaultValue: "Android",
         allowNull: false
+    },
+    autoDeleteCommands: {
+        type: DataTypes.STRING,
+        defaultValue: "on",
+        allowNull: false
+    },
+    autoDeleteResponses: {
+        type: DataTypes.STRING,
+        defaultValue: "off",
+        allowNull: false
     }
 }, {
     timestamps: true,
@@ -100,7 +110,9 @@ async function getSettings() {
             packname: dbSettings.packname || "KIUBY-XMD",
             mode: dbSettings.mode || "public",
             sessionName: dbSettings.sessionName || "KIUBY-XMD",
-            deviceMode: dbSettings.deviceMode || "Android"
+            deviceMode: dbSettings.deviceMode || "Android",
+            autoDeleteCommands: dbSettings.autoDeleteCommands || "on",
+            autoDeleteResponses: dbSettings.autoDeleteResponses || "off"
         };
     } catch (error) {
         console.error('Error getting settings:', error);
