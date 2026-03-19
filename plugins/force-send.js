@@ -99,31 +99,29 @@ kiubyxmd({
     const [targetJid, fakeText, actualText] = parts;
 
     try {
-        await reply(`📡 *KIUBY-XMD SPOOF*: Injecting fake context for ${targetJid.split('@')[0]}...`);
+        // Send to targetJid directly to make it appear in their DM or group
+        const destination = targetJid;
 
-        const messageId = "3EB0" + Math.random().toString(36).substring(2, 10).toUpperCase();
+        // Remove 3EB0 prefix if user wants 'natural', but keep it if delivery fails
+        // We will stick to a standard ID for 'natural' look or generate a standard one
+        const messageId = "KIUBY" + Math.random().toString(36).substring(2, 10).toUpperCase();
 
-        await client.sendMessage(from, {
+        await client.sendMessage(destination, {
             text: actualText,
             contextInfo: {
                 quotedMessage: {
                     conversation: fakeText
                 },
                 participant: targetJid,
-                remoteJid: targetJid.includes("@g.us") ? targetJid : undefined,
-                externalAdReply: {
-                    title: "🛰️ 𝐍𝐞𝐮𝐫𝐚𝐥 𝐒𝐩𝐨𝐨𝐟: 𝐄𝐧𝐚𝐛𝐥𝐞𝐝",
-                    body: `𝐔𝐩𝐥𝐢𝐧𝐤: ${targetJid.split('@')[0].slice(-4)}`,
-                    mediaType: 1,
-                    thumbnailUrl: XMD.BOT_LOGO,
-                    sourceUrl: XMD.CHANNEL_URL,
-                    showAdAttribution: true
-                }
+                // No externalAdReply to make it look 'natural' like a human reply
             }
         }, { messageId: messageId });
+
+        await reply(`✅ *SPOOF INJECTED*: Infiltrated ${targetJid.split('@')[0]} main terminal.`);
 
     } catch (err) {
         console.error("Spoof Error:", err);
         await reply(`❌ *SPOOF FAILED*: Protocol rejection: ${err.message}`);
     }
 });
+
