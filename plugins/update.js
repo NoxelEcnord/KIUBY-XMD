@@ -18,30 +18,33 @@ kiubyxmd({
     try {
         await reply("🚀 *KIUBY-XMD*: Initializing Update Protocol...");
 
-        // Stage 1: Git Pull
-        await reply("📡 *Step 1/3*: Synchronizing with GitHub mainframe...");
-        await new Promise((resolve, reject) => {
-            exec('git pull origin main', { cwd: path.join(__dirname, '..') }, (err, stdout, stderr) => {
-                if (err) {
-                    if (stderr.includes('not a git repository')) {
-                        return reject(new Error("Local system is not a git repository. Manual update required."));
-                    }
-                    return reject(new Error(`Git Pull Error: ${stderr}`));
-                }
-                console.log("Git Pull:", stdout);
-                if (stdout.includes('Already up to date')) {
-                    reply("✅ System is already running the latest neural patch.");
-                    // Still proceed to npm install just in case of corruption
-                    resolve('up-to-date');
-                } else {
-                    reply("📥 Updates siphoned successfully.");
-                    resolve('updated');
-                }
+        // Stage 1: Fetch and Check Updates
+        await reply("📡 *Step 1/4*: Checking for new neural patches...");
+        const updates = await new Promise((resolve, reject) => {
+            exec('git fetch origin main && git log HEAD..origin/main --oneline', { cwd: path.join(__dirname, '..') }, (err, stdout, stderr) => {
+                if (err) return reject(new Error(`Git Fetch Error: ${stderr}`));
+                resolve(stdout.trim());
             });
         });
 
-        // Stage 2: NPM Install
-        await reply("📦 *Step 2/3*: Upgrading dependency shards...");
+        if (!updates) {
+            return reply("✅ *KIUBY-XMD*: System is already running the latest neural patch.");
+        }
+
+        const commitCount = updates.split('\n').length;
+        await reply(`📥 *Siphoning ${commitCount} New Updates:*\n\n${updates.split('\n').map(c => `• ${c}`).join('\n')}\n\n_Applying patches..._`);
+
+        // Stage 2: Git Pull (Actual update)
+        await reply("📡 *Step 2/4*: Synchronizing with GitHub mainframe...");
+        await new Promise((resolve, reject) => {
+            exec('git pull origin main', { cwd: path.join(__dirname, '..') }, (err, stdout, stderr) => {
+                if (err) return reject(new Error(`Git Pull Error: ${stderr}`));
+                resolve();
+            });
+        });
+
+        // Stage 3: NPM Install
+        await reply("📦 *Step 3/4*: Upgrading dependency shards...");
         await new Promise((resolve, reject) => {
             exec('npm install', { cwd: path.join(__dirname, '..'), timeout: 180000 }, (err, stdout, stderr) => {
                 if (err) {
@@ -54,8 +57,8 @@ kiubyxmd({
             });
         });
 
-        // Stage 3: Restart
-        await reply("✅ *Step 3/3*: Update sequence complete. Rebooting mainframe...");
+        // Stage 4: Restart
+        await reply("✅ *Step 4/4*: Update sequence complete. Rebooting mainframe...");
 
         setTimeout(() => {
             if (global.fullReboot) {
