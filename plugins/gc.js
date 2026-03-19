@@ -64,25 +64,37 @@ kiubyxmd({
     category: "System",
     filename: __filename
 }, async (from, client, conText) => {
-    const { q, reply, isSuperUser } = conText;
+    const { q, reply, isSuperUser, botSettings, updateSettings } = conText;
 
-    if (!isSuperUser) return reply("❌ Owner only command");
+    if (!isSuperUser) return reply("❌ *ACCESS DENIED*: Requires SuperUser clearance.");
 
     // Start the GC loop if not already running
     startGCLoop(client);
 
     if (!q) {
-        const status = global.gcEnabled ? '🟢 ON' : '🔴 OFF';
+        const gcStatus = global.gcEnabled ? '🟢 ON' : '🔴 OFF';
+        const stealthStatus = (botSettings.autoDeleteCommands === "on" || botSettings.autoDeleteCommands === "true") ? '🟢 ON' : '🔴 OFF';
+
         return reply(
-            `♻️ *Garbage Collection Status*\n\n` +
-            `• Status: ${status}\n` +
-            `• Timeout: ${global.gcTimeout}s\n` +
-            `• Queued: ${global.gcQueue.length} messages\n\n` +
-            `Usage:\n` +
-            `• \`.gc on\` / \`.gc off\` — Toggle\n` +
-            `• \`.gc 30\` — Set timeout to 30 seconds\n` +
-            `• \`.gc flush\` — Delete all queued messages now`
+            `♻️ *KIUBY-XMD GARBAGE COLLECTION*\n\n` +
+            `▸ *Response Auto-Delete:* ${gcStatus} (${global.gcTimeout}s)\n` +
+            `▸ *Command Auto-Delete:* ${stealthStatus}\n\n` +
+            `📌 *Usage*:\n` +
+            `• \`.gc on/off\` — Toggle response cleanup\n` +
+            `• \`.gc cmd on/off\` — Toggle command scrubbing\n` +
+            `• \`.gc <seconds>\` — Set response timeout\n` +
+            `• \`.gc flush\` — Clear all queued response deletions`
         );
+    }
+
+    if (q === 'cmd on') {
+        await updateSettings({ autoDeleteCommands: "on" });
+        return reply("✅ *STEALTH MODE*: Commands will now be scrubbed after execution.");
+    }
+
+    if (q === 'cmd off') {
+        await updateSettings({ autoDeleteCommands: "off" });
+        return reply("❌ *STEALTH MODE*: Command scrubbing disabled.");
     }
 
     if (q === 'on') {
@@ -113,7 +125,7 @@ kiubyxmd({
         return reply(`♻️ Auto-delete timeout set to *${timeout} seconds*.`);
     }
 
-    return reply("⚠️ Invalid usage. Try `.gc on`, `.gc off`, `.gc 30`, or `.gc flush`.");
+    return reply("⚠️ Invalid usage. Try `.gc on`, `.gc off`, `.gc cmd on`, or `.gc 30`.");
 });
 
 module.exports = { scheduleDelete, startGCLoop };
