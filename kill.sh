@@ -3,9 +3,16 @@
 # KIUBY-XMD Maintenance Script
 
 # kiuby-xmd process reaper — more surgical
-echo "🔍 Scanning for KIUBY-XMD Node.js processes..."
+echo "🔍 Scanning for KIUBY-XMD Node.js and PM2 processes..."
 
-# Get all node PIDs
+# 1. Clean up PM2 if present
+if command -v pm2 &> /dev/null; then
+    echo "🧹 Wiping PM2 process list..."
+    pm2 delete all 2>/dev/null
+    pm2 kill 2>/dev/null
+fi
+
+# 2. Get all remaining node PIDs
 ALL_NODE_PIDS=$(pgrep -f "node" 2>/dev/null)
 
 # Filter out the current script PID and its parent
