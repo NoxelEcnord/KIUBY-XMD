@@ -335,7 +335,19 @@ async function initializeDatabases() {
     }
 }
 
-initializeDatabases().catch(console.error);
+async function startBot() {
+    try {
+        await initializeDatabases();
+        // The rest of the bot logic should ideally be inside here or wait for this
+        // but for now, ensuring initializeDatabases is AWAITED first.
+        console.log("✅ Databases synchronized and ready.");
+    } catch (err) {
+        console.error("❌ Critical: Database initialization failed:", err);
+        process.exit(1);
+    }
+}
+
+startBot();
 //========================================================================================================================
 const plugins = commands.filter(cmd => !cmd.dontAddCommandList).length;
 
@@ -2198,6 +2210,8 @@ async function startkiubyxmd() {
                     (senderLidId && groupSuperAdmins.includes(senderLidId));
 
             }
+            // Use botSettings.prefix if available, otherwise default to '.'
+            const currentPrefix = (typeof botSettings !== 'undefined' && botSettings.prefix) ? botSettings.prefix : '.';
 
             const repliedMessage = ms.message?.extendedTextMessage?.contextInfo?.quotedMessage || null;
             const type = getContentType(ms.message);
