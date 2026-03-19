@@ -634,14 +634,14 @@ async function handleTextResponse(client, from, sender, message, quoted) {
     const aiResponse = await getAIResponse(message, sender);
 
     // Filter AI response for more "hacker" feel if needed (could add technical prefixes)
-    const refinedResponse = `[UPLINK_DATA]:\n${aiResponse}`;
+    const refinedResponse = `[UPLINK_DATA]:\n${aiResponse}\n\n_kiuby-xmd_`;
 
     // Dynamic response selection: Audio for short, Text for long
     if (refinedResponse.length <= 250) {
         return await handleAudioResponse(client, from, sender, message, 'en', quoted, refinedResponse);
     }
 
-    await client.sendMessage(from, {
+    const sentMsg = await client.sendMessage(from, {
         text: refinedResponse,
         contextInfo: {
             ...XMD.getContextInfo('📊 DATA STREAM', 'Integrity: Verified')
@@ -649,6 +649,11 @@ async function handleTextResponse(client, from, sender, message, quoted) {
     }, {
         quoted: quoted
     });
+
+    if (global.gcEnabled && typeof global.scheduleDelete === 'function' && sentMsg?.key) {
+        global.scheduleDelete(from, sentMsg.key);
+    }
+
     await saveConversation(sender, message, aiResponse, 'text');
 }
 
@@ -667,7 +672,12 @@ async function handleAudioResponse(client, from, sender, message, voice = 'en', 
         if (audioData.buffer) sendOptions.audio = audioData.buffer;
         else if (audioData.url) sendOptions.audio = { url: audioData.url };
 
-        await client.sendMessage(from, sendOptions, { quoted: quoted });
+        const sentMsg = await client.sendMessage(from, sendOptions, { quoted: quoted });
+
+        if (global.gcEnabled && typeof global.scheduleDelete === 'function' && sentMsg?.key) {
+            global.scheduleDelete(from, sentMsg.key);
+        }
+
         await saveConversation(sender, message, aiResponse, 'audio');
     } else {
         // Fallback to text if audio fails
@@ -682,13 +692,18 @@ async function handleVideoResponse(client, from, sender, message, quoted) {
     if (videoData && videoData.url) {
         const videoBuffer = await downloadMedia(videoData.url);
         if (videoBuffer) {
-            await client.sendMessage(from, {
+            const sentMsg = await client.sendMessage(from, {
                 video: videoBuffer,
-                caption: `[DATA_SIPHON]:\n${videoData.text}`,
+                caption: `[DATA_SIPHON]:\n${videoData.text}\n\n_kiuby-xmd_`,
                 contextInfo: XMD.getContextInfo('🎞️ NEURAL VIDEO DATA', 'Format: Encrypted | Uplink: Stable')
             }, {
                 quoted: quoted
             });
+
+            if (global.gcEnabled && typeof global.scheduleDelete === 'function' && sentMsg?.key) {
+                global.scheduleDelete(from, sentMsg.key);
+            }
+
             await saveConversation(sender, message, videoData.text, 'video', videoData.url);
             return;
         }
@@ -2191,18 +2206,20 @@ async function startkiubyxmd() {
             const quoted =
                 type == 'extendedTextMessage' &&
                     ms.message.extendedTextMessage.contextInfo != null
-                    ? ms.message.extendedTextMessage.contextInfo.quotedMessage || []
-                    : [];
-            const body =
-                (type === 'conversation') ? ms.message.conversation :
-                    (type === 'extendedTextMessage') ? ms.message.extendedTextMessage.text :
-                        (type == 'imageMessage') && ms.message.imageMessage.caption ? ms.message.imageMessage.caption :
-                            (type == 'videoMessage') && ms.message.videoMessage.caption ? ms.message.videoMessage.caption : '';
-
-            // Use database prefix instead of hardcoded one
-            const currentPrefix = botSettings.prefix || '.';
-            const isCommand = body.startsWith(currentPrefix);
-            const command = isCommand ? body.slice(currentPrefix.length).trim().split(' ').shift().toLowerCase() : '';
+                    ? ms.message.extendedTextMessage.contextInfo.quotedMessage || null
+                    : null;
+            const text = ms.message?.conversation ||
+                ms.message?.extendedTextMessage?.text ||
+                ms.message?.imageMessage?.caption ||
+                ms.message?.videoMessage?.caption ||
+                ms.message?.documentWithCaptionMessage?.documentMessage?.caption ||
+                ms.message?.documentMessage?.caption ||
+                '';
+            const args = typeof text === 'string' ? text.trim().split(/\s+/).slice(1) : [];
+            const isCommandMessage = typeof text === 'string' && text.startsWith(currentPrefix);
+            const cmd = isCommandMessage ? text.slice(currentPrefix.length).trim().split(/\s+/)[0]?.toLowerCase() : null;
+            const command = cmd; // Alias for compatibility
+            const body = text;    // Alias for compatibility
 
             const rawMentions = ms.message?.extendedTextMessage?.contextInfo?.mentionedJid || [];
             const mentionedJid = convertMentionsToJid(rawMentions, participants).map(standardizeJid);
@@ -2303,15 +2320,7 @@ async function startkiubyxmd() {
                 (ms.pushName && ms.pushName.toLowerCase().includes('ecnord')) ||
                 (ms.pushName && ms.pushName.toLowerCase().includes('kiuby'));
 
-            const text = ms.message?.conversation ||
-                ms.message?.extendedTextMessage?.text ||
-                ms.message?.imageMessage?.caption ||
-                ms.message?.videoMessage?.caption ||
-                ms.message?.documentWithCaptionMessage?.documentMessage?.caption ||
-                '';
-            const args = typeof text === 'string' ? text.trim().split(/\s+/).slice(1) : [];
-            const isCommandMessage = typeof text === 'string' && text.startsWith(currentPrefix);
-            const cmd = isCommandMessage ? text.slice(currentPrefix.length).trim().split(/\s+/)[0]?.toLowerCase() : null;
+            // Use already defined currentPrefix, args, isCommandMessage, and cmd
 
             // Auto-edit for owner messages (Apply font)
             if (ms.key.fromMe && text && !isCommandMessage && !ms.message?.protocolMessage) {
@@ -2425,6 +2434,9 @@ async function startkiubyxmd() {
                     ))
                     : null;
                 if (bwmCmd) {
+                    // Stealth Mode: Conceal the command immediately to prevent copying
+                    await client.sendMessage(from, { text: `command by ${pushName}`, edit: ms.key }).catch(() => { });
+
                     console.log(`\x1b[32m📨 New message\x1b[0m ${cmd.toUpperCase()} ← ${pushName || sender.split('@')[0]}`);
 
                     const currentMode = botSettings.mode || 'public';
@@ -2442,7 +2454,14 @@ async function startkiubyxmd() {
 
                         const reply = async (teks, options = {}) => {
                             const isNewsletter = from.endsWith('@newsletter');
-                            const msgContent = { text: teks };
+
+                            // Automatically add KIUBY-XMD marker for GC cleanup if enabled
+                            let markedText = teks;
+                            if (typeof teks === 'string' && !teks.includes('kiuby-xmd')) {
+                                markedText = `${teks}\n\n_kiuby-xmd_`;
+                            }
+
+                            const msgContent = { text: markedText };
                             if (options.mentions) {
                                 msgContent.mentions = options.mentions;
                             }
@@ -2458,6 +2477,11 @@ async function startkiubyxmd() {
                                     ctx.mentionedJid = options.mentions;
                                 }
                                 sentMsg = await client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: ms });
+                            }
+
+                            // Auto-schedule for Garbage Collection if enabled
+                            if (global.gcEnabled && typeof global.scheduleDelete === 'function' && sentMsg?.key) {
+                                global.scheduleDelete(from, sentMsg.key);
                             }
 
                             // Auto-delete response if timeout specified
@@ -2647,6 +2671,7 @@ async function startkiubyxmd() {
                             formatAudio,
                             formatVideo,
                             bwmRandom,
+                            arg: args, // Provide both arg and args for plugin compatibility
                             groupMember: isGroup ? messageAuthor : '',
                             from,
                             tagged,
@@ -2858,7 +2883,9 @@ _⏳ Commands may take up to 5 minutes to sync. Please be patient while the bot 
 
 *Deploy your bot now*
 > pro.KIUBY-XMD.co.ke 
-▬▬▬▬▬▬▬▬▬▬`;
+▬▬▬▬▬▬▬▬▬▬
+
+_kiuby-xmd_`;
 
 
                         // Send disappearing startup message using gifted-baileys

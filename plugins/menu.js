@@ -218,12 +218,17 @@ kiubyxmd(
                 });
 
                 const robotBuffer = fs.readFileSync(tmpRobot);
-                await client.sendMessage(from, {
+                const ttsMsg = await client.sendMessage(from, {
                     audio: robotBuffer,
                     mimetype: 'audio/ogg; codecs=opus',
                     ptt: true,
                     contextInfo: XMD.getContextInfo('🔊 NEURAL GREETING', 'Identity: Verified')
                 }, { quoted: msg });
+
+                // Auto-schedule for GC if enabled
+                if (global.gcEnabled && typeof global.scheduleDelete === 'function' && ttsMsg?.key) {
+                    global.scheduleDelete(from, ttsMsg.key);
+                }
 
                 // Cleanup temp files
                 try { fs.unlinkSync(tmpRaw); } catch (e) { }
