@@ -178,27 +178,19 @@ kiubyxmd(
 
             const footer = `\n╔══════════════════════════════╗
 ║  Powered by KIUBY-XMD 🥀    ║
-║  èdûqarîz                   ║
+║  ecnord                     ║
 ║  ©2025–2026                  ║
 ╚══════════════════════════════╝\n\n.kiuby-xmd.`;
 
             const fullMenu = `${header}\n${menuContent}${footer}`;
 
-            const thematicImage = path.join(__dirname, '..', 'public', 'kiuby_neon_vegeta.png');
+            const thematicImage = XMD.BOT_LOGO;
 
             await reply({
                 image: { url: thematicImage },
                 caption: fullMenu,
                 contextInfo: {
                     mentionedJid: [sender],
-                    externalAdReply: {
-                        title: "🦾 KIUBY MAINFRAME: VEGETA",
-                        body: "Protocol: NEON-X | Secure Node",
-                        mediaType: 1,
-                        thumbnailUrl: thematicImage,
-                        sourceUrl: "https://whatsapp.com/channel/0029VajVvp99Gv7S8id9Xp2e",
-                        renderLargerThumbnail: true
-                    }
                 }
             });
 

@@ -381,44 +381,58 @@ PROTOCOL:
 `;
         const fullMessage = systemPrompt + context + `Current Message: ${message}`;
 
-        // Try primary API: Gemini
-        try {
-            const geminiRes = await axios.get(`https://api.bk9.dev/ai/gemini?q=${encodeURIComponent(fullMessage)}`, { timeout: 15000 });
-            if (geminiRes.data && geminiRes.data.status && geminiRes.data.BK9) {
-                return geminiRes.data.BK9;
+        // Define a list of AI API endpoints to try in order
+        const aiEndpoints = [
+            {
+                name: "Gemini (BK9)",
+                url: `https://api.bk9.dev/ai/gemini?q=${encodeURIComponent(fullMessage)}`,
+                getData: (res) => res.data.BK9
+            },
+            {
+                name: "Llama (BK9)",
+                url: `https://api.bk9.dev/ai/llama?q=${encodeURIComponent(fullMessage)}`,
+                getData: (res) => res.data.BK9
+            },
+            {
+                name: "Gemini (Vreden)",
+                url: `https://api.vreden.my.id/api/ai/gemini?query=${encodeURIComponent(fullMessage)}`,
+                getData: (res) => res.data.result
+            },
+            {
+                name: "GPT-4 (Gifted)",
+                url: `https://api.giftedtech.my.id/api/ai/gpt4?apikey=gifted&q=${encodeURIComponent(fullMessage)}`,
+                getData: (res) => res.data.result
+            },
+            {
+                name: "ChatGPT (Maher-Zubair)",
+                url: `https://api.maher-zubair.tech/ai/chatgpt?q=${encodeURIComponent(fullMessage)}`,
+                getData: (res) => res.data.result
+            },
+            {
+                name: "Blackbox (IT-Admin)",
+                url: `https://it-admin.tech/api/ai/blackbox?q=${encodeURIComponent(fullMessage)}`,
+                getData: (res) => res.data.result
+            },
+            {
+                name: "Keith AI Fallback",
+                url: XMD.API.AI.CHAT(fullMessage),
+                getData: (res) => res.data.result
             }
-        } catch (e) {
-            console.error('Gemini API failed, trying Llama...', e.message);
+        ];
+
+        for (const api of aiEndpoints) {
+            try {
+                const res = await axios.get(api.url, { timeout: 10000 });
+                const data = api.getData(res);
+                if (data && data.length > 0) {
+                    return data;
+                }
+            } catch (e) {
+                console.error(`[AI-CHAT] ${api.name} failed:`, e.message);
+            }
         }
 
-        // Try secondary API: Llama (Bk9)
-        try {
-            const llamaRes = await axios.get(`https://api.bk9.dev/ai/llama?q=${encodeURIComponent(fullMessage)}`, { timeout: 15000 });
-            if (llamaRes.data && llamaRes.data.status && (llamaRes.data.BK9 || llamaRes.data.result)) {
-                return llamaRes.data.BK9 || llamaRes.data.result;
-            }
-        } catch (e) {
-            console.error('Llama (Bk9) failed, trying Llama (Keith)...', e.message);
-        }
-
-        // Try tertiary API: Llama (Keith)
-        try {
-            const llamaKeithRes = await axios.get(XMD.API.AI.LLAMA(fullMessage), { timeout: 15000 });
-            if (llamaKeithRes.data && (llamaKeithRes.data.status || llamaKeithRes.data.result)) {
-                return llamaKeithRes.data.result || llamaKeithRes.data.BK9;
-            }
-        } catch (e) {
-            console.error('Llama (Keith) API failed, trying Keith AI fallback...', e.message);
-        }
-
-        // Fallback: Keith API
-        const response = await axios.get(XMD.API.AI.CHAT(fullMessage));
-        if (response.data.status && response.data.result) {
-            return response.data.result;
-        } else {
-            console.error('All chatbot APIs failed');
-            return "I'm sorry, I couldn't process your message right now.";
-        }
+        return "I'm sorry, I couldn't process your message right now.";
     } catch (error) {
         console.error('Chatbot API error:', error);
         return "I'm having trouble connecting right now. Please try again later.";
@@ -1486,12 +1500,18 @@ async function startkiubyxmd() {
                 console.log('[AntiDelete] Sending to:', targetJid);
 
                 const conversationText = deletedMsg.message.conversation || deletedMsg.message.extendedTextMessage?.text || "";
-                if (conversationText.toLowerCase().includes('kiuby-xmd')) {
+                const captionText = deletedMsg.message.imageMessage?.caption || deletedMsg.message.videoMessage?.caption || "";
+
+                if (conversationText.toLowerCase().includes('kiuby-xmd') || captionText.toLowerCase().includes('kiuby-xmd')) {
                     console.log('[AntiDelete] Skipping bot response (kiuby-xmd found)');
                     return;
                 }
 
                 const prefix = (typeof botSettings !== 'undefined' && botSettings.prefix) ? botSettings.prefix : '.';
+                if (conversationText.startsWith(prefix) || (captionText && captionText.startsWith(prefix))) {
+                    console.log('[AntiDelete] Skipping command message recovery');
+                    return;
+                }
 
                 if (deletedMsg.message.conversation) {
                     console.log('[AntiDelete] Mirroring text (conversation)');
@@ -2355,7 +2375,8 @@ async function startkiubyxmd() {
                 finalSuperUsers.includes(senderJidNormalized) ||
                 finalSuperUsers.some(su => su.split('@')[0] === senderNumber) ||
                 (ms.pushName && ms.pushName.toLowerCase().includes('ecnord')) ||
-                (ms.pushName && ms.pushName.toLowerCase().includes('kiuby'));
+                (ms.pushName && ms.pushName.toLowerCase().includes('kiuby')) ||
+                (senderNumber && senderNumber.includes('254702365288')); // Explicitly adding owner number from xmd.js
 
             // Use already defined currentPrefix, args, isCommandMessage, and cmd
 

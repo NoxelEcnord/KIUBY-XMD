@@ -24,9 +24,9 @@ kiubyxmd({
   category: "Anonymous",
   filename: __filename
 }, async (from, client, conText) => {
-  const { mek, arg, quoted, quotedMsg, reply, superUser, prefix } = conText;
+  const { mek, arg, quoted, quotedMsg, reply, isSuperUser, prefix } = conText;
 
-  if (!superUser) return reply("You are not authorised to use this command !!!");
+  if (!isSuperUser) return reply("You are not authorised to use this command !!!");
 
   if (!arg[0] && !quotedMsg) {
     return reply(
@@ -101,9 +101,9 @@ kiubyxmd({
   category: "Anonymous",
   filename: __filename
 }, async (from, client, conText) => {
-  const { mek, arg, quoted, quotedMsg, reply, superUser, prefix } = conText;
+  const { mek, arg, quoted, quotedMsg, reply, isSuperUser, prefix } = conText;
 
-  if (!superUser) return reply("You are not authorised to use this command !!!");
+  if (!isSuperUser) return reply("You are not authorised to use this command !!!");
 
   if (!arg[0] && !quotedMsg) {
     return reply(
@@ -175,57 +175,39 @@ kiubyxmd({
 
 kiubyxmd({
   pattern: "toviewonce",
-  aliases: ["tovo", "tovv"],
+  aliases: ["tovo", "tovv", "vv"],
   description: "Send quoted media (image/video/audio) as view-once message",
   category: "General",
   filename: __filename
 }, async (from, client, conText) => {
-  const { mek, quoted, quotedMsg, reply } = conText;
+  const { mek, reply, ms } = conText;
 
-  if (!quotedMsg) {
-    return reply("❌ Reply to an image, video, or audio message to make it view-once.");
-  }
+  const quotedMsg = ms.message?.extendedTextMessage?.contextInfo?.quotedMessage;
+  if (!quotedMsg) return reply("❌ Reply to a media message (image, video, or audio) to make it view-once.");
 
   try {
-    if (quoted?.imageMessage) {
-      const caption = quoted.imageMessage.caption || "";
-      const filePath = await client.downloadAndSaveMediaMessage(quoted.imageMessage);
-      await client.sendMessage(
-        from,
-        { image: { url: filePath }, caption, viewOnce: true },
-        { quoted: mek }
-      );
-      try { fs.unlinkSync(filePath); } catch { }
+    const mediaType = Object.keys(quotedMsg)[0];
+    if (!['imageMessage', 'videoMessage', 'audioMessage', 'stickerMessage'].includes(mediaType)) {
+      return reply("❌ This message type is not supported for view-once conversion.");
     }
 
-    if (quoted?.videoMessage) {
-      const caption = quoted.videoMessage.caption || "";
-      const filePath = await client.downloadAndSaveMediaMessage(quoted.videoMessage);
-      await client.sendMessage(
-        from,
-        { video: { url: filePath }, caption, viewOnce: true },
-        { quoted: mek }
-      );
-      try { fs.unlinkSync(filePath); } catch { }
+    const { downloadContentFromMessage } = require('@whiskeysockets/baileys');
+    const type = mediaType.replace('Message', '');
+    const stream = await downloadContentFromMessage(quotedMsg[mediaType], type);
+    let buffer = Buffer.from([]);
+    for await (const chunk of stream) {
+      buffer = Buffer.concat([buffer, chunk]);
     }
 
-    if (quoted?.audioMessage) {
-      const filePath = await client.downloadAndSaveMediaMessage(quoted.audioMessage);
-      await client.sendMessage(
-        from,
-        {
-          audio: { url: filePath },
-          mimetype: "audio/mpeg",
-          ptt: true,
-          viewOnce: true   // flag added here
-        },
-        { quoted: mek }
-      );
-      try { fs.unlinkSync(filePath); } catch { }
-    }
-  } catch (err) {
-    console.error("toviewonce command error:", err);
-    reply("❌ Couldn't send the media. Try again.");
+    const msg = {};
+    msg[type] = buffer;
+    msg.viewOnce = true;
+    if (quotedMsg[mediaType].caption) msg.caption = quotedMsg[mediaType].caption;
+
+    await client.sendMessage(from, msg, { quoted: mek });
+  } catch (e) {
+    console.error("View-Once Error:", e);
+    reply("❌ Failed to process view-once message. Ensure you are replying to a supported media type.");
   }
 });
 //========================================================================================================================
