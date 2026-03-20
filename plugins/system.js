@@ -210,8 +210,9 @@ kiubyxmd({
 
   // Calculate realistic latency (Total turnaround time)
   // Baileys provides messageTimestamp in seconds
-  const hackerPhrase = XMD.getRandomHackerPhrase();
+  const timestamp = ms.messageTimestamp?.low || ms.messageTimestamp || Date.now() / 1000;
   const speed = (Date.now() - (timestamp * 1000)).toFixed(0);
+  const hackerPhrase = XMD.getRandomHackerPhrase();
   const finalPingText = `⚡ *SAYAN-X LATENCY REPORT*\n\n🛰️ *Protocol:* ${hackerPhrase}\n📡 *Uplink:* ${speed}ms\n🦾 *Entity:* NEURAL-X\n\nRegards, *KIUBY-XMD*\n\n.kiuby-xmd.`;
 
   const pingImg = XMD.BOT_LOGO;

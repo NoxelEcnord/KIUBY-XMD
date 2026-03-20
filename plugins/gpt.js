@@ -23,7 +23,7 @@ kiubyxmd({
   const quotedMsg = ms.message?.extendedTextMessage?.contextInfo?.quotedMessage;
   const quotedText = quotedMsg?.conversation || quotedMsg?.extendedTextMessage?.text || "";
 
-  let question = arg.join(' ');
+  let question = (arg || []).join(' ');
   if (!question && quotedText) {
     question = quotedText;
   }

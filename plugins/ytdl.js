@@ -9,40 +9,66 @@ kiubyxmd({
     category: "Downloader",
     filename: __filename
 }, async (from, client, conText) => {
-    const { reply, react, arg, q } = conText;
+    const { reply, react, arg, q, ms } = conText;
 
     if (!q) {
         await react("❓");
         return reply("❌ Please provide a YouTube URL.\nExample: .ytdl https://www.youtube.com/watch?v=dQw4w9WgXcQ");
     }
 
-    try {
-        await react("⏳");
-        reply("📥 *Processing YouTube Download...*");
+    await react("⏳");
+    reply("📥 *Processing YouTube Download...*");
 
-        const apiUrl = XMD.API.DOWNLOAD.YOUTUBE(q);
-        const response = await axios.get(apiUrl);
-
-        if (response.data && response.data.status && response.data.result) {
-            const result = response.data.result;
-            const downloadUrl = result.download_url || result.url;
-            const title = result.title || "KIUBY-XMD Video";
-
-            await client.sendMessage(from, {
-                video: { url: downloadUrl },
-                caption: `🎬 *Title:* ${title}\n\nDownloaded via *KIUBY-XMD*`,
-                fileName: `${title}.mp4`
-            }, { quoted: conText.ms });
-
-            await react("✅");
-        } else {
-            await react("❌");
-            reply("❌ Failed to fetch download link. The video might be restricted or the API is down.");
+    const providers = [
+        {
+            name: "Keith API",
+            url: XMD.API.DOWNLOAD.YOUTUBE(q),
+            getData: (res) => res.data.result
+        },
+        {
+            name: "Gifted Tech",
+            url: `https://api.giftedtech.my.id/api/download/ytmp4?apikey=gifted&url=${encodeURIComponent(q)}`,
+            getData: (res) => res.data.result
+        },
+        {
+            name: "Maher-Zubair",
+            url: `https://api.maher-zubair.tech/download/ytmp4?url=${encodeURIComponent(q)}`,
+            getData: (res) => res.data.result
+        },
+        {
+            name: "Vreden",
+            url: `https://api.vreden.my.id/api/download/ytmp4?url=${encodeURIComponent(q)}`,
+            getData: (res) => res.data.result
         }
-    } catch (e) {
-        console.error("YTDL Error:", e);
+    ];
+
+    let success = false;
+    for (const provider of providers) {
+        try {
+            const response = await axios.get(provider.url, { timeout: 20000 });
+            const result = provider.getData(response);
+            if (result && (result.download_url || result.url || result.dl_url)) {
+                const downloadUrl = result.download_url || result.url || result.dl_url;
+                const title = result.title || "KIUBY-XMD Video";
+
+                await client.sendMessage(from, {
+                    video: { url: downloadUrl },
+                    caption: `🎬 *Title:* ${title}\n\nDownloaded via *KIUBY-XMD*`,
+                    fileName: `${title}.mp4`
+                }, { quoted: ms });
+
+                await react("✅");
+                success = true;
+                break;
+            }
+        } catch (e) {
+            console.error(`YTDL: ${provider.name} failed:`, e.message);
+        }
+    }
+
+    if (!success) {
         await react("❌");
-        reply("❌ An error occurred while processing the request.");
+        reply("❌ Failed to fetch download link. All providers are currently down or the video is restricted.");
     }
 });
 
@@ -53,39 +79,65 @@ kiubyxmd({
     category: "Downloader",
     filename: __filename
 }, async (from, client, conText) => {
-    const { reply, react, arg, q } = conText;
+    const { reply, react, arg, q, ms } = conText;
 
     if (!q) {
         await react("❓");
         return reply("❌ Please provide a YouTube URL.\nExample: .ytmp3 https://www.youtube.com/watch?v=dQw4w9WgXcQ");
     }
 
-    try {
-        await react("⏳");
-        reply("📥 *Processing YouTube Audio...*");
+    await react("⏳");
+    reply("📥 *Processing YouTube Audio...*");
 
-        const apiUrl = `https://apiskeith.top/download/ytmp3?url=${encodeURIComponent(q)}`;
-        const response = await axios.get(apiUrl);
-
-        if (response.data && response.data.status && response.data.result) {
-            const result = response.data.result;
-            const downloadUrl = result.download_url || result.url;
-            const title = result.title || "KIUBY-XMD Audio";
-
-            await client.sendMessage(from, {
-                audio: { url: downloadUrl },
-                mimetype: "audio/mpeg",
-                fileName: `${title}.mp3`
-            }, { quoted: conText.ms });
-
-            await react("✅");
-        } else {
-            await react("❌");
-            reply("❌ Failed to fetch download link.");
+    const providers = [
+        {
+            name: "Keith API",
+            url: XMD.API.DOWNLOAD.YOUTUBE_AUDIO(q),
+            getData: (res) => res.data.result
+        },
+        {
+            name: "Gifted Tech",
+            url: `https://api.giftedtech.my.id/api/download/ytmp3?apikey=gifted&url=${encodeURIComponent(q)}`,
+            getData: (res) => res.data.result
+        },
+        {
+            name: "Maher-Zubair",
+            url: `https://api.maher-zubair.tech/download/ytmp3?url=${encodeURIComponent(q)}`,
+            getData: (res) => res.data.result
+        },
+        {
+            name: "Vreden",
+            url: `https://api.vreden.my.id/api/download/ytmp3?url=${encodeURIComponent(q)}`,
+            getData: (res) => res.data.result
         }
-    } catch (e) {
-        console.error("YTDL Error:", e);
+    ];
+
+    let success = false;
+    for (const provider of providers) {
+        try {
+            const response = await axios.get(provider.url, { timeout: 20000 });
+            const result = provider.getData(response);
+            if (result && (result.download_url || result.url || result.dl_url)) {
+                const downloadUrl = result.download_url || result.url || result.dl_url;
+                const title = result.title || "KIUBY-XMD Audio";
+
+                await client.sendMessage(from, {
+                    audio: { url: downloadUrl },
+                    mimetype: "audio/mpeg",
+                    fileName: `${title}.mp3`
+                }, { quoted: ms });
+
+                await react("✅");
+                success = true;
+                break;
+            }
+        } catch (e) {
+            console.error(`YTMP3: ${provider.name} failed:`, e.message);
+        }
+    }
+
+    if (!success) {
         await react("❌");
-        reply("❌ An error occurred.");
+        reply("❌ Failed to fetch audio download link.");
     }
 });
