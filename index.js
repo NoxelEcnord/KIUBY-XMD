@@ -2522,10 +2522,22 @@ async function startkiubyxmd() {
                             }
 
                             // Media Overrides from options
-                            if (options.image) msgContent = { image: options.image, caption: text };
-                            if (options.video) msgContent = { video: options.video, caption: text };
-                            if (options.audio) msgContent = { audio: options.audio };
-                            if (options.document) msgContent = { document: options.document, caption: text, fileName: options.fileName };
+                            if (options.image) {
+                                const img = typeof options.image === 'string' ? { url: options.image } : options.image;
+                                msgContent = { image: img, caption: text };
+                            }
+                            if (options.video) {
+                                const vid = typeof options.video === 'string' ? { url: options.video } : options.video;
+                                msgContent = { video: vid, caption: text };
+                            }
+                            if (options.audio) {
+                                const aud = typeof options.audio === 'string' ? { url: options.audio } : options.audio;
+                                msgContent = { audio: aud };
+                            }
+                            if (options.document) {
+                                const doc = typeof options.document === 'string' ? { url: options.document } : options.document;
+                                msgContent = { document: doc, caption: text, fileName: options.fileName };
+                            }
                             if (options.location) msgContent = { location: options.location };
                             if (options.contact) msgContent = { contact: options.contact };
 

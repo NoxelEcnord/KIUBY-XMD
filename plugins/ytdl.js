@@ -9,7 +9,7 @@ kiubyxmd({
     category: "Downloader",
     filename: __filename
 }, async (from, client, conText) => {
-    const { reply, react, arg, q, ms } = conText;
+    const { reply, react, args, q, ms } = conText;
 
     if (!q) {
         await react("❓");
@@ -78,7 +78,7 @@ kiubyxmd({
     category: "Downloader",
     filename: __filename
 }, async (from, client, conText) => {
-    const { reply, react, arg, q, ms } = conText;
+    const { reply, react, args, q, ms } = conText;
 
     if (!q) {
         await react("❓");

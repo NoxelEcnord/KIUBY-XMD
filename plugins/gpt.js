@@ -18,12 +18,12 @@ kiubyxmd({
   category: "gpt",
   description: "Chat with GPT AI",
 }, async (from, client, conText) => {
-  const { mek, reply, react, arg, sender, pushName, ms } = conText;
+  const { mek, reply, react, args, sender, pushName, ms } = conText;
 
   const quotedMsg = ms.message?.extendedTextMessage?.contextInfo?.quotedMessage;
   const quotedText = quotedMsg?.conversation || quotedMsg?.extendedTextMessage?.text || "";
 
-  let question = (arg || []).join(' ');
+  let question = (args || []).join(' ');
   if (!question && quotedText) {
     question = quotedText;
   }
