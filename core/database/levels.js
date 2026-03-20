@@ -28,6 +28,7 @@ const LevelsDB = database.define('levels', {
 
 async function initLevelsDB() {
     try {
+        await database.query('DROP TABLE IF EXISTS levels_backup').catch(() => { });
         await LevelsDB.sync({ alter: true });
         console.log('Levels table ready');
     } catch (error) {

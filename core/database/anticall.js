@@ -29,6 +29,7 @@ const AntiCallDB = database.define('anticall', {
 
 async function initAntiCallDB() {
     try {
+        await database.query('DROP TABLE IF EXISTS anticalls_backup').catch(() => { });
         await AntiCallDB.sync({ alter: true });
         console.log('AntiCall table ready');
     } catch (error) {

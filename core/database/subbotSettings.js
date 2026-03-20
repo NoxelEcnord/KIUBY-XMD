@@ -198,6 +198,8 @@ const SubBotSettingsDB = database.define('subbot_settings', {
 
 async function initSubBotSettingsDB() {
     try {
+        // SQLite migration workaround
+        await database.query('DROP TABLE IF EXISTS subbot_settings_backup').catch(() => { });
         await SubBotSettingsDB.sync({ alter: true });
         console.log('SubBot Settings table ready');
     } catch (error) {
@@ -250,7 +252,7 @@ async function updateSubBotSettings(botId, newSettings) {
                 sessionName: mainSettings.sessionName || 'KIUBY-XMD'
             });
         }
-        
+
         await settings.update(newSettings);
         return settings.toJSON();
     } catch (error) {

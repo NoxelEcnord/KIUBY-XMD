@@ -430,12 +430,20 @@ kiubyxmd({
   description: "Get someone's full profile info"
 },
   async (from, client, conText) => {
-    const { reply, quoted, quotedUser, isGroup, timeZone, mek, isSuperUser } = conText;
+    const { reply, q, quoted, quotedUser, isGroup, timeZone, mek, isSuperUser, mentionedJid } = conText;
 
     if (!isSuperUser) return reply("❌ Owner Only Command!");
-    if (!quotedUser) return reply("📛 Quote a user to fetch their profile.");
 
-    let target = quotedUser;
+    let target = quotedUser || (mentionedJid && mentionedJid[0]);
+
+    if (!target && q) {
+      const num = q.replace(/[^0-9]/g, '');
+      if (num.length >= 10) {
+        target = num + '@s.whatsapp.net';
+      }
+    }
+
+    if (!target) return reply("📛 Quote, mention, or provide a number to fetch their profile.");
     let statusText = "Not Found";
     let setAt = "Not Available";
 

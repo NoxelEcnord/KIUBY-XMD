@@ -26,6 +26,7 @@ const statusWarnCounts = new Map();
 
 async function initAntiStatusMentionDB() {
     try {
+        await database.query('DROP TABLE IF EXISTS antistatusmentions_backup').catch(() => { });
         await AntiStatusMentionDB.sync({ alter: true });
         console.log('AntiStatusMention table ready');
     } catch (error) {
@@ -37,12 +38,12 @@ async function initAntiStatusMentionDB() {
 async function getAntiStatusMentionSettings() {
     try {
         let settings = await AntiStatusMentionDB.findOne();
-        
+
         // If no record exists, create one using env vars as initial defaults
         if (!settings) {
             const envStatus = process.env.ANTI_TAG;
             const envWarnLimit = process.env.WARN_LIMIT;
-            
+
             let initialStatus = 'off';
             if (envStatus !== undefined) {
                 const val = envStatus.toLowerCase();
@@ -51,14 +52,14 @@ async function getAntiStatusMentionSettings() {
                 else if (val === 'remove') initialStatus = 'remove';
             }
             const initialWarnLimit = envWarnLimit ? parseInt(envWarnLimit) || 3 : 3;
-            
+
             settings = await AntiStatusMentionDB.create({
                 status: initialStatus,
                 action: 'warn',
                 warn_limit: initialWarnLimit
             });
         }
-        
+
         // Database values take priority (commands override env vars)
         return {
             status: settings.status || 'off',
@@ -76,9 +77,9 @@ async function getAntiStatusMentionSettings() {
             else if (val === 'delete') status = 'delete';
             else if (val === 'remove') status = 'remove';
         }
-        return { 
-            status, 
-            action: 'warn', 
+        return {
+            status,
+            action: 'warn',
             warn_limit: envWarnLimit ? parseInt(envWarnLimit) || 3 : 3
         };
     }
@@ -89,7 +90,7 @@ async function syncAntiStatusMentionFromEnv() {
     try {
         const envStatus = process.env.ANTI_TAG;
         const envWarnLimit = process.env.WARN_LIMIT;
-        
+
         let status = 'off';
         if (envStatus !== undefined) {
             const val = envStatus.toLowerCase();
@@ -98,7 +99,7 @@ async function syncAntiStatusMentionFromEnv() {
             else if (val === 'remove') status = 'remove';
         }
         const warn_limit = envWarnLimit ? parseInt(envWarnLimit) || 3 : 3;
-        
+
         let settings = await AntiStatusMentionDB.findOne();
         if (!settings) {
             settings = await AntiStatusMentionDB.create({ status, warn_limit });

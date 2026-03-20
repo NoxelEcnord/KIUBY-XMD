@@ -24,18 +24,18 @@ kiubyxmd({
   category: "Anonymous",
   filename: __filename
 }, async (from, client, conText) => {
-  const { mek, arg, quoted, quotedMsg, reply, isSuperUser, prefix } = conText;
+  const { mek, args, quoted, quotedMsg, reply, isSuperUser, prefix } = conText;
 
   if (!isSuperUser) return reply("You are not authorised to use this command !!!");
 
-  if (!arg[0] && !quotedMsg) {
+  if (!args[0] && !quotedMsg) {
     return reply(
       `Usage:\n${prefix}groupanon <message> | <groupJid[,groupJid,...]>\n${prefix}groupanon <groupJid[,groupJid,...]> (with quoted media)`
     );
   }
 
   // Join args back into one string
-  const text = arg.join(" ");
+  const text = args.join(" ");
   const parts = text.split("|");
 
   let message = "";
@@ -101,18 +101,18 @@ kiubyxmd({
   category: "Anonymous",
   filename: __filename
 }, async (from, client, conText) => {
-  const { mek, arg, quoted, quotedMsg, reply, isSuperUser, prefix } = conText;
+  const { mek, args, quoted, quotedMsg, reply, isSuperUser, prefix } = conText;
 
   if (!isSuperUser) return reply("You are not authorised to use this command !!!");
 
-  if (!arg[0] && !quotedMsg) {
+  if (!args[0] && !quotedMsg) {
     return reply(
       `Usage:\n${prefix}text <message> | <number[,number,...]>\n${prefix}text <number[,number,...]> (with quoted media)`
     );
   }
 
   // Join args back into one string
-  const text = arg.join(" ");
+  const text = args.join(" ");
   const parts = text.split("|");
 
   let message = "";

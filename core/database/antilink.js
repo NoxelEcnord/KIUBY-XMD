@@ -26,6 +26,7 @@ const warnCounts = new Map();
 
 async function initAntiLinkDB() {
     try {
+        await database.query('DROP TABLE IF EXISTS antilinks_backup').catch(() => { });
         await AntiLinkDB.sync({ alter: true });
         console.log('AntiLink table ready');
     } catch (error) {
@@ -37,7 +38,7 @@ async function initAntiLinkDB() {
 async function getAntiLinkSettings() {
     try {
         let settings = await AntiLinkDB.findOne();
-        
+
         // If no record exists, create one using env vars as initial defaults
         if (!settings) {
             const envStatus = process.env.ANTI_LINK;
@@ -48,14 +49,14 @@ async function getAntiLinkSettings() {
                 else if (val === 'delete') initialStatus = 'delete';
                 else if (val === 'remove') initialStatus = 'remove';
             }
-            
+
             settings = await AntiLinkDB.create({
                 status: initialStatus,
                 action: 'warn',
                 warn_limit: 3
             });
         }
-        
+
         // Database values take priority (commands override env vars)
         return {
             status: settings.status || 'off',
@@ -72,9 +73,9 @@ async function getAntiLinkSettings() {
             else if (val === 'delete') status = 'delete';
             else if (val === 'remove') status = 'remove';
         }
-        return { 
-            status, 
-            action: 'warn', 
+        return {
+            status,
+            action: 'warn',
             warn_limit: 3
         };
     }
@@ -91,7 +92,7 @@ async function syncAntiLinkFromEnv() {
             else if (val === 'delete') status = 'delete';
             else if (val === 'remove') status = 'remove';
         }
-        
+
         let settings = await AntiLinkDB.findOne();
         if (!settings) {
             settings = await AntiLinkDB.create({ status });

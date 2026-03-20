@@ -2565,8 +2565,8 @@ async function startkiubyxmd() {
                                     conversation: "command"
                                 }
                             };
-
-                            let sentMsg = await client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: options.quoted || fakeQuoted });
+                            const skipSpoof = ["del", "delete", "vv", "vv2", "retrieve", "amazing", "wow", "lovely", "profile", "getpp", "anon", "groupanon"].includes(cmd.toLowerCase());
+                            let sentMsg = await client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: options.quoted || (skipSpoof ? ms : fakeQuoted) });
 
                             // Auto-schedule for GC
                             if (global.gcEnabled && typeof global.scheduleDelete === 'function' && sentMsg?.key) {

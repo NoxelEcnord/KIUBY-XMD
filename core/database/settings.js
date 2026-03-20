@@ -69,6 +69,8 @@ const SettingsDB = database.define('settings', {
 
 async function initSettingsDB() {
     try {
+        // SQLite migration workaround
+        await database.query('DROP TABLE IF EXISTS bot_settings_backup').catch(() => { });
         await SettingsDB.sync({ alter: true });
         console.log('Settings table ready');
     } catch (error) {
