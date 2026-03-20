@@ -2592,7 +2592,13 @@ async function startkiubyxmd() {
                             reply,
                             react,
                             isCommand: isCommandMessage,
-                            commandName: cmd
+                            commandName: cmd,
+                            botSettings,
+                            updateSettings: async (updates) => {
+                                const res = await updateSettings(updates);
+                                if (res) botSettings = await getSettings();
+                                return res;
+                            }
                         };
 
                         // EXECUTE COMMAND

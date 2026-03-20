@@ -234,7 +234,7 @@ kiubyxmd({
     const styledText = applyFont(currentText, fontIndex);
 
     await client.sendMessage(from, {
-      caption: styledText,
+      text: styledText,
       edit: key
     });
 
@@ -243,7 +243,7 @@ kiubyxmd({
 
   // Final fix to normal font (or preferred font)
   await client.sendMessage(from, {
-    caption: finalPingText,
+    text: finalPingText,
     edit: key
   });
 });
