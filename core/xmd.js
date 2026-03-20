@@ -153,7 +153,7 @@ const XMD = {
                 thumbnailUrl: this.BOT_LOGO,
                 sourceUrl: this.CHANNEL_URL || 'https://whatsapp.com/channel/0029VajVvp99Gv7S8id9Xp2e',
                 mediaUrl: this.CHANNEL_URL,
-                renderLargerThumbnail: true,
+                renderLargerThumbnail: false,
                 showAdAttribution: true
             }
         };

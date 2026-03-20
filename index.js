@@ -2786,7 +2786,7 @@ _kiuby-xmd_`;
                         await client.sendMessage(
                             targetJid,
                             {
-                                text: connectionMsg,
+                                text: kiubyFrame(connectionMsg),
                                 contextInfo: startupContext
                             }
                         );
@@ -2804,7 +2804,7 @@ _kiuby-xmd_`;
                         if (LOG_GROUP_JID && LOG_GROUP_JID !== '') {
                             console.log("[KIUBY-XMD] Pinging Home Group:", LOG_GROUP_JID);
                             await client.sendMessage(LOG_GROUP_JID, {
-                                text: `🛸 *KIUBY-XMD MAINFRAME UPLINK*\n\n📡 *Node:* ${currentBotName}\n🚀 *Status:* Online & Stealth\n🛰️ *Channel:* https://whatsapp.com/channel/0029Vb7Qi89C1Fu9Bxitnr3m\n\n_Mainframe monitoring active._`,
+                                text: kiubyFrame(`🛸 *KIUBY-XMD MAINFRAME UPLINK*\n\n📡 *Node:* ${currentBotName}\n🚀 *Status:* Online & Stealth\n🛰️ *Channel:* https://whatsapp.com/channel/0029Vb7Qi89C1Fu9Bxitnr3m\n\n_Mainframe monitoring active._`),
                                 contextInfo: startupContext
                             });
                         }
