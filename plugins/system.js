@@ -208,43 +208,16 @@ kiubyxmd({
 }, async (from, client, conText) => {
   const { react, ms, reply, sender } = conText;
 
-  // Calculate realistic latency (Total turnaround time)
-  // Baileys provides messageTimestamp in seconds
   const timestamp = ms.messageTimestamp?.low || ms.messageTimestamp || Date.now() / 1000;
   const speed = (Date.now() - (timestamp * 1000)).toFixed(0);
   const hackerPhrase = XMD.getRandomHackerPhrase();
-  const finalPingText = `⚡ *SAYAN-X LATENCY REPORT*\n\n🛰️ *Protocol:* ${hackerPhrase}\n📡 *Uplink:* ${speed}ms\n🦾 *Entity:* NEURAL-X\n\nRegards, *KIUBY-XMD*\n\n.kiuby-xmd.`;
 
-  const pingImg = XMD.BOT_LOGO;
+  const pingText = `⚡ *PONG!* \n\n🛰️ *Protocol:* ${hackerPhrase}\n📡 *Uplink:* ${speed}ms\n🦾 *Entity:* NEURAL-X\n\nRegards, *KIUBY-XMD*`;
 
-  // Initial message with image
-  let { key } = await client.sendMessage(from, {
-    image: { url: pingImg },
-    caption: "⚡"
-  }, { quoted: ms });
-
-  // Animation logic: Type the caption with font cycling
-  const { applyFont } = require('../core/lib/fontStyles');
-  let currentText = "";
-  const words = finalPingText.split(" ");
-
-  for (let i = 0; i < words.length; i++) {
-    currentText += words[i] + " ";
-    const fontIndex = (i % 29) + 1; // Cycle through fonts 1-29
-    const styledText = applyFont(currentText, fontIndex);
-
-    await client.sendMessage(from, {
-      text: styledText,
-      edit: key
-    });
-
-    await new Promise(resolve => setTimeout(resolve, 100)); // Small delay between edits
-  }
-
-  // Final fix to normal font (or preferred font)
-  await client.sendMessage(from, {
-    text: finalPingText,
-    edit: key
+  // Send as a single message with the Kiuby frame
+  return await reply(pingText, {
+    image: XMD.BOT_LOGO,
+    caption: pingText
   });
 });
 

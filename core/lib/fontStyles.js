@@ -84,7 +84,26 @@ const fontLabels = [
     "Normal", "Bold", "Italic", "Bold Italic", "Sans Serif", "Sans Bold", "Sans Italic", "Sans Bold Italic", "Monospace", "Double Struck", "Fraktur", "Bold Fraktur", "Script", "Circled", "Negative Squared", "Boxed", "Greek Style", "Cyrillic Style", "Russian Tone", "Soft Tone", "Cursive Bold", "Double Struck II", "Bubble", "Bubble Black", "Square Bold", "Square II", "Small Caps", "Wide Text", "Elegant", "Classic Bold"
 ];
 
+/**
+ * Wrap text in a KIUBY-themed frame
+ * @param {string} text The text to wrap
+ * @param {number} styleIndex The font style to use for the content
+ * @returns {string} The framed text
+ */
+function kiubyFrame(text, styleIndex = 4) { // Default to Sans Serif
+    if (!text) return "";
+    const styledText = applyFont(text, styleIndex);
+    const header = "╔═════════ 𝐊𝐈𝐔𝐁𝐘-𝐗𝐌𝐃 ═════════╗";
+    const footer = "╚══════════════════════════════╝";
+    const marker = ". ᴋɪᴜʙʏ-xᴍᴅ .";
+
+    // Wrap text into lines and indent
+    const lines = styledText.split('\n').map(line => `  ${line}`);
+    return `${header}\n${lines.join('\n')}\n${footer}\n\n${marker}`;
+}
+
 module.exports = {
     applyFont,
-    fontLabels
+    fontLabels,
+    kiubyFrame
 };

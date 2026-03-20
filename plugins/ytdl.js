@@ -51,11 +51,10 @@ kiubyxmd({
                 const downloadUrl = result.download_url || result.url || result.dl_url;
                 const title = result.title || "KIUBY-XMD Video";
 
-                await client.sendMessage(from, {
+                await reply(`🎬 *Title:* ${title}\n\nDownloaded via *KIUBY-XMD*`, {
                     video: { url: downloadUrl },
-                    caption: `🎬 *Title:* ${title}\n\nDownloaded via *KIUBY-XMD*`,
                     fileName: `${title}.mp4`
-                }, { quoted: ms });
+                });
 
                 await react("✅");
                 success = true;
@@ -121,11 +120,10 @@ kiubyxmd({
                 const downloadUrl = result.download_url || result.url || result.dl_url;
                 const title = result.title || "KIUBY-XMD Audio";
 
-                await client.sendMessage(from, {
+                await reply(`🎧 *Title:* ${title}\n\nDownloaded via *KIUBY-XMD*`, {
                     audio: { url: downloadUrl },
-                    mimetype: "audio/mpeg",
                     fileName: `${title}.mp3`
-                }, { quoted: ms });
+                });
 
                 await react("✅");
                 success = true;

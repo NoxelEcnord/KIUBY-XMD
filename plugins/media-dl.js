@@ -38,13 +38,11 @@ kiubyxmd({
         }
       };
 
-      await client.sendMessage(from, {
+      await reply(caption, {
         video: { url: videoUrl },
-        mimetype: "video/mp4",
         fileName,
-        caption,
         contextInfo
-      }, { quoted: mek });
+      });
 
     } catch (error) {
       console.error("Random video download error:", error);
@@ -72,12 +70,10 @@ kiubyxmd({
       const title = result.title || "Facebook Video";
       const fileName = `${title}.mp4`.replace(/[^\w\s.-]/gi, '');
 
-      await client.sendMessage(from, {
+      await reply(`🎬 *${title}*`, {
         video: { url: result.media.hd },
-        mimetype: "video/mp4",
-        fileName,
-        caption: `🎬 *${title}*`
-      }, { quoted: mek });
+        fileName
+      });
 
       await client.sendMessage(from, {
         document: { url: result.media.hd },
@@ -335,16 +331,10 @@ kiubyxmd({
       const title = "Instagram Video";
       const fileName = `${title}_${Date.now()}.mp4`;
 
-      await client.sendMessage(
-        from,
-        {
-          video: { url: result },
-          mimetype: "video/mp4",
-          fileName,
-          caption: `🎬 *${title}*`
-        },
-        { quoted: mek }
-      );
+      await reply(`🎬 *${title}*`, {
+        video: { url: result },
+        fileName
+      });
 
       await client.sendMessage(
         from,
@@ -552,16 +542,10 @@ kiubyxmd({
       const fileName = `${title}_${Date.now()}.mp4`;
       const videoUrl = urls.mp4[0];
 
-      await client.sendMessage(
-        from,
-        {
-          video: { url: videoUrl },
-          mimetype: "video/mp4",
-          fileName,
-          caption: `🎬 *${title}*`
-        },
-        { quoted: mek }
-      );
+      await reply(`🎬 *${title}*`, {
+        video: { url: videoUrl },
+        fileName
+      });
 
       await client.sendMessage(
         from,

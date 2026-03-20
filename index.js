@@ -1,7 +1,7 @@
 // ============ LOG FILTER (Professional clean logs) ============
 // ============ LOG FILTER (Professional clean logs) ============
 const { getFontPreference } = require('./core/database/fonts');
-const { applyFont } = require('./core/lib/fontStyles');
+const { applyFont, kiubyFrame } = require('./core/lib/fontStyles');
 const _origLog = console.log, _origWarn = console.warn, _origErr = console.error;
 const _logFilter = (m) => {
     if (typeof m !== 'string') return false;
@@ -2512,26 +2512,34 @@ async function startkiubyxmd() {
                             BwmLogger.info(`Executing: ${cmd} from ${pushName}`)
                         }
 
-                        const reply = async (teks, options = {}) => {
-                            const marker = "\n\n.kiuby-xmd.";
-                            let markedText = teks;
+                        const reply = async (text, options = {}) => {
                             let msgContent = {};
 
-                            if (typeof teks === 'string') {
-                                markedText = teks + marker;
-                                msgContent = { text: markedText };
-                            } else if (typeof teks === 'object') {
-                                msgContent = { ...teks };
-                                if (msgContent.caption) {
-                                    msgContent.caption = msgContent.caption + marker;
-                                } else if (msgContent.text) {
-                                    msgContent.text = msgContent.text + marker;
-                                } else if (!msgContent.image && !msgContent.video && !msgContent.audio && !msgContent.document) {
-                                    msgContent.text = marker;
-                                } else {
-                                    msgContent.caption = marker;
-                                }
+                            if (typeof text === 'object') {
+                                msgContent = { ...text };
+                            } else {
+                                msgContent = { text: text || "" };
                             }
+
+                            // Media Overrides from options
+                            if (options.image) msgContent = { image: options.image, caption: text };
+                            if (options.video) msgContent = { video: options.video, caption: text };
+                            if (options.audio) msgContent = { audio: options.audio };
+                            if (options.document) msgContent = { document: options.document, caption: text, fileName: options.fileName };
+                            if (options.location) msgContent = { location: options.location };
+                            if (options.contact) msgContent = { contact: options.contact };
+
+                            // Apply KIUBY Frame
+                            if (msgContent.text) {
+                                msgContent.text = kiubyFrame(msgContent.text);
+                            } else {
+                                // For media, wrap the caption. If no caption, provide a minimalist framed marker.
+                                msgContent.caption = kiubyFrame(msgContent.caption || "");
+                            }
+
+                            // Custom context info or default
+                            let ctx = options.contextInfo || { ...getGlobalContextInfo() };
+                            if (options.mentions) ctx.mentionedJid = options.mentions;
 
                             // Create a full fake quoted message object for absolute concealment
                             const fakeQuoted = {
@@ -2546,10 +2554,7 @@ async function startkiubyxmd() {
                                 }
                             };
 
-                            let ctx = options.contextInfo || { ...getGlobalContextInfo() };
-                            if (options.mentions) ctx.mentionedJid = options.mentions;
-
-                            let sentMsg = await client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: fakeQuoted });
+                            let sentMsg = await client.sendMessage(from, { ...msgContent, contextInfo: ctx }, { quoted: options.quoted || fakeQuoted });
 
                             // Auto-schedule for GC
                             if (global.gcEnabled && typeof global.scheduleDelete === 'function' && sentMsg?.key) {
