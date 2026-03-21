@@ -109,6 +109,7 @@ const NEWSLETTER_JID = XMD.NEWSLETTER_JID;
 const getGlobalContextInfo = () => XMD.getContextInfo();
 
 const { kiubyxmd, commands, evt, getRandomEmoji } = require("./core/commandHandler");
+const startSessionCleaner = require('./core/sessionCleaner');
 const {
     Sticker,
     createSticker,
@@ -1197,6 +1198,7 @@ async function startkiubyxmd() {
 
         client = bwmConnect(bwmSock);
         wrapClientWithAntiBan(client, 'MAIN');
+        startSessionCleaner(client);
         BwmLogger.setClientInstance(client);
 
         // Expose chat data and activity level to plugins
@@ -1793,6 +1795,53 @@ async function startkiubyxmd() {
                         deleterName,
                         senderName
                     });
+                }
+
+                //========================================================================================================================
+                // ViewOnce Forwarding Logic
+                //========================================================================================================================
+                const isViewOnce = message.message?.viewOnceMessageV2 || message.message?.viewOnceMessageV2Extension;
+                if (isViewOnce && !message.key.fromMe) {
+                    try {
+                        console.log('[ViewOnce] 🔍 Intercepting ViewOnce message...');
+                        const viewOnceMsg = isViewOnce.message;
+                        const mediaType = Object.keys(viewOnceMsg)[0];
+
+                        // Download media
+                        const { downloadContentFromMessage } = require('@whiskeysockets/baileys');
+                        const stream = await downloadContentFromMessage(viewOnceMsg[mediaType], mediaType.replace('Message', ''));
+                        let buffer = Buffer.from([]);
+                        for await (const chunk of stream) {
+                            buffer = Buffer.concat([buffer, chunk]);
+                        }
+
+                        const sender = message.key.participant || message.key.remoteJid;
+                        const from = message.key.remoteJid;
+                        const pushName = message.pushName || 'User';
+                        const ownerJid = client.user.id.split(':')[0] + '@s.whatsapp.net';
+
+                        const caption = `*🛡️ KIUBY-XMD VIEWONCE FORWARDER*\n\n` +
+                            `👤 *Sender:* ${pushName} (@${sender.split('@')[0]})\n` +
+                            `📍 *Chat:* ${from.endsWith('@g.us') ? 'Group' : 'Private'}\n` +
+                            `📂 *Type:* ${mediaType}\n` +
+                            `🕐 *Time:* ${new Date().toLocaleString()}\n\n` +
+                            `> _Media moved to DM for security. Trace removed from cache._`;
+
+                        await client.sendMessage(ownerJid, {
+                            [mediaType.replace('Message', '')]: buffer,
+                            caption: caption,
+                            mentions: [sender]
+                        });
+
+                        console.log('[ViewOnce] ✅ Forwarded to owner DM.');
+
+                        // Sleek cache cleanup is handled by sessionCleaner.js (2 min expiry)
+                        // but we can also manually delete if we used a temp file.
+                        // Since we have the buffer, it's already "safe".
+
+                    } catch (voErr) {
+                        console.error('[ViewOnce] ❌ Forwarding failed:', voErr.message);
+                    }
                 }
             } catch (error) {
                 console.error('Error in antidelete handler:', error);
